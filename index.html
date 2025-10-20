@@ -716,91 +716,43 @@ route();
 </script>
 
 <script>
-(function(){
-  const DEFAULT_USERNAME = "NOMU";
-  const DEFAULT_PASSWORD = "1234";
-  const AUTH_KEY = "nomu_auth_v1";
-  function isMobileViewport(){ return window.matchMedia && window.matchMedia("(max-width: 979px)").matches; }
-  function saveAuth(username, password){ localStorage.setItem(AUTH_KEY, JSON.stringify({ username, password, ts: Date.now() })); }
-  function loadAuth(){ try{ return JSON.parse(localStorage.getItem(AUTH_KEY)); }catch(e){ return null; } }
-  function clearAuth(){ localStorage.removeItem(AUTH_KEY); }
-  function isAuthenticated(){ const a = loadAuth(); return a && a.username===DEFAULT_USERNAME && a.password===DEFAULT_PASSWORD; }
-  function ensureAuthUI(){
-    if (document.getElementById("nomu-auth-modal")) return;
-    const modalHtml = '<div id="nomu-auth-modal" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);z-index:9999;padding:20px;box-sizing:border-box;">      <div style="width:100%;max-width:420px;background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2,12,27,.2);">        <h3 style="margin:0 0 8px 0;font-size:18px">تسجيل الدخول إلى منصة نمو</h3>        <p style="margin:0 0 12px 0;color:#6b7280;font-size:13px">بيانات العرض مملوءة تلقائيًا.</p>        <label style="font-size:13px">اسم المستخدم</label>        <input id="nomu-auth-user" type="text" value="'+DEFAULT_USERNAME+'" style="width:100%;padding:10px;margin:6px 0 10px 0;border:1px solid #e6e9ef;border-radius:8px" />        <label style="font-size:13px">كلمة المرور</label>        <input id="nomu-auth-pass" type="password" value="'+DEFAULT_PASSWORD+'" style="width:100%;padding:10px;margin:6px 0 12px 0;border:1px solid #e6e9ef;border-radius:8px" />        <div style="display:flex;gap:8px;justify-content:flex-end">          <button id="nomu-auth-cancel" style="background:transparent;border:1px solid #e6e9ef;padding:8px 12px;border-radius:8px">إلغاء</button>          <button id="nomu-auth-submit" style="background:#16a34a;color:#fff;border:none;padding:8px 12px;border-radius:8px">دخول</button>        </div>        <p style="font-size:12px;color:#9ca3af;margin-top:10px">للعرض فقط: NOMU / 1234</p>      </div>    </div>';
-    document.body.insertAdjacentHTML("beforeend", modalHtml);
-    const st = loadAuth(); if(st){ const u=document.getElementById("nomu-auth-user"); const p=document.getElementById("nomu-auth-pass"); if(u&&p){ u.value=st.username||DEFAULT_USERNAME; p.value=st.password||DEFAULT_PASSWORD; } }
-    document.getElementById("nomu-auth-submit").addEventListener("click", ()=>{
-      const u=document.getElementById("nomu-auth-user").value.trim();
-      const p=document.getElementById("nomu-auth-pass").value.trim();
-      if(u===DEFAULT_USERNAME && p===DEFAULT_PASSWORD){ saveAuth(u,p); closeAuthModal(); const intended=sessionStorage.getItem("nomu_intended_route"); if(intended){ location.hash=intended; sessionStorage.removeItem("nomu_intended_route"); } else { location.reload(); } } else { alert("بيانات خاطئة — استخدم NOMU / 1234"); }
-    });
-    document.getElementById("nomu-auth-cancel").addEventListener("click", ()=>closeAuthModal());
-    function closeAuthModal(){ const el=document.getElementById("nomu-auth-modal"); if(el) el.remove(); }
-  }
-  function ensureChooseAccountPage(){
-    function renderChoose(){
-      const view=document.getElementById("view")||document.body;
-      const cards=[
-        {k:"#/acc/health", t:"وزارة الصحة / المراكز الصحية"},
-        {k:"#/acc/clinic", t:"المراكز الصحية"},
-        {k:"#/acc/education", t:"وزارة التعليم"},
-        {k:"#/acc/neighborhood", t:"مراكز الأحياء"},
-        {k:"#/acc/nonprofit", t:"المنظمات غير الربحية"},
-        {k:"#/acc/private", t:"القطاع الخاص"},
-        {k:"#/acc/donor", t:"المانحون"},
-        {k:"#/acc/family", t:"الأفراد / الأسرة"}
-      ];
-      let html='<div class="card" style="padding:18px"><h2>اختر نوع الحساب</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px">';
-      cards.forEach(c=>{ html+='<button class="nomu-acc-card" data-target="'+c.k+'" style="padding:14px;border-radius:10px;border:1px solid #e6e9ef;background:#fff;cursor:pointer">'+c.t+'</button>'; });
-      html+='</div><p style="margin-top:12px;color:#6b7280">بيانات العرض NOMU / 1234</p></div>';
-      view.innerHTML=html;
-      document.querySelectorAll(".nomu-acc-card").forEach(b=>{
-        b.addEventListener("click", ()=>{
-          const target=b.getAttribute("data-target");
-          if(isAuthenticated()) location.hash=target;
-          else {
-            sessionStorage.setItem("nomu_intended_route", target);
-            if(isMobileViewport()){ renderInlineLoginBelow(b.parentElement); } else { ensureAuthUI(); }
-          }
-        });
-      });
-    }
-    if(location.hash==="#/choose-account"){ renderChoose(); }
-    window.addEventListener("hashchange", ()=>{ if(location.hash==="#/choose-account"){ renderChoose(); } });
-  }
-  function renderInlineLoginBelow(container){
-    if(document.getElementById("nomu-inline-login")) return;
-    const html='<div id="nomu-inline-login" style="margin-top:12px;padding:12px;background:#f8fafc;border:1px solid #e6e9ef;border-radius:10px">      <div style="font-size:13px;color:#374151">تسجيل سريع</div>      <input id="nomu-inline-user" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px" value="'+DEFAULT_USERNAME+'">      <input id="nomu-inline-pass" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px" value="'+DEFAULT_PASSWORD+'" type="password">      <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">        <button id="nomu-inline-login-btn" style="background:#16a34a;color:#fff;border:none;padding:8px 12px;border-radius:8px">دخول</button>      </div>    </div>';
-    container.insertAdjacentHTML("afterend", html);
-    document.getElementById("nomu-inline-login-btn").addEventListener("click", ()=>{
-      const u=document.getElementById("nomu-inline-user").value.trim();
-      const p=document.getElementById("nomu-inline-pass").value.trim();
-      if(u===DEFAULT_USERNAME && p===DEFAULT_PASSWORD){ saveAuth(u,p); const intended=sessionStorage.getItem("nomu_intended_route"); if(intended){ location.hash=intended; } else { location.reload(); } } else { alert("بيانات خاطئة — استخدم NOMU / 1234"); }
-    });
-  }
-  document.addEventListener("click", function(e){
-    const a = e.target.closest('a,[data-route]'); if(!a) return;
-    const href = a.getAttribute("data-route") || a.getAttribute("href") || "";
-    if(/^#\/acc\//.test(href)){
-      if(!isAuthenticated()){
-        e.preventDefault();
-        sessionStorage.setItem("nomu_intended_route", href);
-        if(isMobileViewport()) { location.hash = "#/choose-account"; } else { ensureAuthUI(); }
-      }
-    }
-  }, true);
-  window.addEventListener("load", function(){
-    const h = location.hash || "#/overview";
-    if(/^#\/acc\//.test(h) && !isAuthenticated()){
-      if(isMobileViewport()) location.hash = "#/choose-account";
-      else ensureAuthUI();
-    }
-    ensureChooseAccountPage();
-  });
-  window.NOMU = window.NOMU || {};
-  window.NOMU.signOut = function(){ clearAuth(); location.hash = "#/overview"; location.reload(); };
-})();
+const DEFAULT_USERNAME = "NOMU";
+const DEFAULT_PASSWORD = "1234";
+const AUTH_KEY = "nomu_auth_v1";
+function isMobileViewport(){return window.matchMedia&&window.matchMedia("(max-width: 979px)").matches}
+function saveAuth(u,p){localStorage.setItem(AUTH_KEY,JSON.stringify({username:u,password:p,ts:Date.now()}))}
+function loadAuth(){try{return JSON.parse(localStorage.getItem(AUTH_KEY))}catch(e){return null}}
+function clearAuth(){localStorage.removeItem(AUTH_KEY)}
+function isAuthenticated(){const a=loadAuth();return a&&a.username===DEFAULT_USERNAME&&a.password===DEFAULT_PASSWORD}
+function ensureAuthUI(){if(document.getElementById("nomu-auth-modal"))return;const m=`
+<div id="nomu-auth-modal" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.5);z-index:9999;padding:20px;box-sizing:border-box;">
+  <div style="width:100%;max-width:420px;background:#fff;border-radius:12px;padding:18px;box-shadow:0 8px 30px rgba(2,12,27,.2);">
+    <h3 style="margin:0 0 8px 0;font-size:18px">تسجيل الدخول إلى منصة نمو</h3>
+    <p style="margin:0 0 12px 0;color:#6b7280;font-size:13px">استخدم بيانات العرض: اسم المستخدم وكلمة المرور مملوءان تلقائياً.</p>
+    <label style="font-size:13px">اسم المستخدم</label>
+    <input id="nomu-auth-user" type="text" value="NOMU" style="width:100%;padding:10px;margin:6px 0 10px 0;border:1px solid #e6e9ef;border-radius:8px" />
+    <label style="font-size:13px">كلمة المرور</label>
+    <input id="nomu-auth-pass" type="password" value="1234" style="width:100%;padding:10px;margin:6px 0 12px 0;border:1px solid #e6e9ef;border-radius:8px" />
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button id="nomu-auth-cancel" style="background:transparent;border:1px solid #e6e9ef;padding:8px 12px;border-radius:8px">إلغاء</button>
+      <button id="nomu-auth-submit" style="background:#16a34a;color:#fff;border:none;padding:8px 12px;border-radius:8px">دخول</button>
+    </div>
+    <p style="font-size:12px;color:#9ca3af;margin-top:10px">هذه بيانات عرضية فقط (NOMU / 1234).</p>
+  </div>
+</div>`;document.body.insertAdjacentHTML("beforeend",m);const s=loadAuth();if(s){const u=document.getElementById("nomu-auth-user"),p=document.getElementById("nomu-auth-pass");if(u&&p){u.value=s.username||"NOMU";p.value=s.password||"1234"}};document.getElementById("nomu-auth-submit").addEventListener("click",()=>{const u=document.getElementById("nomu-auth-user").value.trim();const p=document.getElementById("nomu-auth-pass").value.trim();if(u===DEFAULT_USERNAME&&p===DEFAULT_PASSWORD){saveAuth(u,p);const i=sessionStorage.getItem("nomu_intended_route");if(i){location.hash=i;sessionStorage.removeItem("nomu_intended_route")}else location.reload()}else alert("بيانات خاطئة — استخدم NOMU / 1234")});document.getElementById("nomu-auth-cancel").addEventListener("click",()=>{const el=document.getElementById("nomu-auth-modal");if(el) el.remove()})}
+function protectAccountRoutes(){document.querySelectorAll('[data-route^="#/acc/"], a[href^="#/acc/"]').forEach(a=>{a.addEventListener("click",function(e){const href=a.getAttribute("data-route")||a.getAttribute("href");if(!isAuthenticated()){e.preventDefault();sessionStorage.setItem("nomu_intended_route",href);if(isMobileViewport()) location.hash="#/choose-account"; else ensureAuthUI();}})})}
+function ensureChooseAccountPage(){window.addEventListener("hashchange",onRouteChange);function onRouteChange(){if(location.hash==="#/choose-account"){const view=document.getElementById("view")||document.body;const cards=[{k:"#/acc/health",t:"المراكز الصحية"},{k:"#/acc/clinic",t:"مراكز العيادات"},{k:"#/acc/education",t:"الوزارة / التعليم"},{k:"#/acc/neighborhood",t:"مراكز الأحياء"},{k:"#/acc/nonprofit",t:"المنظمات غير الربحية"},{k:"#/acc/individual",t:"الأفراد"},{k:"#/acc/private",t:"القطاع الخاص"},{k:"#/acc/donor",t:"المانحون"},];let h='<div class="card" style="padding:18px"><h2>اختر نوع الحساب</h2><div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:12px">';cards.forEach(c=>{h+=`<button class="nomu-acc-card" data-target="${c.k}" style="padding:14px;border-radius:10px;border:1px solid #e6e9ef;background:#fff;cursor:pointer">${c.t}</button>`});h+=`</div><p style="margin-top:12px;color:#6b7280">بيانات العرض: NOMU / 1234</p></div>`;view.innerHTML=h;document.querySelectorAll(".nomu-acc-card").forEach(b=>{b.addEventListener("click",()=>{const target=b.getAttribute("data-target");if(isAuthenticated()) location.hash=target; else{sessionStorage.setItem("nomu_intended_route",target); if(isMobileViewport()) renderInlineLoginBelow(b.parentElement); else ensureAuthUI();}})})}} onRouteChange()}
+function renderInlineLoginBelow(container){if(document.getElementById("nomu-inline-login")) return;const h=`
+  <div id="nomu-inline-login" style="margin-top:12px;padding:12px;background:#f8fafc;border:1px solid #e6e9ef;border-radius:10px">
+    <div style="font-size:13px;color:#374151">تسجيل سريع للعرض</div>
+    <input id="nomu-inline-user" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px" value="NOMU">
+    <input id="nomu-inline-pass" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px" value="1234" type="password">
+    <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">
+      <button id="nomu-inline-login-btn" style="background:#16a34a;color:#fff;border:none;padding:8px 12px;border-radius:8px">دخول</button>
+    </div>
+  </div>`;container.insertAdjacentHTML("afterend",h);document.getElementById("nomu-inline-login-btn").addEventListener("click",()=>{const u=document.getElementById("nomu-inline-user").value.trim();const p=document.getElementById("nomu-inline-pass").value.trim();if(u===DEFAULT_USERNAME&&p===DEFAULT_PASSWORD){saveAuth(u,p);const i=sessionStorage.getItem("nomu_intended_route");if(i) location.hash=i; else location.reload();} else alert("بيانات خاطئة — استخدم NOMU / 1234")})}
+window.addEventListener("load", ()=>{protectAccountRoutes();ensureChooseAccountPage();const h=location.hash||"#/overview";if(h.startsWith("#/acc/")&&!isAuthenticated()){if(isMobileViewport()) location.hash="#/choose-account"; else ensureAuthUI();}});
+window.NOMU=window.NOMU||{};window.NOMU.signOut=function(){clearAuth();location.hash="#/overview";location.reload();};
 </script>
 
 </body>
