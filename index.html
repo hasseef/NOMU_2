@@ -1,721 +1,334 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>منصة نمو</title>
-<style>
-:root{ --border:#e6e9ef; --ink:#0f172a; --muted:#64748b; --bg:#fff; --brand:#0ea5e9; --ok:#16a34a; --warn:#f59e0b; --bad:#ef4444 }
-*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#fff;color:var(--ink)}
-/* Topbar */
-header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-height:56px;border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:50}
-.brand{display:flex;align-items:center;gap:10px;min-width:0;cursor:pointer}
-.brand .logo{width:40px;height:40px;border-radius:12px;object-fit:contain;overflow:hidden;background:#eef2f7;display:inline-block}
-.brand-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw;font-weight:800}
-/* Left logos */
-.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
-.left-logos .plain-logo{display:block;height:28px;width:auto}
-.desktop-login-btn,.home-btn{margin-inline-start:8px;background:var(--brand);color:#fff;border:none;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer;text-decoration:none}
-.bell{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);background:#fff;border-radius:12px;padding:0}
-.badge{position:absolute;top:-6px;left:-6px;background:#ef4444;color:#fff;border-radius:999px;font-size:11px;line-height:1;padding:3px 6px}
-/* Layout (desktop) */
-@media (min-width:980px){
-  .layout{ display:grid; grid-template-columns: 280px 1fr; gap:16px; align-items:start; padding:16px }
-  .mega-left{ position:sticky; top:72px; align-self:start }
-  .mega-left details{ border:1px solid var(--border); background:#fff; border-radius:12px; margin:8px 0; overflow:hidden }
-  .mega-left summary{ list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; color:var(--ink) }
-  .mega-left summary::-webkit-details-marker{ display:none }
-  .mega-left .group-body{ padding:8px 10px; display:grid; gap:6px }
-  .mega-left a{ display:block; padding:8px 10px; border-radius:10px; color:#334155; text-decoration:none }
-  .mega-left a:hover{ background:#f1f5f9 }
-  nav.side{ display:none !important } /* تأكيد إزالة القائمة القديمة */
-}
-/* Content */
-#view{ padding:16px }
-.card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px}
-.kpi-row{display:flex;gap:10px}
-.kpi{flex:1;border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}
-/* Tabs generic */
-.tabs{ display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 8px }
-.tab{ padding:10px 12px; border:1px solid var(--border); border-radius:10px; background:#fff; cursor:pointer; font-weight:600; color:var(--ink); text-decoration:none }
-.tab[aria-selected="true"]{ border-color:var(--brand); outline:2px solid rgba(14,165,233,.15) }
-/* KPI grid */
-.kpi-grid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px }
-.kpi-card{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:12px; display:flex; gap:10px; align-items:flex-start }
-.kpi-icon{ font-size:22px; line-height:1; padding:8px; border-radius:10px; background:#f1f5f9 }
-.kpi-title{ font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-.kpi-meta{ display:flex; gap:10px; align-items:center; margin-top:4px; color:var(--muted); font-size:12px }
-.kpi-value{ font-weight:800; font-size:18px; color:var(--ink) }
-.badge-chip{ padding:3px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:#fff }
-.badge-chip.ok{ color:#065f46; border-color:#bbf7d0; background:#ecfdf5 }
-.badge-chip.warn{ color:#92400e; border-color:#fde68a; background:#fffbeb }
-.badge-chip.bad{ color:#991b1b; border-color:#fecaca; background:#fef2f2 }
-.badge-chip.info{ color:#075985; border-color:#bae6fd; background:#eff6ff }
-/* Data table */
-.table{ width:100%; border-collapse:separate; border-spacing:0 8px }
-.table th{ text-align:start; font-size:13px; color:var(--muted); padding:0 10px }
-.table td{ background:#fff; border:1px solid var(--border); padding:10px; }
-.table tr td:first-child{ border-radius:12px 0 0 12px }
-.table tr td:last-child{ border-radius:0 12px 12px 0 }
-/* Services */
-.services-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px }
-.service{ border:1px solid var(--border); border-radius:12px; padding:12px; background:#fff }
-.service h4{ margin:0 0 6px 0; font-size:15px }
-.service p{ margin:0; color:var(--muted); font-size:13px }
-/* About page blocks */
-.grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
-.list-dash{ margin:0; padding-inline-start:18px }
-.list-dash li{ margin:6px 0 }
-.highlight{ background:#f8fafc; border:1px solid var(--border); border-radius:12px; padding:12px }
-/* Mobile */
-.mobile-menu-btn{display:none}
-@media (max-width:979px){
-  .brand-title{max-width:52vw}
-  .left-logos .plain-logo{height:22px}
-  .mobile-menu-btn{
-    display:inline-flex;align-items:center;gap:6px;margin-inline-start:8px;
-    background:#0ea5e9;color:#fff;border:none;border-radius:10px;padding:6px 10px;font-size:13px
-  }
-  .npanel{inset:auto 0 0 0;top:auto;width:100%;max-height:55vh;border-radius:16px 16px 0 0}
-  .layout{ display:block; padding:12px }
-  .mega-left{ display:none } /* لا نعرض القائمة اليسرى في الجوال */
-  .tabs,.kpi-row{display:block !important}
-  .tabs > *, .kpi-row > *{display:block;margin:6px 0 !important}
-  .kpi-grid{ grid-template-columns:1fr 1fr }
-  .services-grid{ grid-template-columns:1fr }
-  /* زر عائم للرئيسية */
-  .fab-home{
-    position:fixed; right:14px; bottom:14px; z-index:9998; width:52px; height:52px; border-radius:999px; border:1px solid var(--border);
-    display:flex; align-items:center; justify-content:center; background:#0ea5e9; color:#fff; font-size:22px; text-decoration:none;
-    box-shadow:0 10px 30px rgba(2,12,27,.18);
-  }
-}
-button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
-
-/* ===== Login modal ===== */
-#loginModalBackdrop{ position:fixed; inset:0; background:rgba(2,12,27,.45); display:none; z-index:10000; }
-#loginModal{ position:fixed; inset:0; display:none; z-index:10001; place-items:center; }
-#loginCard{ width:min(92vw,520px); background:#fff; border:1px solid #e6e9ef; border-radius:16px; padding:16px; box-shadow:0 20px 60px rgba(2,12,27,.25) }
-#loginCard h3{ margin:0 0 8px 0 }
-.login-grid{ display:grid; gap:10px }
-.login-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
-.login-input, .login-select{ width:100%; border:1px solid #e6e9ef; border-radius:10px; padding:10px; font-size:14px; background:#fff }
-.login-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:6px }
-.btn{ border:1px solid #e6e9ef; background:#fff; border-radius:10px; padding:10px 14px; cursor:pointer }
-.btn.primary{ background:#0ea5e9; color:#fff; border:none }
-@media (max-width:979px){ .login-row{ grid-template-columns:1fr } }
-
-/* One-open accordion highlight */
-details.group[open] > summary, .mega-left details[open] > summary{ background:#f8fafc }
-</style>
-</head>
-<body>
-
-<header>
-  <div class="topbar">
-    <div class="brand" onclick="location.hash='#/overview'" role="link" tabindex="0" aria-label="العودة للرئيسية">
-      <div class="logo"></div>
-      <div><b class="brand-title">منصة نمو</b></div>
-    </div>
-    <a class="home-btn" href="#/overview" aria-label="العودة للرئيسية">الرئيسية</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة (جوال)">القائمة ☰</button>
-    <div class="left-logos">
-      <img class="plain-logo" src="vision2030.png" alt="شعار رؤية 2030" width="88" height="28" loading="lazy" decoding="async" onerror="this.style.display='none'">
-      <img class="plain-logo" src="talbiya.png" alt="شعار تلبية" width="88" height="28" loading="lazy" decoding="async" onerror="this.style.display='none'">
-      <button class="desktop-login-btn" id="desktopLoginBtn" aria-label="تسجيل الدخول (كمبيوتر)">تسجيل الدخول</button>
-      <button id="bell" class="bell" aria-label="الإشعارات">🔔<span id="bellBadge" class="badge" style="display:none">0</span></button>
-      <div id="npanel" class="npanel" style="display:none;border:1px solid var(--border);background:#fff;padding:12px;border-radius:12px;position:absolute;right:0;top:48px;width:min(92vw,420px);max-height:60vh;overflow:auto"></div>
-    </div>
-  </div>
-</header>
-
-<div class="layout">
-  <aside class="mega-left" aria-label="القائمة الرئيسية">
-    <details open>
-      <summary>البدء السريع</summary>
-      <div class="group-body">
-        <a href="#/overview">نظرة عامة</a>
-        <a href="#/intro">من نحن</a>
-        <a href="#/services">الخدمات</a>
-      </div>
-    </details>
-    <details>
-      <summary>الحسابات</summary>
-      <div class="group-body">
-        <a href="#/acc/health">وزارة الصحة</a>
-        <a href="#/acc/clinic">المراكز الصحية</a>
-        <a href="#/acc/education">وزارة التعليم</a>
-        <a href="#/acc/neighborhood">مراكز الأحياء</a>
-        <a href="#/acc/nonprofit">الجمعيات</a>
-        <a href="#/acc/mhrsd">وزارة الموارد البشرية والتنمية الاجتماعية</a>
-        <a href="#/acc/csr">القطاع الخاص</a>
-        <a href="#/acc/family">الأسرة</a>
-        <a href="#/acc/admin">اللجنة الوطنية</a>
-      </div>
-    </details>
-    <details>
-      <summary>التشغيل والتقارير</summary>
-      <div class="group-body">
-        <a href="#/operations">التشغيل</a>
-        <a href="#/reports">التقارير</a>
-        <a href="#/kpi">مؤشرات KPI</a>
-      </div>
-    </details>
-    <details>
-      <summary>الدعم والجودة</summary>
-      <div class="group-body">
-        <a href="#/support">الدعم الفني</a>
-        <a href="#/policies">الأدلة والسياسات</a>
-        <a href="#/contact">اتصل بنا</a>
-      </div>
-    </details>
-  </aside>
-
-  <section id="view" class="content">
-    <div class="card">
-      <h2>أهلًا بك في منصة نمو</h2>
-      <p>منصة وطنية تُعنى بتنمية الطفولة المبكرة عبر التكامل بين القطاعات وتوحيد الجهود والبيانات والمبادرات.</p>
-    </div>
-    <div class="kpi-row">
-      <div class="kpi">KPI</div>
-      <div class="kpi">KPI</div>
-      <div class="kpi">KPI</div>
-    </div>
-  </section>
-</div>
-
-<!-- زر رئيسية عائم للجوال -->
-<a class="fab-home" href="#/overview" aria-label="الرئيسية" style="display:none">⌂</a>
-
-<!-- Login Modal -->
-<div id="loginModalBackdrop"></div>
-<div id="loginModal">
-  <div id="loginCard" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-    <h3 id="loginTitle">تسجيل الدخول</h3>
-    <div class="login-grid">
-      <div class="login-row">
-        <div><label>اسم المستخدم</label><input id="lg_user" class="login-input" value="NOMU" autocomplete="username"></div>
-        <div><label>كلمة المرور</label><input id="lg_pass" class="login-input" type="password" value="1234" autocomplete="current-password"></div>
-      </div>
-      <div>
-        <label>نوع الحساب</label>
-        <select id="lg_acc" class="login-select"></select>
-      </div>
-      <div class="login-actions">
-        <button id="lg_cancel" class="btn">إلغاء</button>
-        <button id="lg_ok" class="btn primary">دخول</button>
-      </div>
-      <div id="lg_msg" style="display:none;color:#991b1b">الرجاء تعبئة الحقول.</div>
-    </div>
-  </div>
-</div>
-
 <script>
-/* إشعارات */
-(function(){
-  const bell=document.getElementById('bell'), panel=document.getElementById('npanel');
-  const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
-  if(!bell||!panel) return;
-  bell.onclick=(e)=>{
-    e.preventDefault();
-    if(isMobile()){
-      panel.style.position='fixed'; panel.style.right='0'; panel.style.left='0'; panel.style.top='auto'; panel.style.bottom='0';
-      panel.style.borderRadius='16px 16px 0 0';
-    }else{
-      panel.style.position='absolute'; panel.style.right='0'; panel.style.left='auto'; panel.style.top='48px'; panel.style.bottom='auto';
-      panel.style.borderRadius='12px';
-    }
-    panel.style.display = panel.style.display==='block' ? 'none' : 'block';
-    if(panel.style.display==='block' && !panel.dataset.filled){
-      panel.innerHTML = '<b>الإشعارات</b><ul style="margin:8px 0 0 18px"><li>تم تحديث تقارير شهر أكتوبر</li><li>مؤشرات الأداء الأسبوعية جاهزة</li></ul>';
-      panel.dataset.filled = '1';
-    }
-  };
-})();
+/* ========= ترقية تفاعلية: مؤشرات وخدمات مخصّصة + دعم/اتصال/سياسات ========= */
 
-/* قائمة الجوال (ورقة سفلية بمجموعات منسدلة + واحد مفتوح فقط) */
-(function(){
-  const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
-  function lockScroll(lock){ document.documentElement.style.overflow = lock ? 'hidden' : ''; }
-  function focusTrap(container, enable){
-    if(!container) return;
-    function onKey(e){
-      if(e.key!=='Tab') return;
-      const f = container.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])');
-      if(!f.length) return; const first=f[0], last=f[f.length-1];
-      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
-      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
-    }
-    if(enable) container.addEventListener('keydown', onKey);
-  }
-  const GROUPS = [
-    { title:'البدء السريع', items:[
-      {t:'نظرة عامة', k:'#/overview'},{t:'من نحن', k:'#/intro'},{t:'الخدمات', k:'#/services'}
-    ]},
-    { title:'الحسابات', items:[
-      {t:'وزارة الصحة', k:'#/acc/health'},{t:'المراكز الصحية', k:'#/acc/clinic'},{t:'وزارة التعليم', k:'#/acc/education'},
-      {t:'مراكز الأحياء', k:'#/acc/neighborhood'},{t:'الجمعيات', k:'#/acc/nonprofit'},{t:'وزارة الموارد البشرية والتنمية الاجتماعية', k:'#/acc/mhrsd'},
-      {t:'القطاع الخاص', k:'#/acc/csr'},{t:'الأسرة', k:'#/acc/family'},{t:'اللجنة الوطنية', k:'#/acc/admin'}
-    ]},
-    { title:'التشغيل والتقارير', items:[
-      {t:'التشغيل', k:'#/operations'},{t:'التقارير', k:'#/reports'},{t:'مؤشرات KPI', k:'#/kpi'}
-    ]},
-    { title:'الدعم والجودة', items:[
-      {t:'الدعم الفني', k:'#/support'},{t:'الأدلة والسياسات', k:'#/policies'},{t:'اتصل بنا', k:'#/contact'}
-    ]}
-  ];
-  function ensureFab(){
-    const fab=document.querySelector('.fab-home');
-    if (window.matchMedia('(max-width:979px)').matches){ if(fab) fab.style.display='flex'; }
-    else { if(fab) fab.style.display='none'; }
-  }
-  function openMobileMenu(){
-    if (!isMobile()) return;
-    if (document.getElementById('mobileMenuSheet')) return;
-    const sheet = document.createElement('div'); sheet.id='mobileMenuSheet';
-    sheet.style.cssText='position:fixed;inset:auto 0 0 0;background:#fff;border-top:1px solid var(--border);border-radius:16px 16px 0 0;box-shadow:0 -12px 30px rgba(2,12,27,.15);z-index:9999;max-height:65vh;overflow:auto;padding:12px;transform:translateY(16px);opacity:0;transition:.2s';
-    let html='';
-    GROUPS.forEach(g=>{
-      html += `<details class="group" style="border:1px solid var(--border);border-radius:12px;margin:8px 0;background:#fff">
-        <summary style="list-style:none;cursor:pointer;padding:12px;font-weight:700;color:#0f172a;outline:none">${g.title}</summary>
-        <div class="submenu" style="display:grid;gap:8px;padding:8px 10px;border-top:1px solid var(--border)">
-          ${g.items.map(i=>`<a href="${i.k}" data-go="${i.k}" style="display:block;text-align:center;border:1px solid var(--border);background:#f8fafc;padding:10px;border-radius:10px;color:#0f172a;text-decoration:none">${i.t}</a>`).join('')}
-        </div>
-      </details>`;
-    });
-    sheet.innerHTML = html;
-    document.body.appendChild(sheet);
-    requestAnimationFrame(()=> sheet.style.cssText += ';transform:translateY(0);opacity:1;');
-    lockScroll(true); focusTrap(sheet, true);
+/* 1) تعريف الخدمات المخصّصة لكل حساب */
+window.ACCOUNT_SERVICES = {
+  health: [
+    {t:"ملف الطفل الصحي الموحّد", d:"جمع السجل الصحي والتطعيمات والفحوص في ملف واحد."},
+    {t:"نظام تتبّع التطعيمات", d:"تنبيهات مواعيد التطعيم وربط مع العيادات."},
+    {t:"لوحة الأمراض المزمنة للأطفال", d:"متابعة الحالات طويلة الأمد وإدارة الخطة العلاجية."},
+    {t:"تكامل السجل الإلكتروني", d:"تكامل مع أنظمة HIS/EHR في المستشفيات والمراكز."},
+    {t:"إحالة ذكية", d:"مسارات إحالة بين المستشفى والعيادة والمجتمع."},
+  ],
+  clinic: [
+    {t:"حجز المواعيد الموحد", d:"إدارة الطاقة الاستيعابية وجدولة الزيارات."},
+    {t:"سجلات النمو والتغذية", d:"متابعة الوزن والطول ومؤشرات التغذية."},
+    {t:"إدارة الإحالات", d:"إرسال/استقبال الإحالات وإغلاقها زمنياً."},
+    {t:"جودة الخدمة اليومية", d:"متابعة الالتزام والمعايير التشغيلية."},
+    {t:"تنبيهات الطوارئ", d:"تنبيهات عاجلة للفرق الطبية."},
+  ],
+  education: [
+    {t:"تحصيل مبكر لرياض الأطفال", d:"قياس التقدّم اللغوي والمعرفي والسلوكي."},
+    {t:"جاهزية مدرسية", d:"اختبارات معيارية للانتقال للصف الأول."},
+    {t:"تكامل صحي-تعليمي", d:"ربط العوامل الصحية المؤثرة على الأداء."},
+    {t:"قاعدة ذوي الاحتياجات", d:"خطط دعم فردية وتتبع التحسين."},
+    {t:"مناهج رقمية مبكرة", d:"مصادر تفاعلية وتنمية مهارات."},
+  ],
+  neighborhood: [
+    {t:"التوعية الأسرية", d:"برامج وقاية وتربية إيجابية."},
+    {t:"أنشطة مجتمعية", d:"تسجيل ومتابعة الفعاليات والحضور."},
+    {t:"تكامل مع الجمعيات", d:"إسناد الحالات الاجتماعية سريعاً."},
+    {t:"لوحة المشاركة", d:"مؤشرات مشاركة الأسرة والطفل."},
+  ],
+  nonprofit: [
+    {t:"إدارة المشاريع التنموية", d:"التخطيط، التنفيذ، التقييم."},
+    {t:"تبرعات موجّهة", d:"توجيه الدعم حسب الاحتياج الفعلي."},
+    {t:"إدارة المتطوعين", d:"اختيار، تدريب، تتبع ساعات التطوع."},
+    {t:"تكامل تقارير", d:"رفع تقارير موحّدة للجهات الحكومية."},
+    {t:"قياس الأثر", d:"نماذج منطقية ومؤشرات تأثير."},
+  ],
+  mhrsd: [
+    {t:"برامج الرعاية للأسر", d:"استحقاقات ودعم موجّه."},
+    {t:"تتبّع الأطفال المعرضين للخطر", d:"اكتشاف مبكر وتدخل متعدد الجهات."},
+    {t:"تكامل الحالات", d:"ربط صحي/تعليمي/اجتماعي لحالة الأسرة."},
+    {t:"دعم الأسر الحاضنة", d:"خدمات الإسناد والتمكين والمتابعة."},
+    {t:"قياس جودة الخدمات الاجتماعية", d:"معايير امتثال وتدقيق دوري."},
+  ],
+  csr: [
+    {t:"بوابة المسؤولية الاجتماعية", d:"إدارة المبادرات والتمويل."},
+    {t:"منح ومبادرات", d:"تقديم، تقييم، تتبع النتائج."},
+    {t:"لوحة مؤشرات CSR", d:"شفافية الأثر والأهداف."},
+    {t:"تكامل عرض البرامج", d:"إبراز البرامج الممولة على المنصة."},
+  ],
+  family: [
+    {t:"تطبيق نمو طفلي", d:"متابعة النمو والتغذية واللقاحات."},
+    {t:"توعية رقمية للوالدين", d:"مقالات، فيديوهات، اختبارات قصيرة."},
+    {t:"مواعيد مع مختصين", d:"صحة/تعليم/اجتماعي من مكان واحد."},
+    {t:"استشارات تربوية فورية", d:"أسئلة سريعة وإجابات موثوقة."},
+    {t:"سجل التطور السلوكي", d:"توثيق التقدم اللغوي والسلوكي."},
+  ],
+  admin: [
+    {t:"حوكمة وطنية", d:"سياسات تكامل بين الجهات."},
+    {t:"مركز بيانات وطني", d:"اتّساق ومشاركة آمنة."},
+    {t:"مراقبة المؤشرات الاستراتيجية", d:"لوحات متابعة آنية."},
+    {t:"تحليلات وذكاء اصطناعي", d:"تنبؤات، تحذيرات مبكرة."},
+    {t:"إدارة الشراكات", d:"اتفاقيات وتقارير وطنية."},
+  ],
+};
 
-    // اجعل المفتوح واحدًا فقط
-    const groups = Array.from(sheet.querySelectorAll('details.group'));
-    groups.forEach(d=>{
-      d.addEventListener('toggle', ()=>{ if(d.open){ groups.forEach(x=>{ if(x!==d) x.open=false; }); } });
-    });
+/* 2) مؤشرات مخصّصة لكل حساب (عناوين فقط — القيم تولَّد تجريبياً الآن) */
+window.ACCOUNT_KPIS = {
+  health: [
+    "إتمام التطعيمات الأساسية","الفحص المبكر المكتمل","زمن انتظار الطوارئ (د)","متابعة الأمراض المزمنة","رضا أولياء الأمور"
+  ],
+  clinic: [
+    "المواعيد المحجوزة إلكترونياً","الإحالات المغلقة < 7 أيام","رضا المستفيدين اليومي","زمن تقديم أول خدمة (د)","التزام الزيارات الوقائية"
+  ],
+  education: [
+    "الالتحاق برياض الأطفال","جاهزية مدرسية (مؤشر)","تدريب معلمي الطفولة","انتقال ناجح للصف الأول","مبادرات تكاملية صحية/اجتماعية"
+  ],
+  neighborhood: [
+    "فعاليات مجتمعية منفّذة/شهر","مشاركة أسرية في التوعية","مشاركة أطفال بالأنشطة","رضا المجتمع","تنسيق مع الجهات"
+  ],
+  nonprofit: [
+    "عدد البرامج للأطفال","الدعم المالي/العيني","تحقق أثر مجتمعي","متطوعون نشطون","شفافية التقارير"
+  ],
+  mhrsd: [
+    "أسر مستفيدة","معالجة البلاغات بالمدة","رضا المستفيدين الاجتماعي","تنسيق بين الجهات","الوقاية من العنف الأسري"
+  ],
+  csr: [
+    "برامج ممولة","إجمالي المساهمات","شفافية التقارير","مشاركة بالمبادرات الحكومية","الأثر الاجتماعي"
+  ],
+  family: [
+    "تفاعل الأسر","زيارات/أسرة/شهر","ملفات نمو مكتملة","رضا المستخدمين","تحسن مؤشرات نمو الأطفال"
+  ],
+  admin: [
+    "جهات متكاملة وطنياً","مؤشرات محدّثة آلياً","الالتزام بسياسات البيانات","سرعة تقارير وطنية","الأثر على أهداف 2030"
+  ],
+};
 
-    sheet.addEventListener('click', (e)=>{
-      const a = e.target.closest('a[data-go]'); if(!a) return;
-      e.preventDefault(); location.hash = a.getAttribute('data-go'); close();
-    });
-    setTimeout(()=>{ document.addEventListener('click', outside, {once:true}); },0);
-    function outside(e){ if(!sheet.contains(e.target)) close(); }
-    function close(){ sheet.style.cssText += ';transform:translateY(16px);opacity:0;'; setTimeout(()=>{ sheet.remove(); lockScroll(false); }, 180); }
-  }
-  window.addEventListener('load', ()=>{
-    ensureFab();
-    const mb = document.getElementById('mobileMenuBtn');
-    if (mb) mb.addEventListener('click', (e)=>{ e.preventDefault(); openMobileMenu(); });
+/* 3) مولّدات عرض: خدمات + مؤشرات */
+function servicesGrid(items){
+  return '<div class="services-grid">'+ items.map(s=>`
+    <div class="service"><h4>${s.t}</h4><p>${s.d}</p></div>`).join('') + '</div>';
+}
+function makeDemoKPIsFromList(list){
+  function grade(num, kind){ if(kind==="wait"){ if(num<=10)return"ok"; if(num<=20)return"warn"; return"bad"; } return num>=85?"ok": num>=70?"warn":"bad"; }
+  function label(g){ return g==="ok"?"جيد":g==="warn"?"تحذير":"حرِج"; }
+  return list.map(t=>{
+    let v=0, unit="%", g="info";
+    if (/انتظار|د\)/.test(t)) { v = 5 + Math.floor(Math.random()*20); unit="د"; g = grade(v,"wait"); }
+    else { v = +(70 + Math.random()*25).toFixed(0); g = grade(v); }
+    const trend = (Math.random()>.5?"+":"-") + (Math.random()*5|0) + "%";
+    return {title:t, icon:"📊", value: v + unit, grade:g, gradeLabel:label(g), trend};
   });
-  window.addEventListener('resize', ensureFab);
-})();
+}
 
-/* صفحات أساسية + خدمات + حسابات مع تبويبات ومؤشرات */
+/* 4) إعادة تعريف renderAccount لتفعيل القوائم المخصّصة (تجاوز لطيف للأصل) */
 (function(){
-  const view = document.getElementById('view') || document.body;
+  const _old = window.renderAccount;
+  window.renderAccount = function(accKey, tabKey){
+    const accs = window.ACCOUNTS || {}; // من ملفك الأصلي
+    const acc = accs[accKey];
+    const TABS = window.TABS || [
+      {key:"summary",label:"الملخص"},{key:"services",label:"الخدمات والتقنيات"},{key:"operations",label:"العمليات"},
+      {key:"indicators",label:"المؤشرات"},{key:"reports",label:"التقارير"},{key:"resources",label:"الموارد"},{key:"governance",label:"الحوكمة"}
+    ];
+    if (!acc){ return (typeof _old==="function"?_old(accKey, tabKey):null); }
+    const view = document.getElementById('view');
+    const current = (TABS.find(t=>t.key===tabKey)||TABS[0]).key;
 
-  const ACCOUNTS = {
-    "health":    { name:"وزارة الصحة", icon:"🏥" },
-    "clinic":    { name:"المراكز الصحية", icon:"🩺" },
-    "education": { name:"وزارة التعليم", icon:"🎓" },
-    "neighborhood": { name:"مراكز الأحياء", icon:"🏘️" },
-    "nonprofit": { name:"الجمعيات", icon:"🤝" },
-    "mhrsd":     { name:"وزارة الموارد البشرية والتنمية الاجتماعية", icon:"👥" },
-    "csr":       { name:"القطاع الخاص", icon:"🏢" },
-    "family":    { name:"الأسرة", icon:"👨‍👩‍👧" },
-    "admin":     { name:"اللجنة الوطنية", icon:"🛡️" },
-  };
-
-  const TABS = [
-    {key:"summary",   label:"الملخص"},
-    {key:"services",  label:"الخدمات والتقنيات"},
-    {key:"operations",label:"العمليات"},
-    {key:"indicators",label:"المؤشرات"},
-    {key:"reports",   label:"التقارير"},
-    {key:"resources", label:"الموارد"},
-    {key:"governance",label:"الحوكمة"}
-  ];
-
-  const KPI_TITLES = [
-    {t:"نسبة تغطية الفحص المبكر", icon:"🧪"},
-    {t:"إتمام التطعيمات الأساسية", icon:"💉"},
-    {t:"زمن الانتظار المتوسط (دقيقة)", icon:"⏱️"},
-    {t:"التزام البروتوكولات السريرية", icon:"📋"},
-    {t:"جودة البيانات واكتمالها", icon:"📊"},
-    {t:"التغطية الجغرافية للخدمات", icon:"🗺️"},
-    {t:"معدل الإحالات المغلقة", icon:"🔁"},
-    {t:"رضا المستفيدين", icon:"⭐"},
-    {t:"نسبة الحالات عالية الخطورة", icon:"⚠️"},
-    {t:"كفاءة الإنفاق", icon:"💰"},
-    {t:"التكامل بين الجهات", icon:"🧩"},
-    {t:"الأثر المجتمعي", icon:"🌱"}
-  ];
-
-  const GLOBAL_SERVICES = [
-    {t:"لوحة متابعة الطفولة المبكرة", d:"نظرة شاملة للبيانات والمؤشرات عبر الجهات."},
-    {t:"إدارة الإحالات", d:"مسار موحد للإحالة والمتابعة والإغلاق."},
-    {t:"سجل الطفل الموحّد", d:"ملف موحد للطفل يربط بين الخدمات الصحية والتعليمية والاجتماعية."},
-    {t:"تقارير قياس الأثر", d:"تحليل أثر البرامج والتدخلات على مستوى المجتمع."},
-    {t:"أتمتة التنبيهات", d:"إشعارات ذكية للحالات الحرجة أو الانحرافات."},
-    {t:"مخزون الخدمات والطاقات", d:"رصد الطاقة الاستيعابية ومواقع الخدمة والتغطية."},
-    {t:"تكامل البيانات", d:"واجهات API وآليات مشاركة آمنة للبيانات."},
-    {t:"حوكمة البيانات والامتثال", d:"سياسات، صلاحيات، تتبّع، وتدقيق."},
-    {t:"مؤشرات الأداء المتقدمة", d:"إنشاء حِزم مؤشرات وربطها بالأهداف."},
-  ];
-
-  function gradeLabel(g){ if(g==="ok")return"جيد"; if(g==="warn")return"تحذير"; if(g==="bad")return"حرِج"; return"معلومة"; }
-
-  function makeDemoKPIs(len){
-    const list = KPI_TITLES.slice(0, len);
-    return list.map(k=>{
-      let v, unit=""; let n;
-      if (k.t.includes("زمن الانتظار")){ n = 5 + Math.floor(Math.random()*20); v=n; unit="د"; }
-      else if (k.t.includes("حالات عالية")){ n = +(3 + Math.random()*7).toFixed(1); v=n; unit="%"; }
-      else if (k.t.includes("كفاءة الإنفاق")){ n = +(80 + Math.random()*15).toFixed(0); v=n; unit="%"; }
-      else { n = +(70 + Math.random()*25).toFixed(0); v=n; unit="%"; }
-      let grade="info";
-      if(unit==="%"){ grade = n>=85?"ok": n>=70?"warn":"bad"; }
-      if(k.t.includes("زمن الانتظار")){ grade = n<=10?"ok": n<=20?"warn":"bad"; }
-      return { title:k.t, icon:k.icon, value: v + unit, grade, trend:(Math.random()>.5?"+":"-") + (Math.random()*5|0) + "%" };
-    });
-  }
-
-  function servicesGrid(items){
-    return '<div class="services-grid">'+ items.map(s=>`
-      <div class="service">
-        <h4>${s.t}</h4>
-        <p>${s.d}</p>
-      </div>`).join("") + '</div>';
-  }
-
-  function renderIntro(){
     view.innerHTML = `
-      <div class="card"><h2>من نحن</h2>
-        <div class="grid-2">
-          <div class="highlight"><b>الرؤية</b><br>أن تكون المرجع الوطني الشامل لتطوير منظومة الطفولة المبكرة.</div>
-          <div class="highlight"><b>الرسالة</b><br>تمكين الجهات عبر أدوات تحليلية وتشغيلية ومؤشرات أداء داعمة لصنع القرار.</div>
-        </div>
-        <div class="grid-2" style="margin-top:12px">
-          <div class="card"><b>الأهداف الإستراتيجية</b>
-            <ul class="list-dash">
-              <li>رفع جودة وكفاءة الخدمات المقدمة للطفل والأسرة.</li>
-              <li>تعزيز التكامل والمواءمة بين الجهات والبرامج.</li>
-              <li>تحسين إتاحة البيانات ودعم اتخاذ القرار.</li>
-              <li>قياس الأثر وتحسين الاستثمار الاجتماعي.</li>
-            </ul>
-          </div>
-          <div class="card"><b>القيمة المضافة</b>
-            <ul class="list-dash">
-              <li>منصة موحدة تربط القطاعات والبيانات.</li>
-              <li>مؤشرات أداء قابلة للتخصيص مع تنبيهات ذكية.</li>
-              <li>حوكمة بيانات وامتثال وسياسات واضحة.</li>
-              <li>تقارير دورية وقياس أثر على المستوى الوطني.</li>
-            </ul>
-          </div>
-        </div>
-        <div class="card" style="margin-top:12px">
-          <b>أصحاب المصلحة</b>
-          <p class="muted">الوزارات والهيئات والجمعيات والقطاع الخاص والأسر؛ وتتيح المنصة أدوار وصلاحيات مخصصة لكل فئة.</p>
-        </div>
-      </div>`;
-  }
-
-  function renderServices(){
-    view.innerHTML = `
-      <div class="card">
-        <h2>كتالوج الخدمات</h2>
-        <p style="color:var(--muted)">مجموعة خدمات تشغيلية وتحليلية تدعم رحلة الطفل والأسرة عبر القطاعات.</p>
-        ${servicesGrid(GLOBAL_SERVICES)}
-      </div>`;
-  }
-
-  function renderOverview(){
-    const kpis = makeDemoKPIs(8);
-    view.innerHTML = `
-      <div class="card">
-        <h2>نظرة عامة</h2>
-        <p style="color:var(--muted)">ملخص سريع لأبرز المؤشرات عبر المنظومة.</p>
-      </div>
-      <div class="kpi-grid" style="margin-top:12px">
-        ${kpis.map(k=>`
-          <div class="kpi-card">
-            <div class="kpi-icon">${k.icon}</div>
-            <div class="kpi-body">
-              <div class="kpi-title" title="${k.title}">${k.title}</div>
-              <div class="kpi-meta">
-                <span class="kpi-value">${k.value}</span>
-                <span class="badge-chip ${k.grade}">${gradeLabel(k.grade)}</span>
-                <span class="badge-chip info">${k.trend}</span>
-              </div>
-            </div>
-          </div>`).join("")}
-      </div>`;
-  }
-
-  function renderAccount(accKey, tabKey){
-    const acc = ACCOUNTS[accKey];
-    const currentTab = TABS.find(t=>t.key===tabKey) ? tabKey : "summary";
-    if (!acc){ view.innerHTML = notFound(); return; }
-    const header = `
       <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
         <div style="display:flex;align-items:center;gap:10px">
-          <div class="kpi-icon" aria-hidden="true" style="font-size:24px">${acc.icon}</div>
-          <div>
-            <div style="font-weight:800">${acc.name}</div>
-            <div style="color:var(--muted);font-size:13px">لوحة تحكم الحساب · تبويب: <b>${TABS.find(t=>t.key===currentTab).label}</b></div>
+          <div class="kpi-icon" style="font-size:24px">${acc.icon||"🧩"}</div>
+          <div><div style="font-weight:800">${acc.name}</div>
+            <div style="color:#64748b;font-size:13px">لوحة تحكم الحساب · تبويب: <b>${(TABS.find(t=>t.key===current)||{}).label||""}</b></div>
           </div>
         </div>
-        <a class="btn" style="text-decoration:none" href="#/services">كتالوج الخدمات</a>
-      </div>`;
+        <a class="btn ghost" href="#/services">كتالوج الخدمات</a>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="تبويبات الحساب">
+        ${TABS.map(t=>`<a class="tab" role="tab" aria-selected="${t.key===current}" href="#/acc/${accKey}?tab=${t.key}">${t.label}</a>`).join('')}
+      </nav>
+      <div id="accContent"></div>`;
 
-    const tabs = `<nav class="tabs" role="tablist" aria-label="تبويبات الحساب">`+
-      TABS.map(t=>`<a class="tab" role="tab" aria-selected="${t.key===currentTab}" href="#/acc/${accKey}?tab=${t.key}">${t.label}</a>`).join("")+
-      `</nav><div id="accContent"></div>`;
-
-    view.innerHTML = header + tabs;
     const mount = document.getElementById('accContent');
 
-    if (currentTab==="summary"){
-      const kpis = makeDemoKPIs(8);
-      mount.innerHTML = `<div class="kpi-grid">${kpis.map(k=>`
+    if (current==="summary"){
+      const data = makeDemoKPIsFromList(window.ACCOUNT_KPIS[accKey] || (window.KPI_TITLES||[]).map(x=>x.t).slice(0,8));
+      mount.innerHTML = `<div class="kpi-grid">${data.map(k=>`
         <div class="kpi-card">
-          <div class="kpi-icon">${k.icon}</div>
-          <div class="kpi-body">
-            <div class="kpi-title" title="${k.title}">${k.title}</div>
-            <div class="kpi-meta">
-              <span class="kpi-value">${k.value}</span>
-              <span class="badge-chip ${k.grade}">${gradeLabel(k.grade)}</span>
-              <span class="badge-chip info">${k.trend}</span>
-            </div>
-          </div>
-        </div>`).join("")}</div>`;
+          <div class="kpi-icon">📈</div>
+          <div><div class="kpi-title">${k.title}</div>
+            <div class="kpi-meta"><span class="kpi-value">${k.value}</span>
+              <span class="badge ${k.grade}">${k.gradeLabel}</span>
+              <span class="badge info">${k.trend}</span>
+            </div></div>
+        </div>`).join('')}</div>`;
     }
-    else if (currentTab==="services"){
-      const common = GLOBAL_SERVICES;
-      const extra = [
-        {t:`لوحة خاصة بـ ${acc.name}`, d:"مؤشرات وتدفقات عمل موجهة لهذا الحساب."}
-      ];
-      mount.innerHTML = `<div class="card"><b>الخدمات والتقنيات – ${acc.name}</b>${servicesGrid(common.concat(extra))}</div>`;
+
+    if (current==="services"){
+      const scoped = window.ACCOUNT_SERVICES[accKey] || [];
+      const common = (window.GLOBAL_SERVICES||[]);
+      mount.innerHTML = `
+        <div class="toolbar">
+          <input id="svcSearch_acc" class="input" placeholder="ابحث في خدمات ${acc.name}...">
+          <button class="btn ghost" id="svcReset_acc">مسح</button>
+        </div>
+        <div id="svcGrid_acc" class="services-grid">
+          ${servicesGrid(scoped.concat(common)).replace(/^<div class="services-grid">|<\/div>$/g,'')}
+        </div>`;
+      const filter = (q)=> {
+        document.querySelectorAll('#svcGrid_acc .service').forEach(it=>{
+          const hit = it.textContent.toLowerCase().includes(q.toLowerCase());
+          it.style.display = hit ? 'block' : 'none';
+        });
+      };
+      document.getElementById('svcSearch_acc').oninput = (e)=> filter(e.target.value);
+      document.getElementById('svcReset_acc').onclick = ()=>{ document.getElementById('svcSearch_acc').value=''; filter(''); };
     }
-    else if (currentTab==="operations"){
+
+    if (current==="operations"){
       mount.innerHTML = `<div class="card"><b>العمليات الجارية</b>
-        <ul class="list-dash">
-          <li>تفعيل حملة الفحص المبكر في المناطق ذات التغطية المنخفضة.</li>
-          <li>تحسين مسار الإحالات بين الجهة والعيادات الطرفية.</li>
-          <li>إطلاق لوحة متابعة زمن الانتظار الأسبوعية.</li>
+        <ul style="margin:8px 0 0 0;padding-inline-start:18px">
+          <li>حملة فحص مبكر</li><li>تحسين مسار الإحالات</li><li>متابعة زمن الانتظار</li>
         </ul>
+        <div class="toolbar" style="margin-top:10px">
+          <input id="newOp_${accKey}" class="input" placeholder="أضف مهمة تشغيلية...">
+          <button class="btn" id="addOp_${accKey}">إضافة</button>
+        </div>
+        <div id="opList_${accKey}"></div>
       </div>`;
+      const list = document.getElementById(`opList_${accKey}`);
+      document.getElementById(`addOp_${accKey}`).onclick = ()=>{
+        const inp = document.getElementById(`newOp_${accKey}`); const v = inp.value.trim(); if(!v) return;
+        const row = document.createElement('div'); row.className='card'; row.style.marginTop='8px';
+        row.innerHTML = `<div style="display:flex;justify-content:space-between;gap:8px"><span>${v}</span><button class="btn ghost">تم</button></div>`;
+        row.querySelector('button').onclick = ()=> row.remove(); list.appendChild(row); inp.value='';
+      };
     }
-    else if (currentTab==="indicators"){
-      const kpis = makeDemoKPIs(12);
+
+    if (current==="indicators"){
+      const data = makeDemoKPIsFromList(window.ACCOUNT_KPIS[accKey] || []);
       mount.innerHTML = `<table class="table">
-        <thead><tr><th>المؤشر</th><th>القيمة</th><th>التقييم</th><th>الاتجاه</th><th>آخر تحديث</th></tr></thead>
-        <tbody>${kpis.map(k=>`
+        <thead><tr>
+          <th data-k="title">المؤشر</th><th data-k="value">القيمة</th>
+          <th data-k="grade">التقييم</th><th data-k="trend">الاتجاه</th><th>آخر تحديث</th>
+        </tr></thead>
+        <tbody>${data.map(k=>`
           <tr>
             <td>${k.title}</td>
             <td><b>${k.value}</b></td>
-            <td><span class="badge-chip ${k.grade}">${gradeLabel(k.grade)}</span></td>
-            <td><span class="badge-chip info">${k.trend}</span></td>
-            <td><span class="badge-chip">اليوم</span></td>
-          </tr>`).join("")}</tbody>
+            <td><span class="badge ${k.grade}">${k.gradeLabel}</span></td>
+            <td><span class="badge info">${k.trend}</span></td>
+            <td><span class="badge">اليوم</span></td>
+          </tr>`).join('')}</tbody>
       </table>`;
+      // فرز سريع
+      document.querySelectorAll('#accContent th[data-k]').forEach(th=>{
+        let asc=true;
+        th.addEventListener('click', ()=>{
+          const k = th.dataset.k;
+          const idx = {title:0,value:1,grade:2,trend:3}[k];
+          const rows = Array.from(document.querySelectorAll('#accContent tbody tr'));
+          rows.sort((a,b)=>{
+            const A = a.children[idx].textContent.trim(); const B = b.children[idx].textContent.trim();
+            return asc ? A.localeCompare(B,'ar') : B.localeCompare(A,'ar');
+          }).forEach(r=> r.parentNode.appendChild(r));
+          asc=!asc;
+        });
+      });
     }
-    else if (currentTab==="reports"){
-      mount.innerHTML = `<div class="card"><b>التقارير</b>
-        <div class="services-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-          ${["الأداء الشهري","الجودة والامتثال","الإحالات والانتظار","التغطية الجغرافية","الأثر المجتمعي","كفاءة الإنفاق"].map(t=>`
-            <a class="service" href="#" onclick="return false" style="text-decoration:none;color:var(--ink)">
-              <h4>تقرير ${t}</h4><p>PDF · آخر إصدار</p>
-            </a>`).join("")}
-        </div>
+
+    if (current==="reports"){
+      mount.innerHTML = `<div class="services-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+        ${["الأداء الشهري","الجودة والامتثال","الإحالات والانتظار","التغطية الجغرافية","الأثر المجتمعي","كفاءة الإنفاق"].map(t=>`
+          <a class="service" href="#" onclick="return false" style="text-decoration:none">
+            <h4>تقرير ${t}</h4><p>PDF · آخر إصدار</p>
+          </a>`).join('')}
       </div>`;
     }
-    else if (currentTab==="resources"){
+
+    if (current==="resources"){
       mount.innerHTML = `<div class="card"><b>الموارد</b>
-        <ul class="list-dash">
+        <ul style="margin:8px 0 0 0;padding-inline-start:18px">
           <li><a href="#/policies">الأدلة والسياسات</a></li>
           <li><a href="#/support">الدعم الفني</a></li>
           <li><a href="#/contact">اتصل بنا</a></li>
-        </ul>
-      </div>`;
+        </ul></div>`;
     }
-    else if (currentTab==="governance"){
+
+    if (current==="governance"){
       mount.innerHTML = `<div class="card"><b>الحوكمة والأدوار</b>
-        <div class="grid-2">
-          <div class="highlight">
-            <b>الأدوار</b>
-            <ul class="list-dash">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="card" style="border-style:dashed"><b>الأدوار</b>
+            <ul style="margin:6px 0 0 0;padding-inline-start:18px">
               <li>مالك الحساب</li><li>مشرف المؤشرات</li><li>منسق التقارير</li><li>دعم فني</li>
             </ul>
           </div>
-          <div class="highlight">
-            <b>سياسات البيانات</b>
-            <ul class="list-dash">
-              <li>مبدأ أقل صلاحية</li><li>إخفاء الهوية للعرض العام</li><li>تدقيق دخول وتغييرات</li>
+          <div class="card" style="border-style:dashed"><b>سياسات البيانات</b>
+            <ul style="margin:6px 0 0 0;padding-inline-start:18px">
+              <li>أقل صلاحية</li><li>إخفاء الهوية</li><li>تدقيق الدخول والتغييرات</li>
             </ul>
           </div>
-        </div>
-      </div>`;
+        </div></div>`;
     }
-  }
+  };
+})();
 
-  function notFound(){ return '<div class="card"><h2>لم يتم العثور على الصفحة</h2><p>تحقق من الرابط أو اختر صفحة من القائمة.</p></div>'; }
-
-  function parseRoute(){
-    const h = location.hash || "";
-    if (h==="" || h==="#" || h==="#/") return {type:"overview"};
-    if (h==="#/overview") return {type:"overview"};
-    if (h==="#/intro") return {type:"intro"};
-    if (h==="#/services") return {type:"services"};
-    const m = h.match(/^#\/acc\/([^?]+)(?:\?tab=([a-z]+))?/);
-    if (m) return {type:"acc", key:m[1], tab:m[2]||"summary"};
-    return {type:"unknown"};
-  }
-
-  function applyTitle(){
-    const h = location.hash;
-    const MAP = {
-      "#/overview":"نظرة عامة – منصة نمو",
-      "#/intro":"من نحن – منصة نمو",
-      "#/services":"الخدمات – منصة نمو",
-      "#/support":"الدعم الفني – منصة نمو",
-      "#/policies":"الأدلة والسياسات – منصة نمو",
-      "#/contact":"اتصل بنا – منصة نمو",
+/* 5) تفعيل صفحات الدعم/السياسات/اتصل بنا (من دون تعديل الراوتر الأصلي) */
+(function(){
+  const view = document.getElementById('view');
+  function renderSupport(){
+    view.innerHTML = `<div class="card"><h2>الدعم الفني</h2>
+      <p style="color:#64748b">للطوارئ التشغيلية أو المشاكل التقنية.</p>
+      <div class="toolbar">
+        <input id="ticketTitle" class="input" placeholder="عنوان الطلب">
+        <button class="btn" id="openTicket">إرسال</button>
+      </div>
+      <div id="tickets" class="card" style="margin-top:10px;border-style:dashed">لا توجد تذاكر بعد.</div>
+    </div>`;
+    const box = document.getElementById('tickets');
+    document.getElementById('openTicket').onclick = ()=>{
+      const t = document.getElementById('ticketTitle').value.trim(); if(!t) return;
+      if (box.textContent.includes('لا توجد')) box.textContent = '';
+      const row = document.createElement('div'); row.className='card'; row.style.marginTop='8px';
+      row.innerHTML = `<div style="display:flex;justify-content:space-between;gap:8px"><span>${t}</span><span class="badge info">جديد</span></div>`;
+      box.appendChild(row); document.getElementById('ticketTitle').value='';
     };
-    if (MAP[h]) document.title = MAP[h];
-    if (/^#\/acc\//.test(h)) document.title = "الحساب – منصة نمو";
   }
-
-  function route(){
-    applyTitle();
-    const r = parseRoute();
-    if (r.type==="overview") return renderOverview();
-    if (r.type==="intro") return renderIntro();
-    if (r.type==="services") return renderServices();
-    if (r.type==="acc") return renderAccount(r.key, r.tab);
-    view.innerHTML = notFound();
+  function renderPolicies(){
+    view.innerHTML = `<div class="card"><h2>الأدلة والسياسات</h2>
+      <ul style="margin:8px 0 0 0;padding-inline-start:18px">
+        <li>سياسة الخصوصية وحماية البيانات</li>
+        <li>سياسة مشاركة البيانات بين الجهات</li>
+        <li>إدارة الهوية والصلاحيات</li>
+        <li>إجراءات الاستجابة للحوادث</li>
+      </ul></div>`;
   }
-
-  window.addEventListener('hashchange', route);
-  window.addEventListener('load', route);
+  function renderContact(){
+    view.innerHTML = `<div class="card"><h2>اتصل بنا</h2>
+      <div class="toolbar">
+        <input class="input" id="ct_name" placeholder="الاسم">
+        <input class="input" id="ct_mail" placeholder="البريد">
+        <input class="input" id="ct_msg" placeholder="رسالتك">
+        <button class="btn" id="ct_send">إرسال</button>
+      </div>
+      <div id="ct_status" style="color:#065f46;display:none">✓ تم الاستلام.</div>
+    </div>`;
+    document.getElementById('ct_send').onclick = ()=>{
+      document.getElementById('ct_status').style.display='block';
+      setTimeout(()=> document.getElementById('ct_status').style.display='none', 1600);
+    };
+  }
+  function auxRouter(){
+    const h = location.hash;
+    if (h==="#/support") return renderSupport();
+    if (h==="#/policies") return renderPolicies();
+    if (h==="#/contact") return renderContact();
+  }
+  window.addEventListener('hashchange', auxRouter);
+  window.addEventListener('load', auxRouter);
 })();
 
-/* تسجيل الدخول: تهيئة + حارس + تحويل HR→MHRSD + زر الهيدر */
-(function(){
-  // تغييرات التسمية في جميع الروابط القديمة
-  document.querySelectorAll('a[href="#/acc/hr"]').forEach(a=>a.setAttribute('href','#/acc/mhrsd'));
-  window.addEventListener('load', ()=>{
-    if (location.hash === '#/acc/hr' || location.hash.startsWith('#/acc/hr?')){
-      location.hash = location.hash.replace('#/acc/hr','#/acc/mhrsd');
-    }
-  });
-
-  const ACCOUNTS = [
-    {key:'health', name:'وزارة الصحة'},
-    {key:'clinic', name:'المراكز الصحية'},
-    {key:'education', name:'وزارة التعليم'},
-    {key:'neighborhood', name:'مراكز الأحياء'},
-    {key:'nonprofit', name:'الجمعيات'},
-    {key:'mhrsd', name:'وزارة الموارد البشرية والتنمية الاجتماعية'},
-    {key:'csr', name:'القطاع الخاص'},
-    {key:'family', name:'الأسرة'},
-    {key:'admin', name:'اللجنة الوطنية'},
-  ];
-
-  // تعبئة قائمة الحسابات في نافذة الدخول
-  const sel = document.getElementById('lg_acc');
-  if (sel && !sel.options.length){
-    ACCOUNTS.forEach(a=>{
-      const opt = document.createElement('option');
-      opt.value = a.key; opt.textContent = a.name;
-      sel.appendChild(opt);
+/* 6) أكورديون: مجموعة واحدة مفتوحة دوماً (تأكيد إضافي) */
+(function ensureAccordionOneOpen(){
+  document.querySelectorAll('.mega-left').forEach(cont=>{
+    const groups = cont.querySelectorAll('details');
+    groups.forEach(d=>{
+      d.addEventListener('toggle', ()=>{ if(d.open){ groups.forEach(x=>{ if(x!==d) x.open=false; }); } });
     });
-  }
-
-  const backdrop = document.getElementById('loginModalBackdrop');
-  const modal = document.getElementById('loginModal');
-  function showLogin(pref){
-    if (pref && sel){ sel.value = pref; }
-    backdrop.style.display = 'block';
-    modal.style.display = 'grid';
-    setTimeout(()=> document.getElementById('lg_user').focus(), 0);
-  }
-  function hideLogin(){
-    backdrop.style.display = 'none';
-    modal.style.display = 'none';
-  }
-
-  // أزرار
-  modal?.addEventListener('click', (e)=>{
-    if (e.target.id === 'lg_cancel'){ hideLogin(); }
-    if (e.target.id === 'lg_ok'){
-      const u = document.getElementById('lg_user').value.trim();
-      const p = document.getElementById('lg_pass').value.trim();
-      const a = sel.value;
-      if (!u || !p || !a){ const m=document.getElementById('lg_msg'); m.style.display='block'; m.textContent='الرجاء تعبئة الحقول.'; return; }
-      localStorage.setItem('nomu_auth', JSON.stringify({user:u, acc:a}));
-      hideLogin();
-      location.hash = `#/acc/${a}?tab=summary`;
-    }
-  });
-
-  document.getElementById('desktopLoginBtn')?.addEventListener('click', (e)=>{ e.preventDefault(); showLogin(); });
-
-  // حارس: منع دخول صفحة حساب بدون تسجيل
-  function ensureAuthGuard(){
-    const h = location.hash || '';
-    const wantsAcc = /^#\/acc\//.test(h);
-    const sess = localStorage.getItem('nomu_auth');
-    if (wantsAcc && !sess){
-      const m = h.match(/^#\/acc\/([^?]+)/);
-      const pref = m ? m[1] : null;
-      showLogin(pref);
-      location.hash = '#/overview';
-    }
-  }
-  window.addEventListener('hashchange', ensureAuthGuard);
-  window.addEventListener('load', ensureAuthGuard);
-})();
-
-/* أكورديون: واحد مفتوح فقط (كمبيوتر) */
-(function(){
-  function makeDetailsAccordion(scope){
-    const containers = scope ? [scope] : Array.from(document.querySelectorAll('.mega-left'));
-    containers.forEach(cont=>{
-      const groups = Array.from(cont.querySelectorAll('details'));
-      groups.forEach(d=>{
-        d.addEventListener('toggle', ()=>{ if(d.open){ groups.forEach(x=>{ if(x!==d) x.open=false; }); } });
-      });
-    });
-  }
-  makeDetailsAccordion();
-})();
-
-/* العودة للرئيسية دائمًا + FAB + اختصار مفاتيح */
-(function(){
-  // FAB للجوال
-  function ensureFab(){
-    const fab=document.querySelector('.fab-home');
-    if (window.matchMedia('(max-width:979px)').matches){ if(fab) fab.style.display='flex'; } else { if(fab) fab.style.display='none'; }
-  }
-  window.addEventListener('load', ensureFab);
-  window.addEventListener('resize', ensureFab);
-
-  // اختصار Alt+H/H
-  document.addEventListener('keydown', (e)=>{
-    const inInput = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName||'');
-    if (inInput) return;
-    if ((e.altKey && (e.key==='h' || e.key==='H')) || (e.key==='h' || e.key==='H')){
-      e.preventDefault(); location.hash = '#/overview';
-    }
-  });
-
-  // توجيه افتراضي للرئيسية عند الفراغ
-  window.addEventListener('load', ()=>{
-    if (!location.hash || location.hash === '#/' || location.hash === '#'){ location.hash = '#/overview'; }
   });
 })();
 </script>
-
-</body>
-</html>
