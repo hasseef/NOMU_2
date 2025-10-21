@@ -28,7 +28,7 @@ header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-he
   .mega-left .group-body{ padding:8px 10px; display:grid; gap:6px }
   .mega-left a{ display:block; padding:8px 10px; border-radius:10px; color:#334155; text-decoration:none }
   .mega-left a:hover{ background:#f1f5f9 }
-  nav.side{ display:none !important }
+  nav.side{ display:none !important } /* تأكيد إزالة القائمة القديمة */
 }
 /* Content */
 #view{ padding:16px }
@@ -44,7 +44,7 @@ header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-he
 .kpi-card{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:12px; display:flex; gap:10px; align-items:flex-start }
 .kpi-icon{ font-size:22px; line-height:1; padding:8px; border-radius:10px; background:#f1f5f9 }
 .kpi-title{ font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-.kpi-meta{ display:flex; gap:10px; align-items:center; margin-top:4px; color:#var(--muted); font-size:12px }
+.kpi-meta{ display:flex; gap:10px; align-items:center; margin-top:4px; color:var(--muted); font-size:12px }
 .kpi-value{ font-weight:800; font-size:18px; color:var(--ink) }
 .badge-chip{ padding:3px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:#fff }
 .badge-chip.ok{ color:#065f46; border-color:#bbf7d0; background:#ecfdf5 }
@@ -53,7 +53,7 @@ header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-he
 .badge-chip.info{ color:#075985; border-color:#bae6fd; background:#eff6ff }
 /* Data table */
 .table{ width:100%; border-collapse:separate; border-spacing:0 8px }
-.table th{ text-align:start; font-size:13px; color:#64748b; padding:0 10px }
+.table th{ text-align:start; font-size:13px; color:var(--muted); padding:0 10px }
 .table td{ background:#fff; border:1px solid var(--border); padding:10px; }
 .table tr td:first-child{ border-radius:12px 0 0 12px }
 .table tr td:last-child{ border-radius:0 12px 12px 0 }
@@ -61,8 +61,8 @@ header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-he
 .services-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px }
 .service{ border:1px solid var(--border); border-radius:12px; padding:12px; background:#fff }
 .service h4{ margin:0 0 6px 0; font-size:15px }
-.service p{ margin:0; color:#64748b; font-size:13px }
-/* About */
+.service p{ margin:0; color:var(--muted); font-size:13px }
+/* About page blocks */
 .grid-2{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
 .list-dash{ margin:0; padding-inline-start:18px }
 .list-dash li{ margin:6px 0 }
@@ -78,11 +78,12 @@ header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-he
   }
   .npanel{inset:auto 0 0 0;top:auto;width:100%;max-height:55vh;border-radius:16px 16px 0 0}
   .layout{ display:block; padding:12px }
-  .mega-left{ display:none }
+  .mega-left{ display:none } /* لا نعرض القائمة اليسرى في الجوال */
   .tabs,.kpi-row{display:block !important}
   .tabs > *, .kpi-row > *{display:block;margin:6px 0 !important}
   .kpi-grid{ grid-template-columns:1fr 1fr }
   .services-grid{ grid-template-columns:1fr }
+  /* زر عائم للرئيسية */
   .fab-home{
     position:fixed; right:14px; bottom:14px; z-index:9998; width:52px; height:52px; border-radius:999px; border:1px solid var(--border);
     display:flex; align-items:center; justify-content:center; background:#0ea5e9; color:#fff; font-size:22px; text-decoration:none;
@@ -90,6 +91,22 @@ header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-he
   }
 }
 button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
+
+/* ===== Login modal ===== */
+#loginModalBackdrop{ position:fixed; inset:0; background:rgba(2,12,27,.45); display:none; z-index:10000; }
+#loginModal{ position:fixed; inset:0; display:none; z-index:10001; place-items:center; }
+#loginCard{ width:min(92vw,520px); background:#fff; border:1px solid #e6e9ef; border-radius:16px; padding:16px; box-shadow:0 20px 60px rgba(2,12,27,.25) }
+#loginCard h3{ margin:0 0 8px 0 }
+.login-grid{ display:grid; gap:10px }
+.login-row{ display:grid; grid-template-columns:1fr 1fr; gap:10px }
+.login-input, .login-select{ width:100%; border:1px solid #e6e9ef; border-radius:10px; padding:10px; font-size:14px; background:#fff }
+.login-actions{ display:flex; gap:8px; justify-content:flex-end; margin-top:6px }
+.btn{ border:1px solid #e6e9ef; background:#fff; border-radius:10px; padding:10px 14px; cursor:pointer }
+.btn.primary{ background:#0ea5e9; color:#fff; border:none }
+@media (max-width:979px){ .login-row{ grid-template-columns:1fr } }
+
+/* One-open accordion highlight */
+details.group[open] > summary, .mega-left details[open] > summary{ background:#f8fafc }
 </style>
 </head>
 <body>
@@ -103,8 +120,8 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
     <a class="home-btn" href="#/overview" aria-label="العودة للرئيسية">الرئيسية</a>
     <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة (جوال)">القائمة ☰</button>
     <div class="left-logos">
-      <img class="plain-logo" src="vision2030.png" alt="شعار رؤية 2030" width="88" height="28" loading="lazy" decoding="async">
-      <img class="plain-logo" src="talbiya.png" alt="شعار تلبية" width="88" height="28" loading="lazy" decoding="async">
+      <img class="plain-logo" src="vision2030.png" alt="شعار رؤية 2030" width="88" height="28" loading="lazy" decoding="async" onerror="this.style.display='none'">
+      <img class="plain-logo" src="talbiya.png" alt="شعار تلبية" width="88" height="28" loading="lazy" decoding="async" onerror="this.style.display='none'">
       <button class="desktop-login-btn" id="desktopLoginBtn" aria-label="تسجيل الدخول (كمبيوتر)">تسجيل الدخول</button>
       <button id="bell" class="bell" aria-label="الإشعارات">🔔<span id="bellBadge" class="badge" style="display:none">0</span></button>
       <div id="npanel" class="npanel" style="display:none;border:1px solid var(--border);background:#fff;padding:12px;border-radius:12px;position:absolute;right:0;top:48px;width:min(92vw,420px);max-height:60vh;overflow:auto"></div>
@@ -130,7 +147,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
         <a href="#/acc/education">وزارة التعليم</a>
         <a href="#/acc/neighborhood">مراكز الأحياء</a>
         <a href="#/acc/nonprofit">الجمعيات</a>
-        <a href="#/acc/hr">الموارد البشرية</a>
+        <a href="#/acc/mhrsd">وزارة الموارد البشرية والتنمية الاجتماعية</a>
         <a href="#/acc/csr">القطاع الخاص</a>
         <a href="#/acc/family">الأسرة</a>
         <a href="#/acc/admin">اللجنة الوطنية</a>
@@ -167,7 +184,31 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
   </section>
 </div>
 
+<!-- زر رئيسية عائم للجوال -->
 <a class="fab-home" href="#/overview" aria-label="الرئيسية" style="display:none">⌂</a>
+
+<!-- Login Modal -->
+<div id="loginModalBackdrop"></div>
+<div id="loginModal">
+  <div id="loginCard" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+    <h3 id="loginTitle">تسجيل الدخول</h3>
+    <div class="login-grid">
+      <div class="login-row">
+        <div><label>اسم المستخدم</label><input id="lg_user" class="login-input" value="NOMU" autocomplete="username"></div>
+        <div><label>كلمة المرور</label><input id="lg_pass" class="login-input" type="password" value="1234" autocomplete="current-password"></div>
+      </div>
+      <div>
+        <label>نوع الحساب</label>
+        <select id="lg_acc" class="login-select"></select>
+      </div>
+      <div class="login-actions">
+        <button id="lg_cancel" class="btn">إلغاء</button>
+        <button id="lg_ok" class="btn primary">دخول</button>
+      </div>
+      <div id="lg_msg" style="display:none;color:#991b1b">الرجاء تعبئة الحقول.</div>
+    </div>
+  </div>
+</div>
 
 <script>
 /* إشعارات */
@@ -192,7 +233,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
   };
 })();
 
-/* قائمة الجوال */
+/* قائمة الجوال (ورقة سفلية بمجموعات منسدلة + واحد مفتوح فقط) */
 (function(){
   const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
   function lockScroll(lock){ document.documentElement.style.overflow = lock ? 'hidden' : ''; }
@@ -213,7 +254,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
     ]},
     { title:'الحسابات', items:[
       {t:'وزارة الصحة', k:'#/acc/health'},{t:'المراكز الصحية', k:'#/acc/clinic'},{t:'وزارة التعليم', k:'#/acc/education'},
-      {t:'مراكز الأحياء', k:'#/acc/neighborhood'},{t:'الجمعيات', k:'#/acc/nonprofit'},{t:'الموارد البشرية', k:'#/acc/hr'},
+      {t:'مراكز الأحياء', k:'#/acc/neighborhood'},{t:'الجمعيات', k:'#/acc/nonprofit'},{t:'وزارة الموارد البشرية والتنمية الاجتماعية', k:'#/acc/mhrsd'},
       {t:'القطاع الخاص', k:'#/acc/csr'},{t:'الأسرة', k:'#/acc/family'},{t:'اللجنة الوطنية', k:'#/acc/admin'}
     ]},
     { title:'التشغيل والتقارير', items:[
@@ -246,6 +287,13 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
     document.body.appendChild(sheet);
     requestAnimationFrame(()=> sheet.style.cssText += ';transform:translateY(0);opacity:1;');
     lockScroll(true); focusTrap(sheet, true);
+
+    // اجعل المفتوح واحدًا فقط
+    const groups = Array.from(sheet.querySelectorAll('details.group'));
+    groups.forEach(d=>{
+      d.addEventListener('toggle', ()=>{ if(d.open){ groups.forEach(x=>{ if(x!==d) x.open=false; }); } });
+    });
+
     sheet.addEventListener('click', (e)=>{
       const a = e.target.closest('a[data-go]'); if(!a) return;
       e.preventDefault(); location.hash = a.getAttribute('data-go'); close();
@@ -272,7 +320,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
     "education": { name:"وزارة التعليم", icon:"🎓" },
     "neighborhood": { name:"مراكز الأحياء", icon:"🏘️" },
     "nonprofit": { name:"الجمعيات", icon:"🤝" },
-    "hr":        { name:"الموارد البشرية", icon:"👤" },
+    "mhrsd":     { name:"وزارة الموارد البشرية والتنمية الاجتماعية", icon:"👥" },
     "csr":       { name:"القطاع الخاص", icon:"🏢" },
     "family":    { name:"الأسرة", icon:"👨‍👩‍👧" },
     "admin":     { name:"اللجنة الوطنية", icon:"🛡️" },
@@ -280,7 +328,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
 
   const TABS = [
     {key:"summary",   label:"الملخص"},
-    {key:"services",  label:"الخدمات"},
+    {key:"services",  label:"الخدمات والتقنيات"},
     {key:"operations",label:"العمليات"},
     {key:"indicators",label:"المؤشرات"},
     {key:"reports",   label:"التقارير"},
@@ -376,7 +424,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
     view.innerHTML = `
       <div class="card">
         <h2>كتالوج الخدمات</h2>
-        <p style="color:#64748b">مجموعة خدمات تشغيلية وتحليلية تدعم رحلة الطفل والأسرة عبر القطاعات.</p>
+        <p style="color:var(--muted)">مجموعة خدمات تشغيلية وتحليلية تدعم رحلة الطفل والأسرة عبر القطاعات.</p>
         ${servicesGrid(GLOBAL_SERVICES)}
       </div>`;
   }
@@ -386,7 +434,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
     view.innerHTML = `
       <div class="card">
         <h2>نظرة عامة</h2>
-        <p style="color:#64748b">ملخص سريع لأبرز المؤشرات عبر المنظومة.</p>
+        <p style="color:var(--muted)">ملخص سريع لأبرز المؤشرات عبر المنظومة.</p>
       </div>
       <div class="kpi-grid" style="margin-top:12px">
         ${kpis.map(k=>`
@@ -414,7 +462,7 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
           <div class="kpi-icon" aria-hidden="true" style="font-size:24px">${acc.icon}</div>
           <div>
             <div style="font-weight:800">${acc.name}</div>
-            <div style="color:#64748b;font-size:13px">لوحة تحكم الحساب · تبويب: <b>${TABS.find(t=>t.key===currentTab).label}</b></div>
+            <div style="color:var(--muted);font-size:13px">لوحة تحكم الحساب · تبويب: <b>${TABS.find(t=>t.key===currentTab).label}</b></div>
           </div>
         </div>
         <a class="btn" style="text-decoration:none" href="#/services">كتالوج الخدمات</a>
@@ -443,12 +491,11 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
         </div>`).join("")}</div>`;
     }
     else if (currentTab==="services"){
-      const spec = [
-        {t:"مواءمة الجداول الزمنية للتطعيم", d:"تنسيق الحملات والمواعيد مع السجلات الوطنية."},
-        {t:"لوحة حالات عالية الخطورة", d:"تركيز على حالات تحتاج تدخل متعدد الجهات."},
-        {t:"تكامل فوري مع العيادات", d:"تبادل حالات وإحالات فوري عبر API."},
+      const common = GLOBAL_SERVICES;
+      const extra = [
+        {t:`لوحة خاصة بـ ${acc.name}`, d:"مؤشرات وتدفقات عمل موجهة لهذا الحساب."}
       ];
-      mount.innerHTML = `<div class="card"><b>خدمات ${acc.name}</b>${servicesGrid(spec)}</div>`;
+      mount.innerHTML = `<div class="card"><b>الخدمات والتقنيات – ${acc.name}</b>${servicesGrid(common.concat(extra))}</div>`;
     }
     else if (currentTab==="operations"){
       mount.innerHTML = `<div class="card"><b>العمليات الجارية</b>
@@ -474,10 +521,10 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
       </table>`;
     }
     else if (currentTab==="reports"){
-      mount.innerHTML = `<div class="card"><b>تقارير ${acc.name}</b>
+      mount.innerHTML = `<div class="card"><b>التقارير</b>
         <div class="services-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
           ${["الأداء الشهري","الجودة والامتثال","الإحالات والانتظار","التغطية الجغرافية","الأثر المجتمعي","كفاءة الإنفاق"].map(t=>`
-            <a class="service" href="#" onclick="return false" style="text-decoration:none;color:#0f172a">
+            <a class="service" href="#" onclick="return false" style="text-decoration:none;color:var(--ink)">
               <h4>تقرير ${t}</h4><p>PDF · آخر إصدار</p>
             </a>`).join("")}
         </div>
@@ -553,14 +600,119 @@ button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
   window.addEventListener('load', route);
 })();
 
-/* اختصار Alt+H/H للرئيسية + FAB ظهور */
+/* تسجيل الدخول: تهيئة + حارس + تحويل HR→MHRSD + زر الهيدر */
 (function(){
+  // تغييرات التسمية في جميع الروابط القديمة
+  document.querySelectorAll('a[href="#/acc/hr"]').forEach(a=>a.setAttribute('href','#/acc/mhrsd'));
+  window.addEventListener('load', ()=>{
+    if (location.hash === '#/acc/hr' || location.hash.startsWith('#/acc/hr?')){
+      location.hash = location.hash.replace('#/acc/hr','#/acc/mhrsd');
+    }
+  });
+
+  const ACCOUNTS = [
+    {key:'health', name:'وزارة الصحة'},
+    {key:'clinic', name:'المراكز الصحية'},
+    {key:'education', name:'وزارة التعليم'},
+    {key:'neighborhood', name:'مراكز الأحياء'},
+    {key:'nonprofit', name:'الجمعيات'},
+    {key:'mhrsd', name:'وزارة الموارد البشرية والتنمية الاجتماعية'},
+    {key:'csr', name:'القطاع الخاص'},
+    {key:'family', name:'الأسرة'},
+    {key:'admin', name:'اللجنة الوطنية'},
+  ];
+
+  // تعبئة قائمة الحسابات في نافذة الدخول
+  const sel = document.getElementById('lg_acc');
+  if (sel && !sel.options.length){
+    ACCOUNTS.forEach(a=>{
+      const opt = document.createElement('option');
+      opt.value = a.key; opt.textContent = a.name;
+      sel.appendChild(opt);
+    });
+  }
+
+  const backdrop = document.getElementById('loginModalBackdrop');
+  const modal = document.getElementById('loginModal');
+  function showLogin(pref){
+    if (pref && sel){ sel.value = pref; }
+    backdrop.style.display = 'block';
+    modal.style.display = 'grid';
+    setTimeout(()=> document.getElementById('lg_user').focus(), 0);
+  }
+  function hideLogin(){
+    backdrop.style.display = 'none';
+    modal.style.display = 'none';
+  }
+
+  // أزرار
+  modal?.addEventListener('click', (e)=>{
+    if (e.target.id === 'lg_cancel'){ hideLogin(); }
+    if (e.target.id === 'lg_ok'){
+      const u = document.getElementById('lg_user').value.trim();
+      const p = document.getElementById('lg_pass').value.trim();
+      const a = sel.value;
+      if (!u || !p || !a){ const m=document.getElementById('lg_msg'); m.style.display='block'; m.textContent='الرجاء تعبئة الحقول.'; return; }
+      localStorage.setItem('nomu_auth', JSON.stringify({user:u, acc:a}));
+      hideLogin();
+      location.hash = `#/acc/${a}?tab=summary`;
+    }
+  });
+
+  document.getElementById('desktopLoginBtn')?.addEventListener('click', (e)=>{ e.preventDefault(); showLogin(); });
+
+  // حارس: منع دخول صفحة حساب بدون تسجيل
+  function ensureAuthGuard(){
+    const h = location.hash || '';
+    const wantsAcc = /^#\/acc\//.test(h);
+    const sess = localStorage.getItem('nomu_auth');
+    if (wantsAcc && !sess){
+      const m = h.match(/^#\/acc\/([^?]+)/);
+      const pref = m ? m[1] : null;
+      showLogin(pref);
+      location.hash = '#/overview';
+    }
+  }
+  window.addEventListener('hashchange', ensureAuthGuard);
+  window.addEventListener('load', ensureAuthGuard);
+})();
+
+/* أكورديون: واحد مفتوح فقط (كمبيوتر) */
+(function(){
+  function makeDetailsAccordion(scope){
+    const containers = scope ? [scope] : Array.from(document.querySelectorAll('.mega-left'));
+    containers.forEach(cont=>{
+      const groups = Array.from(cont.querySelectorAll('details'));
+      groups.forEach(d=>{
+        d.addEventListener('toggle', ()=>{ if(d.open){ groups.forEach(x=>{ if(x!==d) x.open=false; }); } });
+      });
+    });
+  }
+  makeDetailsAccordion();
+})();
+
+/* العودة للرئيسية دائمًا + FAB + اختصار مفاتيح */
+(function(){
+  // FAB للجوال
+  function ensureFab(){
+    const fab=document.querySelector('.fab-home');
+    if (window.matchMedia('(max-width:979px)').matches){ if(fab) fab.style.display='flex'; } else { if(fab) fab.style.display='none'; }
+  }
+  window.addEventListener('load', ensureFab);
+  window.addEventListener('resize', ensureFab);
+
+  // اختصار Alt+H/H
   document.addEventListener('keydown', (e)=>{
     const inInput = /^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName||'');
     if (inInput) return;
     if ((e.altKey && (e.key==='h' || e.key==='H')) || (e.key==='h' || e.key==='H')){
       e.preventDefault(); location.hash = '#/overview';
     }
+  });
+
+  // توجيه افتراضي للرئيسية عند الفراغ
+  window.addEventListener('load', ()=>{
+    if (!location.hash || location.hash === '#/' || location.hash === '#'){ location.hash = '#/overview'; }
   });
 })();
 </script>
