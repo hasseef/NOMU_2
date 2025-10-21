@@ -1,318 +1,258 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>منصة نمو</title>
 <style>
-:root{ --border:#e6e9ef; --ink:#0f172a; --muted:#64748b; --bg:#f8fafc }
-*{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:#fff;color:var(--ink)}
-/* Topbar */
-header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-height:56px;border-bottom:1px solid var(--border);background:#fff;position:sticky;top:0;z-index:50}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand .logo{width:40px;height:40px;border-radius:12px;object-fit:contain;overflow:hidden;background:#eef2f7;display:inline-block}
-.brand-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw;font-weight:800}
-
-/* Left logos */
-.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
-.left-logos .plain-logo{display:block;height:28px;width:auto}
-.bell{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);background:#fff;border-radius:12px;padding:0}
-.badge{position:absolute;top:-6px;left:-6px;background:#ef4444;color:#fff;border-radius:999px;font-size:11px;line-height:1;padding:3px 6px}
-.desktop-login-btn{margin-inline-start:8px;background:#16a34a;color:#fff;border:none;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer}
-
-/* Layout (desktop) */
-@media (min-width:980px){
-  .layout{ display:grid; grid-template-columns: 280px 1fr; gap:16px; align-items:start; padding:16px }
-  .mega-left{ position:sticky; top:72px; align-self:start }
-  .mega-left details{ border:1px solid var(--border); background:#fff; border-radius:12px; margin:8px 0; overflow:hidden }
-  .mega-left summary{ list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; color:var(--ink) }
-  .mega-left summary::-webkit-details-marker{ display:none }
-  .mega-left .group-body{ padding:8px 10px; display:grid; gap:6px }
-  .mega-left a{ display:block; padding:8px 10px; border-radius:10px; color:#334155; text-decoration:none }
-  .mega-left a:hover{ background:#f1f5f9 }
-  /* اضمن عدم وجود القائمة القديمة حتى لو كانت بقايا */
-  nav.side{ display:none !important }
+/* ======= أكمال الحسابات + التبويبات + مؤشرات KPI (تصميم احترافي خفيف) ======= */
+:root{
+  --ink:#0f172a; --muted:#64748b; --border:#e6e9ef;
+  --ok:#16a34a; --warn:#f59e0b; --bad:#ef4444; --info:#0ea5e9;
 }
+/* تبويبات الحساب */
+.acc-tabs{ display:flex; gap:8px; flex-wrap:wrap; margin:12px 0 8px }
+.acc-tab{
+  padding:10px 12px; border:1px solid var(--border); border-radius:10px;
+  background:#fff; cursor:pointer; font-weight:600; color:var(--ink); text-decoration:none;
+}
+.acc-tab[aria-selected="true"]{ border-color:var(--info); outline:2px solid rgba(14,165,233,.15) }
 
-/* Content */
-#view{ padding:16px }
-.card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px}
-.kpi-row{display:flex;gap:10px}
-.kpi{flex:1;border:1px solid var(--border);border-radius:12px;padding:12px;background:#fff}
+/* شبكة KPI */
+.kpi-grid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px }
+.kpi-card{
+  border:1px solid var(--border); border-radius:12px; background:#fff; padding:12px; display:flex; gap:10px; align-items:flex-start
+}
+.kpi-icon{ font-size:22px; line-height:1; padding:8px; border-radius:10px; background:#f1f5f9 }
+.kpi-body{ flex:1; min-width:0 }
+.kpi-title{ font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+.kpi-meta{ display:flex; gap:10px; align-items:center; margin-top:4px; color:var(--muted); font-size:12px }
+.kpi-value{ font-weight:800; font-size:18px; color:var(--ink) }
+.badge{ padding:3px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); background:#fff }
+.badge.ok{ color:#065f46; border-color:#bbf7d0; background:#ecfdf5 }
+.badge.warn{ color:#92400e; border-color:#fde68a; background:#fffbeb }
+.badge.bad{ color:#991b1b; border-color:#fecaca; background:#fef2f2 }
+.badge.info{ color:#075985; border-color:#bae6fd; background:#eff6ff }
 
-/* Mobile */
-.mobile-menu-btn{display:none}
+/* جداول المؤشرات/التقارير */
+.table{ width:100%; border-collapse:separate; border-spacing:0 8px }
+.table th{ text-align:start; font-size:13px; color:var(--muted); padding:0 10px }
+.table td{ background:#fff; border:1px solid var(--border); padding:10px; }
+.table tr td:first-child{ border-radius:12px 0 0 12px }
+.table tr td:last-child{ border-radius:0 12px 12px 0 }
+
+/* بطاقات عامة */
+.card{ border:1px solid var(--border); border-radius:12px; background:#fff; padding:12px }
+
+/* ترتيب الجوال */
 @media (max-width:979px){
-  .brand-title{max-width:52vw}
-  .left-logos .plain-logo{height:22px}
-  .mobile-menu-btn{
-    display:inline-flex;align-items:center;gap:6px;margin-inline-start:8px;
-    background:#0ea5e9;color:#fff;border:none;border-radius:10px;padding:6px 10px;font-size:13px
-  }
-  .npanel{inset:auto 0 0 0;top:auto;width:100%;max-height:55vh;border-radius:16px 16px 0 0}
-  .layout{ display:block; padding:12px }
-  .mega-left{ display:none } /* لا نعرض القائمة اليسرى في الجوال */
-  .tabs,.tabbar,.kpi-row,.toolbar{display:block !important}
-  .tabs > *, .tabbar > *, .kpi-row > *, .toolbar > *{display:block;margin:6px 0 !important}
+  .kpi-grid{ grid-template-columns:1fr 1fr }
+  .acc-tabs{ position:sticky; top:60px; background:#fff; padding:8px 0; z-index:20 }
 }
-
-/* Mobile sheet menu */
-#mobileMenuSheet{position:fixed;inset:auto 0 0 0;background:#fff;border-top:1px solid var(--border);
-  border-radius:16px 16px 0 0;box-shadow:0 -12px 30px rgba(2,12,27,.15);z-index:9999;
-  max-height:65vh;overflow:auto;padding:12px;transform:translateY(16px);opacity:0;transition:.2s}
-#mobileMenuSheet.open{transform:translateY(0);opacity:1}
-#mobileMenuSheet .group{border:1px solid var(--border);border-radius:12px;margin:8px 0;background:#fff}
-#mobileMenuSheet summary{list-style:none;cursor:pointer;padding:12px;font-weight:700;color:var(--ink);outline:none}
-#mobileMenuSheet summary::-webkit-details-marker{display:none}
-#mobileMenuSheet .submenu{display:grid;gap:8px;padding:8px 10px;border-top:1px solid var(--border)}
-#mobileMenuSheet .submenu a{display:block;text-align:center;border:1px solid var(--border);background:#f8fafc;padding:10px;border-radius:10px;color:var(--ink);text-decoration:none}
-
-/* Forms for support/contact/policies */
-.page{ background:#fff; border:1px solid var(--border); border-radius:12px; padding:16px; margin:8px 0 }
-.form-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px }
-.form-grid .full{ grid-column:1 / -1 }
-.input, .textarea, .select{ width:100%; border:1px solid #e6e9ef; border-radius:10px; padding:10px; font-size:14px; background:#fff }
-.textarea{ min-height:120px; resize:vertical }
-.btn{border:1px solid var(--border);background:#fff;border-radius:10px;padding:10px 14px;cursor:pointer}
-.btn.primary{ background:#0ea5e9; color:#fff; border:none }
-.btn.ghost{ background:#fff; border:1px solid #e6e9ef }
-.faq details{ border:1px solid var(--border); background:#fff; border-radius:10px; margin:8px 0; padding:8px 10px }
-.faq summary{ cursor:pointer; font-weight:600 }
-.docs-list{ display:grid; gap:8px }
-.docs-list a{ display:flex; align-items:center; justify-content:space-between; padding:10px; border:1px solid var(--border); border-radius:10px; text-decoration:none; color:var(--ink); background:#fff }
-
-/* Focus */
-button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
 </style>
-</head>
-<body>
-
-<header>
-  <div class="topbar">
-    <div class="brand">
-      <div class="logo"></div>
-      <div><b class="brand-title">منصة نمو</b></div>
-    </div>
-
-    <!-- زر القائمة للجوال -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="فتح القائمة (جوال)">القائمة ☰</button>
-
-    <!-- شعارات يسار + دخول + جرس -->
-    <div class="left-logos">
-      <img class="plain-logo" src="vision2030.png" alt="شعار رؤية 2030" width="88" height="28" loading="lazy" decoding="async">
-      <img class="plain-logo" src="talbiya.png" alt="شعار تلبية" width="88" height="28" loading="lazy" decoding="async">
-      <button class="desktop-login-btn" id="desktopLoginBtn" aria-label="تسجيل الدخول (كمبيوتر)">تسجيل الدخول</button>
-      <button id="bell" class="bell" aria-label="الإشعارات">🔔<span id="bellBadge" class="badge" style="display:none">0</span></button>
-      <div id="npanel" class="npanel" style="display:none;border:1px solid var(--border);background:#fff;padding:12px;border-radius:12px;position:absolute;right:0;top:48px;width:min(92vw,420px);max-height:60vh;overflow:auto"></div>
-    </div>
-  </div>
-</header>
-
-<!-- Layout (desktop) -->
-<div class="layout">
-  <aside class="mega-left" aria-label="القائمة الرئيسية">
-    <details open>
-      <summary>البدء السريع</summary>
-      <div class="group-body">
-        <a href="#/overview">نظرة عامة</a>
-        <a href="#/intro">التعريف بالمنصة</a>
-      </div>
-    </details>
-
-    <details>
-      <summary>الحسابات</summary>
-      <div class="group-body">
-        <a href="#/acc/health">وزارة الصحة</a>
-        <a href="#/acc/clinic">المراكز الصحية</a>
-        <a href="#/acc/education">وزارة التعليم</a>
-        <a href="#/acc/neighborhood">مراكز الأحياء</a>
-        <a href="#/acc/nonprofit">الجمعيات</a>
-        <a href="#/acc/hr">الموارد البشرية</a>
-        <a href="#/acc/csr">القطاع الخاص</a>
-        <a href="#/acc/family">الأسرة</a>
-        <a href="#/acc/admin">اللجنة الوطنية</a>
-      </div>
-    </details>
-
-    <details>
-      <summary>التشغيل والتقارير</summary>
-      <div class="group-body">
-        <a href="#/operations">التشغيل</a>
-        <a href="#/reports">التقارير</a>
-        <a href="#/kpi">مؤشرات KPI</a>
-      </div>
-    </details>
-
-    <details>
-      <summary>الدعم والجودة</summary>
-      <div class="group-body">
-        <a href="#/support">الدعم الفني</a>
-        <a href="#/policies">الأدلة والسياسات</a>
-        <a href="#/contact">اتصل بنا</a>
-        <a href="#/about">من نحن</a>
-      </div>
-    </details>
-  </aside>
-
-  <section id="view" class="content">
-    <div class="card">
-      <h2>أهلًا بك في منصة نمو</h2>
-      <p>اختر من القائمة اليسرى (كمبيوتر) أو اضغط زر <b>القائمة ☰</b> (جوال) للتنقل بين الأقسام.</p>
-    </div>
-    <div class="kpi-row">
-      <div class="kpi">KPI 1</div>
-      <div class="kpi">KPI 2</div>
-      <div class="kpi">KPI 3</div>
-    </div>
-  </section>
-</div>
 
 <script>
-/* إشعارات كبوتوم-شيت على الجوال / كلوحة منسدلة على الكمبيوتر */
+/* ======= أكمال الحسابات + تبويبات + KPI جاهزة ======= */
 (function(){
-  const bell=document.getElementById('bell'), panel=document.getElementById('npanel');
-  const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
-  if(!bell||!panel) return;
-  bell.onclick=(e)=>{
-    e.preventDefault();
-    if(isMobile()){
-      panel.style.position='fixed';
-      panel.style.right='0'; panel.style.left='0'; panel.style.top='auto'; panel.style.bottom='0';
-      panel.style.borderRadius='16px 16px 0 0';
-    }else{
-      panel.style.position='absolute';
-      panel.style.right='0'; panel.style.left='auto'; panel.style.top='48px'; panel.style.bottom='auto';
-      panel.style.borderRadius='12px';
-    }
-    panel.style.display = panel.style.display==='block' ? 'none' : 'block';
-  };
-})();
+  const view = document.getElementById('view') || document.body;
 
-/* قائمة الجوال (ورقة سفلية بمجموعات منسدلة) */
-(function(){
-  const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
-  function lockScroll(lock){ document.documentElement.style.overflow = lock ? 'hidden' : ''; }
-  function focusTrap(container, enable){
-    if(!container) return;
-    function onKey(e){
-      if(e.key!=='Tab') return;
-      const f = container.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])');
-      if(!f.length) return; const first=f[0], last=f[f.length-1];
-      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
-      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
-    }
-    if(enable) container.addEventListener('keydown', onKey);
-    else container.removeEventListener('keydown', onKey);
-  }
-  const GROUPS = [
-    { title:'البدء السريع', items:[
-      {t:'نظرة عامة', k:'#/overview'},
-      {t:'التعريف بالمنصة', k:'#/intro'}
-    ]},
-    { title:'الحسابات', items:[
-      {t:'وزارة الصحة', k:'#/acc/health'},
-      {t:'المراكز الصحية', k:'#/acc/clinic'},
-      {t:'وزارة التعليم', k:'#/acc/education'},
-      {t:'مراكز الأحياء', k:'#/acc/neighborhood'},
-      {t:'الجمعيات', k:'#/acc/nonprofit'},
-      {t:'الموارد البشرية', k:'#/acc/hr'},
-      {t:'القطاع الخاص', k:'#/acc/csr'},
-      {t:'الأسرة', k:'#/acc/family'},
-      {t:'اللجنة الوطنية', k:'#/acc/admin'}
-    ]},
-    { title:'التشغيل والتقارير', items:[
-      {t:'التشغيل', k:'#/operations'},
-      {t:'التقارير', k:'#/reports'},
-      {t:'مؤشرات KPI', k:'#/kpi'}
-    ]},
-    { title:'الدعم والجودة', items:[
-      {t:'الدعم الفني', k:'#/support'},
-      {t:'الأدلة والسياسات', k:'#/policies'},
-      {t:'اتصل بنا', k:'#/contact'},
-      {t:'من نحن', k:'#/about'}
-    ]}
+  // تعريف الحسابات والتبويبات
+  const ACCOUNTS = {
+    "health":    { name:"وزارة الصحة", icon:"🏥" },
+    "clinic":    { name:"المراكز الصحية", icon:"🩺" },
+    "education": { name:"وزارة التعليم", icon:"🎓" },
+    "neighborhood": { name:"مراكز الأحياء", icon:"🏘️" },
+    "nonprofit": { name:"الجمعيات", icon:"🤝" },
+    "hr":        { name:"الموارد البشرية", icon:"👤" },
+    "csr":       { name:"القطاع الخاص", icon:"🏢" },
+    "family":    { name:"الأسرة", icon:"👨‍👩‍👧" },
+    "admin":     { name:"اللجنة الوطنية", icon:"🛡️" },
+  };
+  const TABS = [
+    {key:"summary",   label:"ملخص"},
+    {key:"operations",label:"العمليات"},
+    {key:"indicators",label:"المؤشرات"},
+    {key:"reports",   label:"التقارير"},
+    {key:"resources", label:"الموارد"},
+    {key:"governance",label:"الحوكمة"},
   ];
-  function openMobileMenu(){
-    if (!isMobile()) return;
-    if (document.getElementById('mobileMenuSheet')) return;
-    const sheet = document.createElement('div'); sheet.id='mobileMenuSheet';
-    let html='';
-    GROUPS.forEach(g=>{
-      html += `<details class="group">
-        <summary>${g.title}</summary>
-        <div class="submenu">
-          ${g.items.map(i=>`<a href="${i.k}" data-go="${i.k}">${i.t}</a>`).join('')}
+
+  // عناوين مؤشرات احترافية افتراضية (تُستخدم إن لم توجد بيانات حقيقية)
+  const KPI_TITLES = [
+    {t:"نسبة تغطية الفحص المبكر",        icon:"🧪"},
+    {t:"إتمام التطعيمات الأساسية",       icon:"💉"},
+    {t:"زمن الانتظار المتوسط (دقيقة)",    icon:"⏱️"},
+    {t:"التزام البروتوكولات السريرية",   icon:"📋"},
+    {t:"جودة البيانات واكتمالها",        icon:"📊"},
+    {t:"التغطية الجغرافية للخدمات",      icon:"🗺️"},
+    {t:"معدل الإحالات المغلقة",          icon:"🔁"},
+    {t:"رضا المستفيدين",                 icon:"⭐"},
+    {t:"نسبة الحالات عالية الخطورة",     icon:"⚠️"},
+    {t:"كفاءة الإنفاق",                  icon:"💰"},
+    {t:"التكامل بين الجهات",             icon:"🧩"},
+    {t:"الأثر المجتمعي",                 icon:"🌱"},
+  ];
+
+  // توليد بيانات عرضية محسّنة (يمكنك ربطها لاحقًا ببياناتك الفعلية)
+  function makeDemoKPIs(){
+    return KPI_TITLES.map((k, i)=>{
+      // قيم تجريبية منطقية
+      let v, unit = "";
+      if (k.t.includes("زمن الانتظار")) { v = 5 + Math.floor(Math.random()*20); unit="د"; }
+      else if (k.t.includes("حالات عالية")) { v = (3 + Math.random()*7).toFixed(1); unit="%"; }
+      else if (k.t.includes("كفاءة الإنفاق")) { v = (80 + Math.random()*15).toFixed(0); unit="%"; }
+      else if (k.t.includes("رضا") || k.t.includes("التزام") || k.t.includes("جودة") || k.t.includes("التكامل") || k.t.includes("الفحص") || k.t.includes("التطعيمات") || k.t.includes("التغطية") || k.t.includes("الإحالات") || k.t.includes("الأثر")) {
+        v = (70 + Math.random()*25).toFixed(0); unit="%";
+      } else { v = (50 + Math.random()*40).toFixed(0); unit="%"; }
+      const num = typeof v === "number" ? v : parseFloat(v);
+      let grade = "info";
+      if (unit==="%"){
+        if (num >= 85) grade="ok";
+        else if (num >= 70) grade="warn";
+        else grade="bad";
+      } else if (k.t.includes("زمن الانتظار")){
+        if (num <= 10) grade="ok";
+        else if (num <= 20) grade="warn";
+        else grade="bad";
+      }
+      return { title:k.t, icon:k.icon, value: v + (unit||""), trend: (Math.random()>.5?"+":"-") + (Math.random()*5|0) + "%", grade };
+    });
+  }
+
+  // قالب صفحة الحساب
+  function renderAccount(accKey, tabKey){
+    const acc = ACCOUNTS[accKey];
+    if (!acc){ view.innerHTML = notFound(); return; }
+    const currentTab = TABS.find(t=>t.key===tabKey) ? tabKey : "summary";
+
+    let html = `
+      <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="kpi-icon" aria-hidden="true" style="font-size:24px">${acc.icon}</div>
+          <div>
+            <div style="font-weight:800">${acc.name}</div>
+            <div style="color:var(--muted);font-size:13px">لوحة تحكم الحساب · تبويب: <b>${TABS.find(t=>t.key===currentTab).label}</b></div>
+          </div>
         </div>
-      </details>`;
-    });
-    sheet.innerHTML = html;
-    document.body.appendChild(sheet);
-    requestAnimationFrame(()=> sheet.classList.add('open'));
-    lockScroll(true); focusTrap(sheet, true);
+        <a class="btn ghost" href="#/reports">اختصار للتقارير</a>
+      </div>
+      <nav class="acc-tabs" role="tablist" aria-label="تبويبات الحساب">`+
+        TABS.map(t=>`<a class="acc-tab" role="tab" aria-selected="${t.key===currentTab}" href="#/acc/${accKey}?tab=${t.key}">${t.label}</a>`).join("")+
+      `</nav>
+      <div id="accContent"></div>
+    `;
+    view.innerHTML = html;
 
-    sheet.addEventListener('click', (e)=>{
-      const a = e.target.closest('a[data-go]');
-      if(!a) return;
-      e.preventDefault();
-      location.hash = a.getAttribute('data-go');
-      close();
-    });
-
-    setTimeout(()=>{ document.addEventListener('click', outside, {once:true}); },0);
-
-    function outside(e){ if(!sheet.contains(e.target)) close(); }
-    function close(){
-      sheet.classList.remove('open');
-      setTimeout(()=>{ sheet.remove(); lockScroll(false); }, 180);
+    // محتوى التبويب
+    const mount = document.getElementById('accContent');
+    if (currentTab==="summary"){
+      const kpis = makeDemoKPIs().slice(0,8); // ٨ بطاقات للملخص
+      mount.innerHTML = `
+        <div class="kpi-grid">
+          ${kpis.map(k=>`
+            <div class="kpi-card">
+              <div class="kpi-icon">${k.icon}</div>
+              <div class="kpi-body">
+                <div class="kpi-title" title="${k.title}">${k.title}</div>
+                <div class="kpi-meta">
+                  <span class="kpi-value">${k.value}</span>
+                  <span class="badge ${k.grade}">${gradeLabel(k.grade)}</span>
+                  <span class="badge info">المدى: 30ي</span>
+                  <span class="badge">${k.trend}</span>
+                </div>
+              </div>
+            </div>`).join("")}
+        </div>
+        <div class="card" style="margin-top:12px">
+          <b>ملاحظات ملخص سريع</b>
+          <ul style="margin:6px 0 0 0;padding-inline-start:18px;color:var(--muted);font-size:14px">
+            <li>الأرقام للعرض فقط — اربطها لاحقًا بمصدر بياناتك.</li>
+            <li>الشارات تعكس التقييم (جيد/تحذير/حرِج) آليًا وفق القيمة.</li>
+          </ul>
+        </div>`;
+    }
+    else if (currentTab==="operations"){
+      mount.innerHTML = `
+        <div class="card"><b>أعمال جارية</b>
+          <ul style="margin:8px 0 0 0;padding-inline-start:18px">
+            <li>تفعيل حملة الفحص المبكر في المناطق ذات التغطية المنخفضة</li>
+            <li>مراجعة مسار الإحالات بين الجهة والعيادات الطرفية</li>
+            <li>إطلاق لوحة متابعة زمن الانتظار الأسبوعية</li>
+          </ul>
+        </div>`;
+    }
+    else if (currentTab==="indicators"){
+      const kpis = makeDemoKPIs(); // ١٢ مؤشر
+      mount.innerHTML = `
+        <table class="table">
+          <thead><tr>
+            <th>المؤشر</th><th>القيمة</th><th>التقييم</th><th>الاتجاه</th><th>آخر تحديث</th>
+          </tr></thead>
+          <tbody>
+            ${kpis.map(k=>`
+              <tr>
+                <td>${k.title}</td>
+                <td><b>${k.value}</b></td>
+                <td><span class="badge ${k.grade}">${gradeLabel(k.grade)}</span></td>
+                <td><span class="badge">${k.trend}</span></td>
+                <td><span class="badge info">اليوم</span></td>
+              </tr>`).join("")}
+          </tbody>
+        </table>`;
+    }
+    else if (currentTab==="reports"){
+      mount.innerHTML = `
+        <div class="card"><b>تقارير متاحة</b>
+          <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+            ${["تقرير الأداء الشهري","تقرير الجودة والامتثال","تقرير الإحالات والانتظار"].map(t=>`
+              <a class="card" href="#" onclick="return false" style="text-decoration:none;color:var(--ink)">${t}<br><span style="color:var(--muted);font-size:12px">PDF · آخر إصدار</span></a>
+            `).join("")}
+          </div>
+        </div>`;
+    }
+    else if (currentTab==="resources"){
+      mount.innerHTML = `
+        <div class="card"><b>الموارد</b>
+          <ul style="margin:8px 0 0 0;padding-inline-start:18px">
+            <li><a href="#/policies">الأدلة والسياسات</a></li>
+            <li><a href="#/support">الدعم الفني</a></li>
+            <li><a href="#/contact">اتصل بنا</a></li>
+          </ul>
+        </div>`;
+    }
+    else if (currentTab==="governance"){
+      mount.innerHTML = `
+        <div class="card"><b>الحوكمة والأدوار</b>
+          <p style="color:var(--muted)">تعريف المسؤوليات والنطاقات والصلاحيات لكل جهة ضمن هذا الحساب.</p>
+          <ul style="margin:8px 0 0 0;padding-inline-start:18px">
+            <li>مالك الحساب</li>
+            <li>مشرف المؤشرات</li>
+            <li>منسق التقارير</li>
+            <li>دعم فني</li>
+          </ul>
+        </div>`;
     }
   }
-  window.addEventListener('load', ()=>{
-    const mb = document.getElementById('mobileMenuBtn');
-    if (mb) mb.addEventListener('click', (e)=>{ e.preventDefault(); openMobileMenu(); });
-  });
-})();
 
-/* صفحات أساسية (About/Contact/Support/Policies) + عنوان ديناميكي + 404 */
-(function(){
-  const el = document.getElementById('view') || document.body;
-  const PAGES = {
-    "#/about": `<div class="page"><h2>من نحن</h2><p>منصة نمو الوطنية تُعنى بتنمية الطفولة المبكرة عبر التكامل بين القطاعات وتوحيد الجهود.</p><div style="display:grid;gap:10px;margin-top:10px"><div class="card"><b>الرؤية:</b> أن تكون المرجع الوطني الشامل لتطوير منظومة الطفولة المبكرة.</div><div class="card"><b>الرسالة:</b> تمكين الجهات عبر أدوات تحليلية وتشغيلية ومؤشرات أداء داعمة لصنع القرار.</div><div class="card"><b>القيم:</b> التكامل، الأثر، الشفافية، الابتكار، الاستدامة.</div></div></div>`,
-    "#/contact": `<div class="page"><h2>اتصل بنا</h2><div class="form-grid" style="margin-top:10px"><div><label>الاسم</label><input class="input" id="c_name" placeholder="الاسم الكامل"></div><div><label>البريد الإلكتروني</label><input class="input" id="c_email" placeholder="you@example.com"></div><div class="full"><label>الموضوع</label><input class="input" id="c_subject" placeholder="موضوع الرسالة"></div><div class="full"><label>نص الرسالة</label><textarea class="textarea" id="c_msg" placeholder="اكتب رسالتك هنا..."></textarea></div><div class="full" style="display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost" id="c_reset">مسح</button><button class="btn primary" id="c_send">إرسال</button></div></div><div id="c_result" style="margin-top:10px;color:#0f766e;display:none">تم استلام رسالتك.</div></div>`,
-    "#/support": `<div class="page"><h2>الدعم الفني</h2><div class="faq" style="margin-top:8px"><details open><summary>كيف أسجّل الدخول؟</summary><div>اضغط "تسجيل الدخول" واختر نوع الحساب. (بيانات العرض غير مفعّلة هنا)</div></details><details><summary>لا أرى حسابي؟</summary><div>تأكّد من اختيار نوع الحساب الصحيح.</div></details><details><summary>مشكلات تقنية</summary><div>جرّب إعادة التحميل. إن استمرت المشكلة قدّم تذكرة دعم.</div></details></div><div class="form-grid" style="margin-top:10px"><div><label>الاسم</label><input class="input" id="s_name" placeholder="الاسم"></div><div><label>البريد</label><input class="input" id="s_email" placeholder="you@example.com"></div><div class="full"><label>نوع المشكلة</label><select class="select" id="s_type"><option>وصول/حساب</option><option>عرض الجوال</option><option>تقارير/KPI</option><option>أخرى</option></select></div><div class="full"><label>وصف المشكلة</label><textarea class="textarea" id="s_desc" placeholder="صف المشكلة بإيجاز..."></textarea></div><div class="full" style="display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost" id="s_reset">مسح</button><button class="btn primary" id="s_send">إرسال تذكرة</button></div></div><div id="s_result" style="margin-top:10px;color:#0f766e;display:none">تم إرسال التذكرة.</div></div>`,
-    "#/policies": `<div class="page"><h2>الأدلة والسياسات</h2><div class="docs-list" style="margin-top:8px"><a href="#" onclick="return false"><span>دليل استخدام المنصة (مختصر)</span><span>PDF</span></a><a href="#" onclick="return false"><span>سياسة الخصوصية وحماية البيانات</span><span>PDF</span></a><a href="#" onclick="return false"><span>اتفاقية مستوى الخدمة (SLA)</span><span>PDF</span></a><a href="#" onclick="return false"><span>دليل الحسابات والمهام</span><span>PDF</span></a></div></div>`
-  };
-  const TITLES = {
-    "#/overview":"نظرة عامة – منصة نمو","#/intro":"التعريف بالمنصة – منصة نمو",
-    "#/operations":"التشغيل – منصة نمو","#/reports":"التقارير – منصة نمو","#/kpi":"مؤشرات KPI – منصة نمو",
-    "#/acc/health":"وزارة الصحة – منصة نمو","#/acc/clinic":"المراكز الصحية – منصة نمو","#/acc/education":"وزارة التعليم – منصة نمو",
-    "#/acc/neighborhood":"مراكز الأحياء – منصة نمو","#/acc/nonprofit":"الجمعيات – منصة نمو","#/acc/hr":"الموارد البشرية – منصة نمو",
-    "#/acc/csr":"القطاع الخاص – منصة نمو","#/acc/family":"الأسرة – منصة نمو","#/acc/admin":"اللجنة الوطنية – منصة نمو",
-    "#/support":"الدعم الفني – منصة نمو","#/policies":"الأدلة والسياسات – منصة نمو","#/contact":"اتصل بنا – منصة نمو","#/about":"من نحن – منصة نمو"
-  };
-  function applyTitle(){ document.title = TITLES[location.hash] || "منصة نمو"; }
-  function renderBasic(){
-    const h = location.hash;
-    if (PAGES[h]){ el.innerHTML = PAGES[h]; bindBasic(h); }
-    else if (/^#\/(about|contact|support|policies)$/.test(h)===false && /^#\//.test(h) && !TITLES[h]){
-      el.innerHTML = '<div class="card" style="padding:16px"><h2>لم يتم العثور على الصفحة</h2><p>تحقق من الرابط أو اختر صفحة من القائمة.</p></div>';
-    }
+  // أدوات مساعدة
+  function gradeLabel(g){
+    if (g==="ok") return "جيد";
+    if (g==="warn") return "تحذير";
+    if (g==="bad") return "حرِج";
+    return "معلومة";
   }
-  function bindBasic(h){
-    if(h==="#/contact"){
-      const ok = document.getElementById('c_send'), reset=document.getElementById('c_reset'), res=document.getElementById('c_result');
-      if(ok) ok.onclick=()=> res.style.display='block';
-      if(reset) reset.onclick=()=>{ ['c_name','c_email','c_subject','c_msg'].forEach(id=>{const n=document.getElementById(id); if(n) n.value=''}); res.style.display='none'; };
-    }
-    if(h==="#/support"){
-      const ok = document.getElementById('s_send'), reset=document.getElementById('s_reset'), res=document.getElementById('s_result');
-      if(ok) ok.onclick=()=> res.style.display='block';
-      if(reset) reset.onclick=()=>{ ['s_name','s_email','s_desc'].forEach(id=>{const n=document.getElementById(id); if(n) n.value=''}); const t=document.getElementById('s_type'); if(t) t.selectedIndex=0; res.style.display='none'; };
-    }
+  function notFound(){
+    return '<div class="card" style="padding:16px"><h2>لم يتم العثور على الصفحة</h2><p>تحقق من الرابط أو اختر صفحة من القائمة.</p></div>';
   }
-  window.addEventListener('hashchange', ()=>{ applyTitle(); renderBasic(); });
-  window.addEventListener('load', ()=>{ applyTitle(); renderBasic(); });
+  function parseRoute(){
+    const h = location.hash || "";
+    // أمثلة: #/acc/health?tab=summary
+    const m = h.match(/^#\/acc\/([^?]+)(?:\?tab=([a-z]+))?/);
+    if (m) return {type:"acc", key:m[1], tab:m[2] || "summary"};
+    return null;
+  }
+
+  // مبدّل الراوتر
+  function onRoute(){
+    const r = parseRoute();
+    if (r && r.type==="acc") renderAccount(r.key, r.tab);
+  }
+
+  window.addEventListener("hashchange", onRoute);
+  window.addEventListener("load", onRoute);
 })();
 </script>
-
-</body>
-</html>
