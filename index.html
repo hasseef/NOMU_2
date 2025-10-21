@@ -51,62 +51,28 @@ canvas{width:100%;height:280px;border:1px solid var(--border);border-radius:12px
 footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;padding:0 var(--pad)}
 @media (max-width:980px){ .main{grid-template-columns:1fr} .four{grid-template-columns:1fr 1fr} }
 
-@media (max-width: 979px){
-  /* رأس الصفحة */
-  header .topbar{ padding:8px 12px; height:56px }
-  .left-logos{ gap:8px; margin-inline-start:auto }
-  .plain-logo{ height:24px; display:block }
-  .rolebox{ display:none }
-  .npanel{ inset: auto 0 0 0; top:auto; width:100%; max-height:50vh; border-radius:16px 16px 0 0 }
+.plain-logo{height:32px;display:block;margin-inline-start:8px}
 
-  /* تخطيط عام */
-  .main{ grid-template-columns:1fr; padding:0 12px; gap:12px }
-  nav .side{ display:none }
-
-  /* بطاقات وحقول */
-  .card{ border-radius:14px; padding:12px }
-  .input,.select,button.btn{ font-size:16px }
-
-  /* الجداول -> بطاقات */
-  table.table{ display:none }
-  .mobile-cards{ display:grid; gap:10px }
-
-  /* KPIs كبلاطات */
-  .kpi-pill{ flex-direction:column; align-items:flex-start; gap:6px }
-
-  /* Bottom navigation (اختياري إن رغبت) */
-  .bottom-nav{
-    position:sticky; bottom:0; inset-inline:0; display:flex; justify-content:space-around;
-    background:#fff; border-top:1px solid var(--border); padding:8px; z-index:30
-  }
-  .bottom-nav a{ padding:8px 10px; border-radius:10px; font-size:12px; color:#334155 }
-  .bottom-nav a.active{ background:#f1f5f9 }
-}
-
-@media (max-width: 979px){
-  .bottom-nav{
-    position: sticky;
-    bottom: 0;
-    inset-inline: 0;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    gap: 6px;
-    background: #fff;
-    border-top: 1px solid var(--border);
-    padding: 8px;
-    z-index: 40;
-  }
-  .bottom-nav a{
-    flex: 1 1 auto;
-    text-align: center;
-    padding: 8px 6px;
-    border-radius: 10px;
-    font-size: 12px;
-    color: #334155;
-    text-decoration: none;
-  }
-  .bottom-nav a.active{ background:#f1f5f9; color:#0f766e; font-weight:700 }
+/* NOMU mobile/topbar tweaks */
+header .topbar{display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
+.brand .logo, .logo-nomu{width:40px;height:40px;border-radius:12px;object-fit:contain;overflow:hidden}
+.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.left-logos .plain-logo{height:28px;display:block}
+.left-logos .pill-logo{background:transparent !important;border:none !important;padding:0 !important;margin:0 !important}
+.bell{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);background:#fff;border-radius:12px;padding:0}
+.badge{position:absolute;top:-6px;left:-6px;background:#ef4444;color:#fff;border-radius:999px;font-size:11px;line-height:1;padding:3px 6px}
+@media (max-width:979px){
+  header .topbar{padding:8px 12px;height:56px}
+  .brand-title{max-width:52vw}
+  .left-logos .plain-logo{height:22px}
+  .rolebox{display:none}
+  .npanel{inset:auto 0 0 0;top:auto;width:100%;max-height:55vh;border-radius:16px 16px 0 0}
+  nav .side{display:none}
+  .main{grid-template-columns:1fr;padding:0 12px;gap:12px}
+  table.table{display:none}
+  .mobile-cards{display:grid;gap:10px}
 }
 </style>
 </head>
@@ -119,14 +85,13 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
     </div>
 
     <div class="left-logos">
-      <!-- شعارا Vision 2030 + تلبية (SVG Data URI تعمل مباشرة) -->
-      <span class="pill-logo" title="Vision 2030">
-        <img alt="Vision 2030" src='data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" width="140" height="36"><rect x="1" y="5" rx="12" width="138" height="26" fill="%23f1f5f9" stroke="%23cbd5e1"/><text x="70" y="24" text-anchor="middle" font-size="14" font-family="Tajawal,Arial" fill="%230f172a">Vision 2030</text></svg>'/>
-      </span>
-      <span class="pill-logo" title="مبادرة تلبية">
-        <img alt="Talbiya" src='data:image/svg+xml;utf8,<?xml version="1.0"?><svg xmlns="http://www.w3.org/2000/svg" width="140" height="36"><rect x="1" y="5" rx="12" width="138" height="26" fill="%23f1f5f9" stroke="%23cbd5e1"/><text x="70" y="24" text-anchor="middle" font-size="14" font-family="Tajawal,Arial" fill="%230f172a">%D9%85%D8%A8%D8%A7%D8%AF%D8%B1%D8%A9%20%D8%AA%D9%84%D8%A8%D9%8A%D8%A9</text></svg>'/>
-      </span>
+  <img class="plain-logo" src="vision2030.png" alt="">
+  <img class="plain-logo" src="talbiya.png" alt="">
 
+      <img class="plain-logo" src=".png" alt="">
+      <img class="plain-logo" src=".png" alt="">
+
+      <!-- شعارا  +  (SVG Data URI تعمل مباشرة) -->
       <!-- اختيار الدور الحالي + جرس الإشعارات -->
       <div class="rolebox">
         <span>الدور:</span>
@@ -776,105 +741,121 @@ route();
 </script>
 
 <script>
-// تحويل صفوف الجدول إلى بطاقات عند الجوال
-function renderMobileCardsFromRows(rows){
-  const wrap = document.createElement('div');
-  wrap.className = 'mobile-cards';
-  rows.forEach(r=>{
-    const el = document.createElement('div');
-    el.className = 'card';
-    el.innerHTML = `
-      <div style="display:flex;justify-content:space-between;gap:8px">
-        <b>${r.title || '—'}</b>
-        <span class="tag">${r.status || ''}</span>
+const DEFAULT_USERNAME="NOMU", DEFAULT_PASSWORD="1234", AUTH_KEY="nomu_auth_v1";
+const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
+const saveAuth=(u,p)=>localStorage.setItem(AUTH_KEY,JSON.stringify({u,p,t:Date.now()}));
+const loadAuth=()=>{try{return JSON.parse(localStorage.getItem(AUTH_KEY))}catch(e){return null}};
+const isAuthed=()=>{const a=loadAuth();return a && a.u===DEFAULT_USERNAME && a.p===DEFAULT_PASSWORD};
+function showLoginModal(){if(document.getElementById("nomu-auth-modal"))return;document.body.insertAdjacentHTML("beforeend",`
+<div id="nomu-auth-modal" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:9999;padding:20px">
+  <div style="width:100%;max-width:420px;background:#fff;border-radius:12px;padding:18px">
+    <h3 style="margin:0 0 8px 0">تسجيل الدخول</h3>
+    <label>اسم المستخدم</label>
+    <input id="nomu-user" value="${DEFAULT_USERNAME}" style="width:100%;padding:10px;margin:6px 0 10px 0;border:1px solid #e6e9ef;border-radius:8px">
+    <label>كلمة المرور</label>
+    <input id="nomu-pass" value="${DEFAULT_PASSWORD}" type="password" style="width:100%;padding:10px;margin:6px 0 12px 0;border:1px solid #e6e9ef;border-radius:8px">
+    <div style="display:flex;gap:8px;justify-content:flex-end">
+      <button id="nomu-cancel" class="btn ghost">إلغاء</button>
+      <button id="nomu-ok" class="btn">دخول</button>
+    </div>
+    <small style="color:#94a3b8">هذه بيانات عرضية فقط: NOMU / 1234</small>
+  </div>
+</div>`);
+document.getElementById("nomu-cancel").onclick=()=>document.getElementById("nomu-auth-modal").remove();
+document.getElementById("nomu-ok").onclick=()=>{
+  const u=document.getElementById("nomu-user").value.trim();
+  const p=document.getElementById("nomu-pass").value.trim();
+  if(u===DEFAULT_USERNAME && p===DEFAULT_PASSWORD){
+    saveAuth(u,p);
+    const go=sessionStorage.getItem("nomu_go"); if(go){location.hash=go;sessionStorage.removeItem("nomu_go");} else location.reload();
+  }else alert("استخدم NOMU / 1234");
+};}
+function mountChooseAccount(){
+  const view=document.getElementById("view")||document.body;
+  const cards=[
+    {k:"#/acc/health",t:"وزارة الصحة"},
+    {k:"#/acc/clinic",t:"المراكز الصحية"},
+    {k:"#/acc/education",t:"وزارة التعليم"},
+    {k:"#/acc/neighborhood",t:"مراكز الأحياء"},
+    {k:"#/acc/nonprofit",t:"الجمعيات"},
+    {k:"#/acc/hr",t:"الموارد البشرية"},
+    {k:"#/acc/csr",t:"القطاع الخاص"},
+    {k:"#/acc/family",t:"الأسرة"},
+    {k:"#/acc/admin",t:"اللجنة الوطنية"},
+  ];
+  let html='<div class="card" style="padding:16px"><h2>اختر نوع الحساب</h2><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px">';
+  cards.forEach(c=> html+=`<button class="nomu-card" data-target="${c.k}" style="padding:14px;border:1px solid var(--border);border-radius:12px;background:#fff">${c.t}</button>`);
+  html+='</div><p style="margin-top:8px;color:#64748b">بيانات العرض: NOMU / 1234</p></div>';
+  view.innerHTML=html;
+  view.querySelectorAll(".nomu-card").forEach(b=>b.onclick=()=>{
+    const target=b.getAttribute("data-target");
+    if(isAuthed()) location.hash=target;
+    else{ sessionStorage.setItem("nomu_go", target); if(isMobile()) mountInlineLogin(view); else showLoginModal(); }
+  });
+}
+function mountInlineLogin(view){
+  if(document.getElementById("nomu-inline")) return;
+  view.insertAdjacentHTML("beforeend",`
+    <div id="nomu-inline" class="card" style="margin-top:10px;padding:12px;background:#f8fafc">
+      <div style="font-size:13px;color:#334155">تسجيل سريع</div>
+      <input id="nomu-inline-u" value="${DEFAULT_USERNAME}" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px">
+      <input id="nomu-inline-p" value="${DEFAULT_PASSWORD}" type="password" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px">
+      <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">
+        <button id="nomu-inline-login-btn" class="btn">دخول</button>
       </div>
-      <div style="margin-top:6px;color:#475569;font-size:13px">الجهة: ${r.owner || ''}</div>
-      <div style="margin-top:4px;color:#0f766e;font-size:13px">النتيجة: <b>${r.score ?? ''}</b></div>
+    </div>`);
+  document.getElementById("nomu-inline-login-btn").onclick=()=>{
+    const u=document.getElementById("nomu-inline-u").value.trim();
+    const p=document.getElementById("nomu-inline-p").value.trim();
+    if(u===DEFAULT_USERNAME && p===DEFAULT_PASSWORD){
+      saveAuth(u,p);
+      const go=sessionStorage.getItem("nomu_go"); if(go) location.hash=go; else location.reload();
+    }else alert("استخدم NOMU / 1234");
+  };
+}
+function guardAccountLinks(){
+  document.querySelectorAll('[data-route^="#/acc/"],a[href^="#/acc/"]').forEach(a=>{
+    a.addEventListener("click",(e)=>{
+      const href=a.getAttribute("data-route")||a.getAttribute("href");
+      if(!isAuthed()){
+        e.preventDefault();
+        sessionStorage.setItem("nomu_go", href);
+        if(isMobile()) location.hash="#/choose-account";
+        else showLoginModal();
+      }
+    });
+  });
+}
+function renderMobileCards(){
+  if(!isMobile() || typeof MOCK_ITEMS==='undefined') return;
+  const view=document.getElementById('view'); if(!view) return;
+  if(view.querySelector('.mobile-cards')) return;
+  const wrap=document.createElement('div'); wrap.className='mobile-cards';
+  MOCK_ITEMS.forEach(r=>{
+    const el=document.createElement('div'); el.className='card';
+    el.innerHTML=`
+      <div style="display:flex;justify-content:space-between;gap:8px">
+        <b>${r.title}</b><span class="tag">${r.status}</span>
+      </div>
+      <div style="margin-top:6px;color:#475569;font-size:13px">الجهة: ${r.owner}</div>
+      <div style="margin-top:4px;color:#0f766e;font-size:13px">النتيجة: <b>${r.score}</b></div>
       <div style="margin-top:8px;display:flex;gap:8px">
         <button class="btn" style="padding:8px 10px">تفاصيل</button>
         <button class="btn ghost" style="padding:8px 10px">مشاركة</button>
       </div>`;
     wrap.appendChild(el);
   });
-  return wrap;
+  view.appendChild(wrap);
 }
-
-(function(){
-  if (window.innerWidth <= 979){
-    try{
-      if (typeof MOCK_ITEMS !== 'undefined'){
-        const view = document.getElementById('view');
-        if (view && !view.querySelector('.mobile-cards')){
-          view.appendChild(renderMobileCardsFromRows(MOCK_ITEMS));
-        }
-      }
-    }catch(e){}
-  }
+(function(){ const bell=document.getElementById('bell'), panel=document.getElementById('npanel'); if(!bell||!panel) return;
+  bell.onclick=(e)=>{ e.preventDefault(); if(isMobile()){ panel.style.display='block'; } else { panel.style.display= panel.style.display==='block'?'none':'block'; } };
 })();
-
-// Bottom Sheet للتنبيهات على الجوال بدل بانل جانبية
-(function(){
-  const bell = document.getElementById('bell');
-  const panel = document.getElementById('npanel');
-  if (bell && panel){
-    bell.onclick = (e)=>{
-      e.preventDefault();
-      if (window.innerWidth <= 979){
-        panel.style.display = 'block';   // يظهر كـ bottom sheet بفعل CSS
-      }else{
-        panel.style.display = panel.style.display==='block' ? 'none':'block';
-      }
-    };
-  }
-})();
-</script>
-
-
-<!-- Bottom Navigation for Mobile -->
-<nav id="nomu-bottom-nav" class="bottom-nav" aria-label="التنقل السفلي (الجوال)">
-  <a href="#/overview" data-tab="overview">نظرة عامة</a>
-  <a href="#/choose-account" data-tab="accounts">الحسابات</a>
-  <a href="#/reports" data-tab="reports">التقارير</a>
-  <a href="#/help" data-tab="help">المساعدة</a>
-  <a href="#/policies" data-tab="more">المزيد</a>
-</nav>
-
-
-<script>
-function nomuSyncBottomNav(){
-  var nav = document.getElementById('nomu-bottom-nav');
-  if (!nav) return;
-  var hash = location.hash || "#/overview";
-  var tabMap = {
-    "overview": "#/overview",
-    "accounts": "#/choose-account",
-    "reports": "#/reports",
-    "help": "#/help",
-    "more": "#/policies"
-  };
-  // remove active
-  nav.querySelectorAll('a').forEach(function(a){ a.classList.remove('active'); });
-  // set active by hash
-  var found = null;
-  nav.querySelectorAll('a').forEach(function(a){
-    var href = a.getAttribute('href');
-    if (hash === href) found = a;
-  });
-  (found || nav.querySelector('a[data-tab="overview"]')).classList.add('active');
-}
-// click handling (ensure same SPA behavior)
-(function(){
-  var nav = document.getElementById('nomu-bottom-nav');
-  if (!nav) return;
-  nav.querySelectorAll('a').forEach(function(a){
-    a.addEventListener('click', function(e){
-      // Let hash change proceed; active state updates on hashchange
-      setTimeout(nomuSyncBottomNav, 0);
-    });
-  });
-  window.addEventListener('hashchange', nomuSyncBottomNav);
-  window.addEventListener('load', nomuSyncBottomNav);
-})();
+(function(){ const brand = document.querySelector('.brand > div'); if(!brand) return; const t = brand.querySelector('b'); if(t){ t.classList.add('brand-title'); } })();
+window.addEventListener("hashchange", ()=>{ if(location.hash==="#/choose-account") mountChooseAccount(); });
+window.addEventListener("load", ()=>{
+  guardAccountLinks(); renderMobileCards();
+  if(isMobile() && (!location.hash || location.hash==="#/intro" || location.hash==="#/overview")){ location.hash="#/choose-account"; }
+});
 </script>
 
 </body>
