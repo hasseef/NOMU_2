@@ -87,6 +87,44 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
   .content-area{ min-height:60vh }
 }
 </style>
+
+<style>
+/* NOMU unified polish */
+:root{--border:#e6e9ef}
+header .topbar{display:flex;align-items:center;gap:10px;min-height:56px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
+.brand .logo,.logo-nomu{width:40px;height:40px;border-radius:12px;object-fit:contain;overflow:hidden}
+.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
+.left-logos .plain-logo{display:block}
+.bell{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);background:#fff;border-radius:12px;padding:0}
+.badge{position:absolute;top:-6px;left:-6px;background:#ef4444;color:#fff;border-radius:999px;font-size:11px;line-height:1;padding:3px 6px}
+.desktop-login-btn{margin-inline-start:8px;background:#16a34a;color:#fff;border:none;border-radius:10px;padding:8px 12px;font-size:13px;cursor:pointer}
+/* إزالة القائمة القديمة في حال بقيت في قالب آخر */
+@media (min-width:980px){ nav.side{display:none !important} }
+/* الجوال */
+@media (max-width:979px){
+  .brand-title{max-width:52vw}
+  .left-logos .plain-logo{height:22px;width:auto}
+  .rolebox{display:none}
+  .npanel{inset:auto 0 0 0;top:auto;width:100%;max-height:55vh;border-radius:16px 16px 0 0}
+  nav .side{display:none}
+  .main{grid-template-columns:1fr;padding:0 12px;gap:12px}
+  .tabs,.tabbar,.kpi-row,.toolbar{display:block !important}
+  .tabs > *,.tabbar > *,.kpi-row > *,.toolbar > *{display:block;margin:6px 0 !important}
+  .mobile-menu-btn{display:inline-flex;align-items:center;gap:6px;margin-inline-start:8px;background:#0ea5e9;color:#fff;border:none;border-radius:10px;padding:6px 10px;font-size:13px}
+  /* ورقة القائمة */
+  #mobileMenuSheet{position:fixed;inset:auto 0 0 0;background:#fff;border-top:1px solid var(--border);border-radius:16px 16px 0 0;box-shadow:0 -12px 30px rgba(2,12,27,.15);z-index:9999;max-height:65vh;overflow:auto;padding:12px;transform:translateY(16px);opacity:0;transition:.2s}
+  #mobileMenuSheet.open{transform:translateY(0);opacity:1}
+  #mobileMenuSheet .group{border:1px solid var(--border);border-radius:12px;margin:8px 0;background:#fff}
+  #mobileMenuSheet summary{list-style:none;cursor:pointer;padding:12px;font-weight:700;color:#0f172a;outline:none}
+  #mobileMenuSheet summary::-webkit-details-marker{display:none}
+  #mobileMenuSheet .submenu{display:grid;gap:8px;padding:8px 10px;border-top:1px solid var(--border)}
+  #mobileMenuSheet .submenu a{display:block;text-align:center;border:1px solid var(--border);background:#f8fafc;padding:10px;border-radius:10px;color:#0f172a;text-decoration:none}
+}
+/* تركيز/وصول */
+button:focus, a:focus{outline:2px solid #0ea5e9;outline-offset:2px}
+</style>
 </head>
 <body>
 <header>
@@ -97,26 +135,11 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
     </div>
 
     <div class="left-logos">
-  <img class="plain-logo" src="vision2030.png" alt="">
-  <img class="plain-logo" src="talbiya.png" alt="">
+  <img class="plain-logo" src="vision2030.png" alt="شعار رؤية 2030" width="88" height="28" loading="lazy" decoding="async">
+  <img class="plain-logo" src="talbiya.png" alt="شعار تلبية" width="88" height="28" loading="lazy" decoding="async">
 
-      <img class="plain-logo" src=".png" alt="">
-      <img class="plain-logo" src=".png" alt="">
-
-      <!-- شعارا  +  (SVG Data URI تعمل مباشرة) -->
-      <!-- اختيار الدور الحالي + جرس الإشعارات -->
-      <div class="rolebox">
-        <span>الدور:</span>
-        <select id="currentRole">
-          <option>clinic.staff</option>
-          <option>health.practitioner</option>
-          <option>education.specialist</option>
-          <option>neighborhood.coordinator</option>
-          <option>nonprofit.worker</option>
-          <option>admin.national</option>
-          <option>family.guardian</option>
-        </select>
-      </div>
+  <button class="desktop-login-btn" id="desktopLoginBtn" aria-label="تسجيل الدخول (كمبيوتر)">تسجيل الدخول</button>
+</div>
 <button class="desktop-login-btn" id="desktopLoginBtn" aria-label="تسجيل الدخول (كمبيوتر)">تسجيل الدخول</button>
       <div style="position:relative">
         <button id="bell" class="bell">🔔<span id="bellBadge" class="badge" style="display:none">0</span></button>
@@ -926,6 +949,132 @@ route();
       btn.addEventListener("click", (e)=>{ e.preventDefault(); mountDesktopLoginDropdown(); });
     }
   });
+})();
+</script>
+
+
+<script>
+/* NOMU unified JS */
+(function(){
+  const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
+  function lockScroll(lock){ document.documentElement.style.overflow = lock ? 'hidden' : ''; }
+  function focusTrap(container, enable){
+    if(!container) return;
+    function onKey(e){
+      if(e.key!=='Tab') return;
+      const f = container.querySelectorAll('a,button,[tabindex]:not([tabindex="-1"])');
+      if(!f.length) return;
+      const first=f[0], last=f[f.length-1];
+      if(e.shiftKey && document.activeElement===first){ e.preventDefault(); last.focus(); }
+      else if(!e.shiftKey && document.activeElement===last){ e.preventDefault(); first.focus(); }
+    }
+    if(enable) container.addEventListener('keydown', onKey);
+    else container.removeEventListener('keydown', onKey);
+  }
+
+  const GROUPS = [
+    { title:'البدء السريع', items:[
+      {t:'نظرة عامة', k:'#/overview'},
+      {t:'التعريف بالمنصة', k:'#/intro'}
+    ]},
+    { title:'الحسابات', items:[
+      {t:'وزارة الصحة', k:'#/acc/health'},
+      {t:'المراكز الصحية', k:'#/acc/clinic'},
+      {t:'وزارة التعليم', k:'#/acc/education'},
+      {t:'مراكز الأحياء', k:'#/acc/neighborhood'},
+      {t:'الجمعيات', k:'#/acc/nonprofit'},
+      {t:'الموارد البشرية', k:'#/acc/hr'},
+      {t:'القطاع الخاص', k:'#/acc/csr'},
+      {t:'الأسرة', k:'#/acc/family'},
+      {t:'اللجنة الوطنية', k:'#/acc/admin'}
+    ]},
+    { title:'التشغيل والتقارير', items:[
+      {t:'التشغيل', k:'#/operations'},
+      {t:'التقارير', k:'#/reports'},
+      {t:'مؤشرات KPI', k:'#/kpi'}
+    ]},
+    { title:'الدعم والجودة', items:[
+      {t:'الدعم الفني', k:'#/support'},
+      {t:'الأدلة والسياسات', k:'#/policies'},
+      {t:'اتصل بنا', k:'#/contact'},
+      {t:'من نحن', k:'#/about'}
+    ]}
+  ];
+
+  function openMobileMenu(){
+    if (!isMobile()) return;
+    if (document.getElementById('mobileMenuSheet')) return;
+    const sheet = document.createElement('div');
+    sheet.id = 'mobileMenuSheet';
+    let html = '';
+    GROUPS.forEach(g=>{
+      html += `<details class="group">
+        <summary>${g.title}</summary>
+        <div class="submenu">
+          ${g.items.map(i=>`<a href="${i.k}" data-go="${i.k}">${i.t}</a>`).join('')}
+        </div>
+      </details>`;
+    });
+    sheet.innerHTML = html;
+    document.body.appendChild(sheet);
+    requestAnimationFrame(()=> sheet.classList.add('open'));
+    lockScroll(true);
+    focusTrap(sheet, true);
+    // Click handler
+    sheet.addEventListener('click', (e)=>{
+      const a = e.target.closest('a[data-go]');
+      if (!a) return;
+      e.preventDefault();
+      location.hash = a.getAttribute('data-go');
+      closeSheet();
+    });
+    // Close on outside click
+    setTimeout(()=>{
+      function off(ev){ if(!sheet.contains(ev.target)){ closeSheet(); document.removeEventListener('click', off); } }
+      document.addEventListener('click', off);
+    },0);
+
+    function closeSheet(){
+      sheet.classList.remove('open');
+      setTimeout(()=>{ sheet.remove(); lockScroll(false); }, 180);
+    }
+  }
+
+  window.addEventListener('load', ()=>{
+    const mb = document.getElementById('mobileMenuBtn');
+    if (mb) mb.addEventListener('click', (e)=>{ e.preventDefault(); openMobileMenu(); });
+  });
+
+  // تحديث عنوان الصفحة + 404 بسيطة
+  const TITLES = {
+    "#/overview":"نظرة عامة – منصة نمو",
+    "#/intro":"التعريف بالمنصة – منصة نمو",
+    "#/acc/health":"وزارة الصحة – منصة نمو",
+    "#/acc/clinic":"المراكز الصحية – منصة نمو",
+    "#/acc/education":"وزارة التعليم – منصة نمو",
+    "#/acc/neighborhood":"مراكز الأحياء – منصة نمو",
+    "#/acc/nonprofit":"الجمعيات – منصة نمو",
+    "#/acc/hr":"الموارد البشرية – منصة نمو",
+    "#/acc/csr":"القطاع الخاص – منصة نمو",
+    "#/acc/family":"الأسرة – منصة نمو",
+    "#/acc/admin":"اللجنة الوطنية – منصة نمو",
+    "#/operations":"التشغيل – منصة نمو",
+    "#/reports":"التقارير – منصة نمو",
+    "#/kpi":"مؤشرات KPI – منصة نمو",
+    "#/support":"الدعم الفني – منصة نمو",
+    "#/policies":"الأدلة والسياسات – منصة نمو",
+    "#/contact":"اتصل بنا – منصة نمو",
+    "#/about":"من نحن – منصة نمو"
+  };
+  function applyTitle(){ document.title = TITLES[location.hash] || "منصة نمو"; }
+  function notFoundFallback(){
+    const view = document.getElementById('view') || document.body;
+    if (!TITLES[location.hash] && /^#\//.test(location.hash)) {
+      view.innerHTML = '<div class="card" style="padding:16px"><h2>لم يتم العثور على الصفحة</h2><p>تحقق من الرابط أو اختر صفحة من القائمة.</p></div>';
+    }
+  }
+  window.addEventListener('hashchange', ()=>{ applyTitle(); notFoundFallback(); });
+  window.addEventListener('load', ()=>{ applyTitle(); notFoundFallback(); });
 })();
 </script>
 
