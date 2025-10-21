@@ -1,6 +1,6 @@
 
 <!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>منصة نمو – ملف واحد (v4)</title><meta name="color-scheme" content="light only">
+<title>منصة نمو – ملف واحد (v5)</title><meta name="color-scheme" content="light only">
 <style>
 :root{--ink:#0f172a;--muted:#64748b;--border:#e6e9ef;--bg:#fff;--brand:#0ea5e9}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic UI",sans-serif;color:var(--ink);background:#fff}
@@ -10,8 +10,11 @@ header .topbar{display:flex;align-items:center;gap:12px;padding:10px 14px;min-he
 .left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}.left-logos img{height:28px;width:auto;object-fit:contain}
 .icon{width:18px;height:18px;vertical-align:-3px}.bell{position:relative;width:40px;height:40px;border:1px solid var(--border);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
 .badge-dot{position:absolute;inset:auto auto 2px 2px;width:8px;height:8px;border-radius:99px;background:#ef4444}
-@media (min-width:980px){.layout{display:grid;grid-template-columns:290px 1fr;gap:16px;padding:16px}.mega-left{position:sticky;top:90px;align-self:start}.mega-left details{border:1px solid var(--border);border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}.mega-left summary{list-style:none;cursor:pointer;padding:10px 12px;font-weight:700}.mega-left summary::-webkit-details-marker{display:none}.mega-left .group-body{padding:8px 10px;display:grid;gap:6px}.mega-left a{padding:8px 10px;border-radius:10px;color:#334155;text-decoration:none;display:flex;align-items:center;gap:8px}.mega-left a:hover{background:#f1f5f9}}
-#view{padding:16px}.card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px}.section-title{display:flex;align-items:center;gap:8px;margin:0 0 8px 0}
+@media (min-width:980px){.layout{display:grid;grid-template-columns:300px 1fr;gap:16px;padding:16px}.mega-left{position:sticky;top:90px;align-self:start}.mega-left details{border:1px solid var(--border);border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}
+.mega-left summary{list-style:none;cursor:pointer;padding:10px 12px;font-weight:700}.mega-left summary::-webkit-details-marker{display:none}.mega-left .group-body{padding:8px 10px;display:grid;gap:6px}
+.mega-left a{padding:8px 10px;border-radius:10px;color:#334155;text-decoration:none;display:flex;align-items:center;gap:8px}.mega-left a:hover{background:#f1f5f9}}
+#view{padding:16px}.card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px}
+.section-title{display:flex;align-items:center;gap:8px;margin:0 0 8px 0}
 .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 8px}.tab{padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-weight:600;text-decoration:none;color:var(--ink);display:inline-flex;align-items:center;gap:6px}.tab[aria-selected="true"]{border-color:#0ea5e9;outline:2px solid rgba(14,165,233,.15)}
 .kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.kpi-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px;display:flex;gap:10px;align-items:flex-start;cursor:pointer}.kpi-card:hover{box-shadow:0 8px 24px rgba(2,12,27,.08)}
 .kpi-icon{font-size:0;width:36px;height:36px;border-radius:10px;background:#f1f5f9;display:flex;align-items:center;justify-content:center}.kpi-value{font-weight:800;font-size:18px}.kpi-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.kpi-meta{display:flex;gap:10px;align-items:center;margin-top:4px;color:var(--muted);font-size:12px}
@@ -19,7 +22,11 @@ header .topbar{display:flex;align-items:center;gap:12px;padding:10px 14px;min-he
 .table{width:100%;border-collapse:separate;border-spacing:0 8px}.table th{font-size:13px;color:var(--muted);padding:0 10px;cursor:pointer;user-select:none}.table td{background:#fff;border:1px solid var(--border);padding:10px}.table tr td:first-child{border-radius:12px 0 0 12px}.table tr td:last-child{border-radius:0 12px 12px 0}
 .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}.input{border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;background:#fff}
 .services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.service{border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px}.service h4{margin:0 0 6px 0}.service p{margin:0;color:var(--muted);font-size:13px}
-.mobile-menu-btn{display:none}@media (max-width:979px){header .topbar{min-height:78px}.brand .word{font-size:18px}.mobile-menu-btn{display:inline-flex;align-items:center;gap:6px;margin-inline-start:8px;background:#0ea5e9;color:#fff;border:none;border-radius:10px;padding:8px 12px;font-size:13px}.layout{display:block;padding:12px}.mega-left{display:none}.tabs,.toolbar{display:block}.tabs>*{display:block;margin:6px 0}.kpi-grid{grid-template-columns:1fr 1fr}.services-grid{grid-template-columns:1fr}.fab-home{position:fixed;right:14px;bottom:14px;z-index:9998;width:52px;height:52px;border-radius:999px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:#0ea5e9;color:#fff;font-size:22px;text-decoration:none;box-shadow:0 10px 30px rgba(2,12,27,.18)}}
+.form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.form-grid .field{display:flex;flex-direction:column;gap:6px}
+.form-grid .field input,.form-grid .field select{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff}
+@media (max-width:979px){header .topbar{min-height:78px}.brand .word{font-size:18px}.mobile-menu-btn{display:inline-flex;align-items:center;gap:6px;margin-inline-start:8px;background:#0ea5e9;color:#fff;border:none;border-radius:10px;padding:8px 12px;font-size:13px}
+.layout{display:block;padding:12px}.mega-left{display:none}.tabs,.toolbar{display:block}.tabs>*{display:block;margin:6px 0}.kpi-grid{grid-template-columns:1fr 1fr}.services-grid{grid-template-columns:1fr}
+.form-grid{grid-template-columns:1fr}.fab-home{position:fixed;right:14px;bottom:14px;z-index:9998;width:52px;height:52px;border-radius:999px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:#0ea5e9;color:#fff;font-size:22px;text-decoration:none;box-shadow:0 10px 30px rgba(2,12,27,.18)}}
 #loginBackdrop{position:fixed;inset:0;background:rgba(2,12,27,.45);display:none;z-index:10000}#loginWrap{position:fixed;inset:0;display:none;z-index:10001;place-items:center}#loginCard{width:min(92vw,560px);background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(2,12,27,.25)}
 .login-grid{display:grid;gap:10px}.login-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.login-input,.login-select{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff}.login-actions{display:flex;gap:8px;justify-content:flex-end}@media (max-width:979px){.login-row{grid-template-columns:1fr}}
 a:focus,button:focus,input:focus,select:focus{outline:2px solid #0ea5e9;outline-offset:2px}
@@ -43,6 +50,7 @@ svg.i{width:18px;height:18px;stroke:#0f172a;fill:none;stroke-width:2;stroke-line
   </div>
 </div></header>
 
+<!-- Icon symbol library -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
   <symbol id="ico-health" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/><rect x="3" y="3" width="18" height="18" rx="3"/></symbol>
   <symbol id="ico-clinic" viewBox="0 0 24 24"><path d="M3 21V10l9-7 9 7v11"/><path d="M9 21V12h6v9"/></symbol>
@@ -54,6 +62,7 @@ svg.i{width:18px;height:18px;stroke:#0f172a;fill:none;stroke-width:2;stroke-line
   <symbol id="ico-family" viewBox="0 0 24 24"><circle cx="7" cy="8" r="3"/><circle cx="17" cy="8" r="3"/><path d="M2 21v-2a5 5 0 0 1 5-5h0M22 21v-2a5 5 0 0 0-5-5h0"/></symbol>
   <symbol id="ico-admin" viewBox="0 0 24 24"><path d="M12 22s8-3 8-10V5l-8-3-8 3v7c0 7 8 10 8 10z"/></symbol>
   <symbol id="ico-kpi" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l3-3 2 2 5-5"/></symbol>
+  <symbol id="ico-form" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="M8 8h8M8 12h8M8 16h8"/></symbol>
 </svg>
 
 <div class="layout">
@@ -129,6 +138,7 @@ const $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
 const $=(s,root=document)=>root.querySelector(s);
 const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
 
+/* Accounts & tabs */
 const ACCOUNTS = {
   "health":    { name:"وزارة الصحة", icon:"#ico-health" },
   "clinic":    { name:"المراكز الصحية", icon:"#ico-clinic" },
@@ -151,39 +161,138 @@ const TABS = [
   {key:"governance",label:"الحوكمة"}
 ];
 
+/* Expanded services/fields per account */
 const ACCOUNT_SERVICES = {
-  health: { "الخدمات الصحية الذكية":[ "الملف الصحي الموحّد للطفل","تتبّع التطعيمات والفحوص","الإشعارات الوقائية","الربط مع السجلات الطبية الوطنية" ],
-            "الأداء والجودة":[ "لوحة زمن الانتظار","تقارير الخدمة الوقائية","تحليل التغطية الجغرافية","مؤشر رضا المستفيدين" ] },
-  clinic: { "التشغيل اليومي":[ "جدولة المواعيد الذكية","إدارة الطاقة الاستيعابية","متابعة الإحالات","استبيانات الخدمة اللحظية" ],
-            "التواصل الأسري":[ "متابعة الحالات المزمنة للأطفال","تقارير أولياء الأمور","تكامل مع تطبيق نمو طفلي" ] },
-  education: { "مؤشرات التعليم المبكر":[ "التحصيل المعرفي في رياض الأطفال","جاهزية المدرسة","تدريب الكادر التربوي","لوحات أداء المدارس" ],
-               "الربط الصحي التعليمي":[ "ربط الفحوص الصحية بالتحصيل","متابعة تغذية الأطفال","برامج توعوية مشتركة" ] },
-  neighborhood: { "الأنشطة المجتمعية":[ "إدارة الفعاليات والورش","سجل المشاركة الأسرية","منصة التسجيل في البرامج" ],
-                  "الخدمات الاجتماعية":[ "متابعة المبادرات التطوعية","إحالة الأسر المحتاجة","قياس رضا المجتمع" ] },
-  nonprofit: { "المشاريع التنموية":[ "تقديم المبادرات","إدارة المتطوعين","قياس الأثر الاجتماعي" ],
-               "الشفافية والمسؤولية":[ "تقارير الأداء للممولين","الربط مع الجهات الحكومية","عرض الإنجازات والأثر" ] },
-  mhrsd: { "الرعاية الاجتماعية":[ "تتبّع الأطفال المعرضين للخطر","دعم الأسر الحاضنة","إدارة البلاغات الاجتماعية" ],
-           "التكامل الحكومي":[ "الربط مع الجمعيات والمراكز الصحية","مؤشرات جودة الخدمات الاجتماعية","إحالة آمنة بين الجهات" ] },
-  csr: { "المسؤولية الاجتماعية CSR":[ "تقديم المبادرات والمساهمات","لوحة مؤشرات الأثر","متابعة التمويل والإنفاق" ],
-         "التواصل مع الجهات":[ "عرض مشاريع قابلة للدعم","التعاقد الرقمي","تقارير الأثر والعائد الاجتماعي" ] },
-  family: { "التوعية والمتابعة":[ "تطبيق نمو طفلي","استشارات تربوية ونفسية","متابعة التطعيمات والمواعيد" ],
-            "المشاركة المجتمعية":[ "التطوع الأسري","حضور الأنشطة","تقييم الخدمات والمقترحات" ] },
-  admin: { "إدارة المنظومة":[ "حوكمة البيانات والسياسات","مركز بيانات وطني","تحليل مؤشرات الأداء الوطني" ],
-           "التكامل والشراكات":[ "متابعة الاتفاقيات","تقارير وطنية موحدة","قياس الأثر على رؤية 2030" ] },
+  health: {
+    "الخدمات الصحية الذكية":[
+      "الملف الصحي الموحّد للطفل","سجل التطعيمات الذكي","الفحص السمعي والبصري المبكر","نظام الإشعارات الوقائية","تكامل مع وصفات الأدوية الإلكترونية","لوحة الأمراض المعدية للأطفال"
+    ],
+    "الأداء والجودة":[
+      "زمن الانتظار حسب العيادة","نسبة إغلاق الإحالات","تتبّع الأحداث السلبية","رضا أولياء الأمور","التغطية الجغرافية للفحوص الوقائية","مؤشر الالتزام الإكلينيكي"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"تسجيل زيارة طفل", fields:["رقم الملف","العمر (بالأشهر)","الوزن","الطول","محیط الرأس","ملاحظات"]},
+      {form:"إحالة لحالة خاصة", fields:["التشخيص الأولي","درجة الخطورة","جهة الإحالة","سبب الإحالة","مرفقات"]}
+    ]
+  },
+  clinic: {
+    "التشغيل اليومي":[
+      "جدولة المواعيد الذكية","توزيع الطاقة الاستيعابية","إدارة قوائم الانتظار","آلية النداء بالأولوية","استبيانات فورية بعد الزيارة"
+    ],
+    "التواصل الأسري":[
+      "تقارير منزلية مبسطة","خطة متابعة الحالات المزمنة","تذكير بالزيارات","نموذج موافقة ولي الأمر الرقمية"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"فتح موعد", fields:["التاريخ","الوقت","العيادة","الطبيب","نوع الزيارة"]},
+      {form:"إغلاق إحالة", fields:["رقم الإحالة","تاريخ الإغلاق","نتيجة الإحالة","ملاحظات"]}
+    ]
+  },
+  education: {
+    "مؤشرات التعليم المبكر":[
+      "قياس التحصيل المعرفي KG","الحضور والانضباط","تأهيل الكادر التربوي","نسبة التسرب المبكر","جاهزية الصف الأول"
+    ],
+    "الربط الصحي التعليمي":[
+      "مواءمة الفحوص مع التحصيل","متابعة التغذية المدرسية","الأنشطة الرياضية","برامج توعوية مشتركة"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"تقييم طفل روضة", fields:["الصف","المعلم","المجال اللغوي","المجال العددي","المهارات الاجتماعية","ملاحظات"]}
+    ]
+  },
+  neighborhood: {
+    "الأنشطة المجتمعية":[
+      "تقويم الفعاليات والورش","التسجيل والمقاعد","نقاط مشاركة الأسر","التغطية الجغرافية للأنشطة"
+    ],
+    "الخدمات الاجتماعية":[
+      "إحالة الأسر المحتاجة","متابعة المبادرات التطوعية","شراكات محلية","قياس رضا المجتمع"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"تسجيل فعالية", fields:["العنوان","التاريخ","الموقع","الطاقة الاستيعابية","الفئة المستهدفة"]}
+    ]
+  },
+  nonprofit: {
+    "المشاريع التنموية":[
+      "إدارة مقترحات البرامج","إدارة المتطوعين","تتبع الانفاق والأثر","تقارير للممولين"
+    ],
+    "الشفافية والمسؤولية":[
+      "مؤشرات الحوكمة","نشر الإنجازات","تكامل مع الجهات الحكومية"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"طلب دعم برنامج", fields:["اسم البرنامج","الميزانية","المؤشرات المتوقعة","الفترة","الموقع الجغرافي"]}
+    ]
+  },
+  mhrsd: {
+    "الرعاية الاجتماعية":[
+      "تتبّع البلاغات الأسرية","دعم الأسر الحاضنة","برامج الحماية","التنسيق عبر الجهات"
+    ],
+    "الجودة والتكامل":[
+      "مؤشرات جودة الخدمات الاجتماعية","إحالة آمنة","لوحة المخاطر الاجتماعية"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"فتح بلاغ اجتماعي", fields:["نوع البلاغ","الفئة العمرية","الموقع","الأولوية","الجهة المتابعة"]}
+    ]
+  },
+  csr: {
+    "المسؤولية الاجتماعية CSR":[
+      "تقديم مبادرات التمويل","لوحة أثر واستدامة","متابعة الصرف","إدارة الشراكات"
+    ],
+    "التواصل مع الجهات":[
+      "قائمة مشاريع قابلة للدعم","عقود رقمية","تقارير العائد الاجتماعي"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"مبادرة تمويل", fields:["اسم المبادرة","المبلغ","الجهة المنفذة","مؤشرات الأثر","فترة التنفيذ"]}
+    ]
+  },
+  family: {
+    "التوعية والمتابعة":[
+      "تطبيق نمو طفلي","تذكير التطعيمات","استشارات نفسية وتربوية","برنامج القراءة المبكرة"
+    ],
+    "المشاركة المجتمعية":[
+      "التطوع الأسري","حضور الأنشطة","تقييم الخدمات","اقتراحات"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"خطة متابعة منزلية", fields:["عمر الطفل","الأولوية","نوع النشاط","التكرار الأسبوعي","ملاحظات"]}
+    ]
+  },
+  admin: {
+    "إدارة المنظومة":[
+      "حوكمة البيانات","صلاحيات وهوية","كatalog البيانات الوطني","تكامل مع المستودعات"
+    ],
+    "التقارير الوطنية":[
+      "تقارير موحّدة متعددة الجهات","لوحة الأثر على رؤية 2030","مؤشرات استراتيجية"
+    ],
+    "نماذج وحقول (تجريبية)":[
+      {form:"طلب تكامل جهة", fields:["اسم الجهة","نوع البيانات","دورية التحديث","نقطة الاتصال"]}
+    ]
+  }
 };
 
+/* KPIs expanded */
 const ACCOUNT_KPIS = {
-  health:["إتمام التطعيمات الأساسية","الفحص المبكر المكتمل","زمن انتظار الطوارئ (د)","متابعة الأمراض المزمنة","رضا أولياء الأمور"],
-  clinic:["المواعيد المحجوزة إلكترونياً","الإحالات المغلقة < 7 أيام","رضا المستفيدين اليومي","زمن تقديم أول خدمة (د)","التزام الزيارات الوقائية"],
-  education:["الالتحاق برياض الأطفال","جاهزية مدرسية (مؤشر)","تدريب معلمي الطفولة","انتقال ناجح للصف الأول","مبادرات تكاملية"],
-  neighborhood:["فعاليات منفّذة/شهر","مشاركة أسرية في التوعية","مشاركة أطفال بالأنشطة","رضا المجتمع","تنسيق مع الجهات"],
-  nonprofit:["عدد البرامج للأطفال","الدعم المالي/العيني","تحقق أثر مجتمعي","متطوعون نشطون","شفافية التقارير"],
-  mhrsd:["أسر مستفيدة","معالجة البلاغات بالمدة","رضا المستفيدين الاجتماعي","تنسيق بين الجهات","الوقاية من العنف الأسري"],
-  csr:["برامج ممولة","إجمالي المساهمات","شفافية التقارير","مشاركة بالمبادرات الحكومية","الأثر الاجتماعي"],
-  family:["تفاعل الأسر","زيارات/أسرة/شهر","ملفات نمو مكتملة","رضا المستخدمين","تحسن مؤشرات نمو الأطفال"],
-  admin:["جهات متكاملة وطنياً","مؤشرات محدّثة آلياً","الالتزام بسياسات البيانات","سرعة تقارير وطنية","الأثر على أهداف 2030"],
+  health:["إتمام التطعيمات الأساسية","الفحص المبكر المكتمل","زمن انتظار الطوارئ (د)","إغلاق الإحالات خلال 7 أيام","رضا أولياء الأمور","تغطية العيادات الوقائية"],
+  clinic:["حجوزات إلكترونية","نسبة الحضور للموعد","إغلاق الإحالات","رضا المستفيدين اليومي","زمن تقديم أول خدمة (د)","التزام الزيارات الوقائية"],
+  education:["التحاق برياض الأطفال","جاهزية مدرسية","تدريب المعلمين","نسبة التسرب المبكر","انتقال ناجح للصف الأول","شراكات صحية تعليمية"],
+  neighborhood:["فعاليات منفذة","مشاركة أسرية","مشاركة أطفال","رضا المجتمع","شراكات محلية فعّالة"],
+  nonprofit:["عدد البرامج","دعم مالي/عيني","تحقق أثر مجتمعي","متطوعون نشطون","شفافية التقارير"],
+  mhrsd:["أسر مستفيدة","معالجة البلاغات بالمدة","رضا المستفيدين","تنسيق بين الجهات","وقاية من العنف الأسري"],
+  csr:["برامج ممولة","إجمالي المساهمات","التزام تقارير الأثر","شراكات فعّالة","الأثر الاجتماعي"],
+  family:["تفاعل الأسر","زيارات/أسرة/شهر","ملفات نمو مكتملة","رضا المستخدمين","تحسن مؤشرات النمو"],
+  admin:["جهات متكاملة وطنياً","مؤشرات محدّثة آلياً","الامتثال للسياسات","سرعة التقارير الوطنية","أثر على أهداف 2030"],
 };
 
+/* Sample operations per account */
+const ACCOUNT_OPS = {
+  health:["حملة تطعيم موسمية","توسعة عيادة الأطفال","ربط نظام الإحالات"],
+  clinic:["تحسين النداء بالأولوية","تقليل زمن الانتظار","خطة صيانة الأجهزة"],
+  education:["برنامج القراءة المبكرة","ورشة تدريب الكادر","تحسين الحضور"],
+  neighborhood:["مهرجان الأسرة والطفل","حملة توعية غذائية","برنامج مهارات الحياة"],
+  nonprofit:["إطلاق برنامج حضانة","حملة تجهيز فصول","دورة تدريب متطوعين"],
+  mhrsd:["تفعيل خط الدعم","تكامل بلاغات مع الصحة","برنامج إسناد الأسر"],
+  csr:["تمويل عيادات متنقلة","رعاية برنامج روضات","مبادرة غذاء صحي"],
+  family:["برنامج روتين منزلي","مجموعة دعم للأمهات","تحدي قراءة شهري"],
+  admin:["توقيع مذكرات تكامل","نشر تقرير وطني","تدقيق صلاحيات"]
+};
+
+/* Helpers */
 function grade(num, kind){ if(kind==="wait"){ if(num<=10)return"ok"; if(num<=20)return"warn"; return"bad"; } return num>=85?"ok": num>=70?"warn":"bad"; }
 function gradeLabel(g){ return g==="ok"?"جيد":g==="warn"?"تحذير":"حرِج"; }
 function makeDemoKPIsFromList(list){
@@ -261,42 +370,14 @@ function renderOverview(){
     </div>`).join('');
 }
 
-function renderIntro(){
-  view.innerHTML = `
-    <div class="card">
-      <h2 class="section-title">من نحن</h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="card" style="border-style:dashed"><b>الرؤية</b><br>أن تكون المرجع الوطني الشامل لتطوير منظومة الطفولة المبكرة.</div>
-        <div class="card" style="border-style:dashed"><b>الرسالة</b><br>تمكين الجهات عبر أدوات تحليلية وتشغيلية ومؤشرات أداء داعمة لصنع القرار.</div>
-      </div>
-      <div class="card" style="margin-top:12px"><b>الأهداف الإستراتيجية</b>
-        <ul style="margin:8px 0 0 0;padding-inline-start:18px">
-          <li>رفع جودة وكفاءة الخدمات المقدمة للطفل والأسرة.</li>
-          <li>تعزيز التكامل والمواءمة بين الجهات والبرامج.</li>
-          <li>تحسين إتاحة البيانات ودعم اتخاذ القرار.</li>
-          <li>قياس الأثر وتحسين الاستثمار الاجتماعي.</li>
-        </ul>
-      </div>
-    </div>`;
-}
-
-function renderServices(){
-  const GLOBAL_SERVICES = [
-    "لوحة متابعة الطفولة المبكرة","إدارة الإحالات","سجل الطفل الموحّد",
-    "تقارير قياس الأثر","أتمتة التنبيهات","مخزون الخدمات والطاقات",
-    "تكامل البيانات","حوكمة البيانات والامتثال","مؤشرات الأداء المتقدمة"
-  ];
-  view.innerHTML = `
-    <div class="card"><h2 class="section-title">كتالوج الخدمات</h2>
-      <div class="toolbar"><input id="svcSearch" class="input" placeholder="ابحث عن خدمة...">
-      <button class="btn ghost" id="svcReset">مسح</button></div>
-      <div id="svcGrid" class="services-grid">${
-        GLOBAL_SERVICES.map(t=>`<div class='service'><h4>${t}</h4><p>وصف مختصر للخدمة.</p></div>`).join('')
-      }</div>
-    </div>`;
-  const filter=(q)=> $$('#svcGrid .service').forEach(it=> it.style.display = it.textContent.includes(q)?'block':'none');
-  document.getElementById('svcSearch').oninput = (e)=> filter(e.target.value);
-  document.getElementById('svcReset').onclick = ()=>{ document.getElementById('svcSearch').value=''; filter(''); };
+function formCard(title, fields){
+  return `<div class="card" style="margin-top:8px">
+    <div style="display:flex;align-items:center;gap:8px"><svg class="i" viewBox="0 0 24 24"><use href="#ico-form"/></svg><b>${title}</b></div>
+    <div class="form-grid" style="margin-top:8px">
+      ${fields.map(f=>`<div class="field"><label>${f}</label><input placeholder="${f}"></div>`).join('')}
+    </div>
+    <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost">مسودة</button><button class="btn">حفظ</button></div>
+  </div>`;
 }
 
 function renderAccount(accKey, tabKey){
@@ -334,24 +415,26 @@ function renderAccount(accKey, tabKey){
 
   if (current==="services"){
     const grouped = ACCOUNT_SERVICES[accKey] || {};
-    mount.innerHTML = Object.entries(grouped).map(([group,items])=>`
-      <div class="card" style="margin:8px 0"><b>${group}</b>
-        <div class="services-grid">${
-          items.map(it=>`<div class="service"><h4>${it}</h4><p>تفاصيل قابلة للتخصيص.</p></div>`).join('')
-        }</div>
-      </div>`).join('') || `<div class="card">لا توجد خدمات.</div>`;
+    let blocks = '';
+    Object.entries(grouped).forEach(([group,items])=>{
+      if (typeof items[0] === 'string'){
+        blocks += `<div class="card" style="margin:8px 0"><b>${group}</b>
+          <div class="services-grid">${items.map(it=>`<div class="service"><h4>${it}</h4><p>تفاصيل قابلة للتخصيص.</p></div>`).join('')}</div>
+        </div>`;
+      } else {
+        // forms
+        blocks += `<div class="card" style="margin:8px 0"><b>${group}</b>` +
+          items.map(f=> formCard(f.form, f.fields)).join('') + `</div>`;
+      }
+    });
+    mount.innerHTML = blocks || `<div class="card">لا توجد خدمات.</div>`;
   }
 
   if (current==="operations"){
+    const ops = (ACCOUNT_OPS[accKey]||[]).slice();
     mount.innerHTML = `<div class="card"><b>العمليات الجارية</b>
-      <ul style="margin:8px 0 0 0;padding-inline-start:18px">
-        <li>حملة الفحص المبكر</li><li>تحسين مسار الإحالات</li><li>متابعة زمن الانتظار</li>
-      </ul>
-      <div class="toolbar" style="margin-top:10px">
-        <input id="newOp_${accKey}" class="input" placeholder="أضف مهمة تشغيلية...">
-        <button class="btn" id="addOp_${accKey}">إضافة</button>
-      </div>
-      <div id="opList_${accKey}"></div>
+      <div id="opList_${accKey}">${ops.map(v=>`<div class="card" style="margin-top:8px"><div style="display:flex;justify-content:space-between;gap:8px"><span>${v}</span><button class="btn ghost">تم</button></div></div>`).join('')}</div>
+      <div class="toolbar" style="margin-top:10px"><input id="newOp_${accKey}" class="input" placeholder="أضف مهمة تشغيلية..."><button class="btn" id="addOp_${accKey}">إضافة</button></div>
     </div>`;
     const list = document.getElementById('opList_'+accKey);
     document.getElementById('addOp_'+accKey).onclick = ()=>{
