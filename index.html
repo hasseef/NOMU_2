@@ -1,719 +1,1 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>منصة نمو – النسخة النهائية التفاعلية</title>
-<meta name="color-scheme" content="light only">
-<style>
-:root{--ink:#0f172a;--muted:#64748b;--border:#e6e9ef;--bg:#fff;--brand:#0ea5e9}
-*{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic UI",sans-serif;color:var(--ink);background:#fff}
-/* Topbar */
-header .topbar{display:flex;align-items:center;gap:10px;padding:10px 12px;min-height:60px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:60}
-.brand{display:flex;align-items:center;gap:10px;cursor:pointer;min-width:0}
-.brand .logo{width:52px;height:52px;border-radius:14px;background:#fff;object-fit:contain}
-.brand-title{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:45vw}
-.home-btn,.desktop-login-btn,.btn{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:8px 12px;font-size:13px;text-decoration:none;cursor:pointer}
-.btn.ghost{background:#fff;border:1px solid var(--border);color:var(--ink)}
-.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
-.left-logos img{height:28px;width:auto;object-fit:contain}
-.bell{position:relative;width:40px;height:40px;border:1px solid var(--border);border-radius:12px;background:#fff}
-.badge-dot{position:absolute;inset:auto auto 2px 2px;width:8px;height:8px;border-radius:99px;background:#ef4444}
-/* Layout */
-@media (min-width:980px){
-  .layout{display:grid;grid-template-columns:280px 1fr;gap:16px;padding:16px}
-  .mega-left{position:sticky;top:76px;align-self:start}
-  .mega-left details{border:1px solid var(--border);border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}
-  .mega-left summary{list-style:none;cursor:pointer;padding:10px 12px;font-weight:700}
-  .mega-left summary::-webkit-details-marker{display:none}
-  .mega-left .group-body{padding:8px 10px;display:grid;gap:6px}
-  .mega-left a{padding:8px 10px;border-radius:10px;color:#334155;text-decoration:none}
-  .mega-left a:hover{background:#f1f5f9}
-  nav.side{display:none!important}
-}
-#view{padding:16px}
-.card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:16px}
-.section-title{display:flex;align-items:center;gap:8px;margin:0 0 8px 0}
-/* Tabs */
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 8px}
-.tab{padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:#fff;cursor:pointer;font-weight:600;text-decoration:none;color:var(--ink)}
-.tab[aria-selected="true"]{border-color:#0ea5e9;outline:2px solid rgba(14,165,233,.15)}
-/* KPI */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
-.kpi-card{border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px;display:flex;gap:10px;align-items:flex-start;cursor:pointer}
-.kpi-card:hover{box-shadow:0 8px 24px rgba(2,12,27,.08)}
-.kpi-icon{font-size:22px;padding:8px;border-radius:10px;background:#f1f5f9}
-.kpi-title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.kpi-meta{display:flex;gap:10px;align-items:center;margin-top:4px;color:#64748b;font-size:12px}
-.kpi-value{font-weight:800;font-size:18px}
-.badge{padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:#fff;font-size:12px}
-.badge.ok{color:#065f46;border-color:#bbf7d0;background:#ecfdf5}
-.badge.warn{color:#92400e;border-color:#fde68a;background:#fffbeb}
-.badge.bad{color:#991b1b;border-color:#fecaca;background:#fef2f2}
-.badge.info{color:#075985;border-color:#bae6fd;background:#eff6ff}
-/* Tables */
-.table{width:100%;border-collapse:separate;border-spacing:0 8px}
-.table th{font-size:13px;color:#64748b;padding:0 10px;cursor:pointer;user-select:none}
-.table td{background:#fff;border:1px solid var(--border);padding:10px}
-.table tr td:first-child{border-radius:12px 0 0 12px}
-.table tr td:last-child{border-radius:0 12px 12px 0}
-/* Services */
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0 12px}
-.input{border:1px solid var(--border);border-radius:10px;padding:10px 12px;font-size:14px;background:#fff}
-.services-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.service{border:1px solid var(--border);border-radius:12px;background:#fff;padding:12px}
-.service h4{margin:0 0 6px 0}
-.service p{margin:0;color:#64748b;font-size:13px}
-/* Mobile */
-.mobile-menu-btn{display:none}
-@media (max-width:979px){
-  .brand-title{max-width:52vw}
-  .left-logos img{height:22px}
-  .mobile-menu-btn{display:inline-flex;align-items:center;gap:6px;margin-inline-start:8px;background:#0ea5e9;color:#fff;border:none;border-radius:10px;padding:6px 10px;font-size:13px}
-  .layout{display:block;padding:12px}
-  .mega-left{display:none}
-  .tabs,.toolbar{display:block}
-  .tabs>*{display:block;margin:6px 0}
-  .kpi-grid{grid-template-columns:1fr 1fr}
-  .services-grid{grid-template-columns:1fr}
-  .fab-home{position:fixed;right:14px;bottom:14px;z-index:9998;width:52px;height:52px;border-radius:999px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:#0ea5e9;color:#fff;font-size:22px;text-decoration:none;box-shadow:0 10px 30px rgba(2,12,27,.18)}
-}
-/* Login modal */
-#loginBackdrop{position:fixed;inset:0;background:rgba(2,12,27,.45);display:none;z-index:10000}
-#loginWrap{position:fixed;inset:0;display:none;z-index:10001;place-items:center}
-#loginCard{width:min(92vw,560px);background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(2,12,27,.25)}
-.login-grid{display:grid;gap:10px}
-.login-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.login-input,.login-select{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff}
-.login-actions{display:flex;gap:8px;justify-content:flex-end}
-@media (max-width:979px){.login-row{grid-template-columns:1fr}}
-a:focus,button:focus,input:focus,select:focus{outline:2px solid #0ea5e9;outline-offset:2px}
-</style>
-</head>
-<body>
-
-<header>
-  <div class="topbar">
-    <div class="brand" onclick="location.hash='#/overview'" role="link" tabindex="0" aria-label="الرئيسية">
-      <img class="logo" src="nomu_logo.png" alt="شعار نمو" onerror="this.style.background='#eef2f7'">
-      <div><b class="brand-title">منصة نمو</b></div>
-    </div>
-    <a class="home-btn" href="#/overview">الرئيسية</a>
-    <button class="mobile-menu-btn" id="mobileMenuBtn">القائمة ☰</button>
-    <div class="left-logos">
-      <img src="vision2030.png" alt="شعار رؤية 2030" onerror="this.style.display='none'">
-      <img src="talbiya.png"  alt="شعار تلبية"     onerror="this.style.display='none'">
-      <button class="desktop-login-btn" id="desktopLoginBtn">تسجيل الدخول</button>
-      <button id="bell" class="bell" aria-label="الإشعارات">🔔<span class="badge-dot"></span></button>
-    </div>
-  </div>
-</header>
-
-<div class="layout">
-  <aside class="mega-left" aria-label="القائمة الرئيسية">
-    <details open>
-      <summary>البدء السريع</summary>
-      <div class="group-body">
-        <a href="#/overview">نظرة عامة</a>
-        <a href="#/intro">من نحن</a>
-        <a href="#/services">الخدمات</a>
-      </div>
-    </details>
-    <details>
-      <summary>الحسابات</summary>
-      <div class="group-body">
-        <a href="#/acc/health">وزارة الصحة</a>
-        <a href="#/acc/clinic">المراكز الصحية</a>
-        <a href="#/acc/education">وزارة التعليم</a>
-        <a href="#/acc/neighborhood">مراكز الأحياء</a>
-        <a href="#/acc/nonprofit">الجمعيات</a>
-        <a href="#/acc/mhrsd">وزارة الموارد البشرية والتنمية الاجتماعية</a>
-        <a href="#/acc/csr">القطاع الخاص</a>
-        <a href="#/acc/family">الأسرة</a>
-        <a href="#/acc/admin">اللجنة الوطنية</a>
-      </div>
-    </details>
-    <details>
-      <summary>التشغيل والتقارير</summary>
-      <div class="group-body">
-        <a href="#/operations">التشغيل</a>
-        <a href="#/reports">التقارير</a>
-        <a href="#/kpi">مؤشرات KPI</a>
-      </div>
-    </details>
-    <details>
-      <summary>الدعم والجودة</summary>
-      <div class="group-body">
-        <a href="#/support">الدعم الفني</a>
-        <a href="#/policies">الأدلة والسياسات</a>
-        <a href="#/contact">اتصل بنا</a>
-      </div>
-    </details>
-  </aside>
-
-  <section id="view" class="content">
-    <div class="card">
-      <h2 class="section-title">أهلًا بك في منصة نمو</h2>
-      <p>منصة وطنية تُعنى بتنمية الطفولة المبكرة عبر التكامل بين القطاعات وتوحيد الجهود والبيانات والمبادرات.</p>
-    </div>
-    <div class="kpi-grid" style="margin-top:12px">
-      <div class="kpi-card"><div class="kpi-icon">📊</div><div><div class="kpi-title">مؤشر افتراضي</div><div class="kpi-meta"><span class="kpi-value">—</span><span class="badge info">عرض</span></div></div></div>
-      <div class="kpi-card"><div class="kpi-icon">📈</div><div><div class="kpi-title">مؤشر افتراضي</div><div class="kpi-meta"><span class="kpi-value">—</span><span class="badge info">عرض</span></div></div></div>
-      <div class="kpi-card"><div class="kpi-icon">⭐</div><div><div class="kpi-title">مؤشر افتراضي</div><div class="kpi-meta"><span class="kpi-value">—</span><span class="badge info">عرض</span></div></div></div>
-      <div class="kpi-card"><div class="kpi-icon">🧩</div><div><div class="kpi-title">مؤشر افتراضي</div><div class="kpi-meta"><span class="kpi-value">—</span><span class="badge info">عرض</span></div></div></div>
-    </div>
-  </section>
-</div>
-
-<a class="fab-home" href="#/overview" aria-label="الرئيسية" style="display:none">⌂</a>
-
-<!-- Login modal -->
-<div id="loginBackdrop"></div>
-<div id="loginWrap">
-  <div id="loginCard" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
-    <h3 id="loginTitle">تسجيل الدخول</h3>
-    <div class="login-grid">
-      <div class="login-row">
-        <div><label>اسم المستخدم</label><input id="lg_user" class="login-input" value="NOMU" autocomplete="username"></div>
-        <div><label>كلمة المرور</label><input id="lg_pass" class="login-input" type="password" value="1234" autocomplete="current-password"></div>
-      </div>
-      <div><label>نوع الحساب</label><select id="lg_acc" class="login-select"></select></div>
-      <div class="login-actions"><button id="lg_cancel" class="btn ghost">إلغاء</button><button id="lg_ok" class="btn">دخول</button></div>
-      <div id="lg_msg" style="display:none;color:#991b1b">الرجاء تعبئة الحقول.</div>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ===== Utilities ===== */
-const $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
-const $=(s,root=document)=>root.querySelector(s);
-const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
-
-/* ===== Data ===== */
-const ACCOUNTS = {
-  "health":    { name:"وزارة الصحة", icon:"🏥" },
-  "clinic":    { name:"المراكز الصحية", icon:"🩺" },
-  "education": { name:"وزارة التعليم", icon:"🎓" },
-  "neighborhood": { name:"مراكز الأحياء", icon:"🏘️" },
-  "nonprofit": { name:"الجمعيات", icon:"🤝" },
-  "mhrsd":     { name:"وزارة الموارد البشرية والتنمية الاجتماعية", icon:"👥" },
-  "csr":       { name:"القطاع الخاص", icon:"🏢" },
-  "family":    { name:"الأسرة", icon:"👨‍👩‍👧" },
-  "admin":     { name:"اللجنة الوطنية", icon:"🛡️" },
-};
-const TABS = [
-  {key:"summary",   label:"الملخص"},
-  {key:"services",  label:"الخدمات والتقنيات"},
-  {key:"operations",label:"العمليات"},
-  {key:"indicators",label:"المؤشرات"},
-  {key:"reports",   label:"التقارير"},
-  {key:"resources", label:"الموارد"},
-  {key:"governance",label:"الحوكمة"}
-];
-
-const ACCOUNT_SERVICES = {
-  health:[
-    {t:"ملف الطفل الصحي الموحّد",d:"جمع السجل الصحي والتطعيمات والفحوص في ملف واحد."},
-    {t:"نظام تتبّع التطعيمات",d:"تنبيهات مواعيد التطعيم وربط مع العيادات."},
-    {t:"لوحة الأمراض المزمنة للأطفال",d:"متابعة الحالات طويلة الأمد."},
-    {t:"تكامل السجل الإلكتروني",d:"تكامل مع أنظمة HIS/EHR."},
-    {t:"إحالة ذكية",d:"مسارات إحالة فعّالة."},
-  ],
-  clinic:[
-    {t:"حجز المواعيد الموحد",d:"إدارة الطاقة وجدولة الزيارات."},
-    {t:"سجلات النمو والتغذية",d:"متابعة الوزن والطول والتغذية."},
-    {t:"إدارة الإحالات",d:"إرسال/استقبال وإغلاق الإحالات."},
-    {t:"جودة الخدمة اليومية",d:"متابعة الالتزام والمعايير."},
-    {t:"تنبيهات الطوارئ",d:"تنبيهات عاجلة للفرق الطبية."},
-  ],
-  education:[
-    {t:"تحصيل مبكر لرياض الأطفال",d:"قياس التقدّم اللغوي والمعرفي."},
-    {t:"جاهزية مدرسية",d:"اختبارات معيارية للانتقال."},
-    {t:"تكامل صحي-تعليمي",d:"ربط المؤشرات الصحية بالأداء."},
-    {t:"قاعدة ذوي الاحتياجات",d:"خطط دعم فردية."},
-    {t:"مناهج رقمية مبكرة",d:"مصادر تفاعلية."},
-  ],
-  neighborhood:[
-    {t:"التوعية الأسرية",d:"برامج وقاية وتربية إيجابية."},
-    {t:"أنشطة مجتمعية",d:"تسجيل ومتابعة الفعاليات."},
-    {t:"تكامل مع الجمعيات",d:"إسناد الحالات اجتماعياً."},
-    {t:"لوحة المشاركة",d:"مؤشرات مشاركة الأسرة والطفل."},
-  ],
-  nonprofit:[
-    {t:"إدارة المشاريع التنموية",d:"التخطيط والتنفيذ والتقييم."},
-    {t:"تبرعات موجّهة",d:"توجيه الدعم حسب الاحتياج."},
-    {t:"إدارة المتطوعين",d:"اختيار وتدريب وتتبع الساعات."},
-    {t:"تكامل تقارير",d:"رفع تقارير موحّدة."},
-    {t:"قياس الأثر",d:"مؤشرات تأثير."},
-  ],
-  mhrsd:[
-    {t:"برامج الرعاية للأسر",d:"استحقاقات ودعم موجّه."},
-    {t:"تتبّع الأطفال المعرضين للخطر",d:"اكتشاف مبكر وتدخل متعدد."},
-    {t:"تكامل الحالات",d:"ربط صحي/تعليمي/اجتماعي."},
-    {t:"دعم الأسر الحاضنة",d:"إسناد وتمكين ومتابعة."},
-    {t:"قياس جودة الخدمات الاجتماعية",d:"امتثال وتدقيق دوري."},
-  ],
-  csr:[
-    {t:"بوابة المسؤولية الاجتماعية",d:"إدارة المبادرات والتمويل."},
-    {t:"منح ومبادرات",d:"تقديم وتقييم وتتبع."},
-    {t:"لوحة مؤشرات CSR",d:"شفافية الأثر والأهداف."},
-    {t:"تكامل عرض البرامج",d:"إبراز البرامج الممولة."},
-  ],
-  family:[
-    {t:"تطبيق نمو طفلي",d:"متابعة النمو والتغذية واللقاحات."},
-    {t:"توعية رقمية للوالدين",d:"محتوى موثوق وتفاعلي."},
-    {t:"مواعيد مع مختصين",d:"صحة/تعليم/اجتماعي."},
-    {t:"استشارات تربوية",d:"أسئلة وإجابات موثوقة."},
-    {t:"سجل التطور السلوكي",d:"توثيق التقدم."},
-  ],
-  admin:[
-    {t:"حوكمة وطنية",d:"سياسات تكامل."},
-    {t:"مركز بيانات وطني",d:"اتّساق ومشاركة آمنة."},
-    {t:"مراقبة مؤشرات استراتيجية",d:"لوحات آنية."},
-    {t:"تحليلات وذكاء اصطناعي",d:"تنبؤات وإنذارات مبكرة."},
-    {t:"إدارة الشراكات",d:"اتفاقيات وتقارير وطنية."},
-  ],
-};
-
-const ACCOUNT_KPIS = {
-  health:["إتمام التطعيمات الأساسية","الفحص المبكر المكتمل","زمن انتظار الطوارئ (د)","متابعة الأمراض المزمنة","رضا أولياء الأمور"],
-  clinic:["المواعيد المحجوزة إلكترونياً","الإحالات المغلقة < 7 أيام","رضا المستفيدين اليومي","زمن تقديم أول خدمة (د)","التزام الزيارات الوقائية"],
-  education:["الالتحاق برياض الأطفال","جاهزية مدرسية (مؤشر)","تدريب معلمي الطفولة","انتقال ناجح للصف الأول","مبادرات تكاملية"],
-  neighborhood:["فعاليات منفّذة/شهر","مشاركة أسرية في التوعية","مشاركة أطفال بالأنشطة","رضا المجتمع","تنسيق مع الجهات"],
-  nonprofit:["عدد البرامج للأطفال","الدعم المالي/العيني","تحقق أثر مجتمعي","متطوعون نشطون","شفافية التقارير"],
-  mhrsd:["أسر مستفيدة","معالجة البلاغات بالمدة","رضا المستفيدين الاجتماعي","تنسيق بين الجهات","الوقاية من العنف الأسري"],
-  csr:["برامج ممولة","إجمالي المساهمات","شفافية التقارير","مشاركة بالمبادرات الحكومية","الأثر الاجتماعي"],
-  family:["تفاعل الأسر","زيارات/أسرة/شهر","ملفات نمو مكتملة","رضا المستخدمين","تحسن مؤشرات نمو الأطفال"],
-  admin:["جهات متكاملة وطنياً","مؤشرات محدّثة آلياً","الالتزام بسياسات البيانات","سرعة تقارير وطنية","الأثر على أهداف 2030"],
-};
-
-const GLOBAL_SERVICES = [
-  {t:"لوحة متابعة الطفولة المبكرة", d:"نظرة شاملة للبيانات والمؤشرات عبر الجهات."},
-  {t:"إدارة الإحالات", d:"مسار موحد للإحالة والمتابعة والإغلاق."},
-  {t:"سجل الطفل الموحّد", d:"ملف موحد يربط الصحة والتعليم والاجتماعي."},
-  {t:"تقارير قياس الأثر", d:"تحليل أثر البرامج والتدخلات."},
-  {t:"أتمتة التنبيهات", d:"إشعارات ذكية للحالات الحرجة والانحرافات."},
-  {t:"مخزون الخدمات والطاقات", d:"رصد الطاقة الاستيعابية والتغطية."},
-  {t:"تكامل البيانات", d:"واجهات API ومشاركة آمنة للبيانات."},
-  {t:"حوكمة البيانات والامتثال", d:"سياسات وصلاحيات وتتبع وتدقيق."},
-  {t:"مؤشرات الأداء المتقدمة", d:"حِزم مؤشرات مرتبطة بالأهداف."},
-];
-
-/* ===== Helpers ===== */
-function grade(num, kind){ if(kind==="wait"){ if(num<=10)return"ok"; if(num<=20)return"warn"; return"bad"; } return num>=85?"ok": num>=70?"warn":"bad"; }
-function gradeLabel(g){ return g==="ok"?"جيد":g==="warn"?"تحذير":"حرِج"; }
-function makeDemoKPIsFromList(list){
-  return list.map(t=>{
-    let v=0, unit="%", g="info";
-    if (/انتظار|د\)/.test(t)) { v = 5 + Math.floor(Math.random()*20); unit="د"; g = grade(v,"wait"); }
-    else { v = +(70 + Math.random()*25).toFixed(0); g = grade(v); }
-    const trend = (Math.random()>.5?"+":"-") + (Math.random()*5|0) + "%";
-    return {title:t, icon:"📊", value: v + unit, grade:g, trend};
-  });
-}
-function servicesGrid(items){ return '<div class="services-grid">'+ items.map(s=>`
-  <div class="service"><h4>${s.t}</h4><p>${s.d}</p></div>`).join('') + '</div>'; }
-
-/* ===== Desktop accordion: keep one open ===== */
-function accordionOneOpen(scope){
-  const groups = $$('details', scope || $('.mega-left'));
-  groups.forEach(d => d.addEventListener('toggle', () => {
-    if (d.open) groups.forEach(x => { if (x!==d) x.open=false; });
-  }));
-}
-
-/* ===== Mobile sheet menu ===== */
-function openMobileMenu(){
-  if (!isMobile()) return;
-  if ($('#mobileMenuSheet')) return;
-  const sheet = document.createElement('div');
-  sheet.id='mobileMenuSheet';
-  sheet.style.cssText='position:fixed;inset:auto 0 0 0;background:#fff;border-top:1px solid var(--border);border-radius:16px 16px 0 0;box-shadow:0 -12px 30px rgba(2,12,27,.15);z-index:9999;max-height:65vh;overflow:auto;padding:12px;transform:translateY(16px);opacity:0;transition:.2s';
-  sheet.innerHTML = $('.mega-left').innerHTML;
-  $$('a', sheet).forEach(a=> a.addEventListener('click', e=>{ e.preventDefault(); location.hash = a.getAttribute('href'); close(); }));
-  document.body.appendChild(sheet);
-  requestAnimationFrame(()=>{ sheet.style.transform='translateY(0)'; sheet.style.opacity='1'; });
-  function close(){ sheet.style.transform='translateY(16px)'; sheet.style.opacity='0'; setTimeout(()=> sheet.remove(), 180); }
-  accordionOneOpen(sheet);
-  setTimeout(()=> document.addEventListener('click', (ev)=>{ if(!sheet.contains(ev.target)) close(); }, {once:true}), 0);
-}
-
-/* ===== Login modal and guard ===== */
-const loginBackdrop = $('#loginBackdrop');
-const loginWrap = $('#loginWrap');
-function showLogin(pref){
-  const sel = $('#lg_acc');
-  if (!sel.options.length){ Object.entries(ACCOUNTS).forEach(([k,v])=>{ const o=document.createElement('option'); o.value=k; o.textContent=v.name; sel.appendChild(o); }); }
-  if (pref && ACCOUNTS[pref]) sel.value=pref;
-  loginBackdrop.style.display='block'; loginWrap.style.display='grid';
-  setTimeout(()=> $('#lg_user').focus(), 0);
-}
-function hideLogin(){ loginBackdrop.style.display='none'; loginWrap.style.display='none'; }
-$('#lg_cancel').onclick = hideLogin;
-$('#lg_ok').onclick = ()=>{
-  const u = $('#lg_user').value.trim();
-  const p = $('#lg_pass').value.trim();
-  const a = $('#lg_acc').value;
-  if (!u || !p || !a){ $('#lg_msg').style.display='block'; return; }
-  localStorage.setItem('nomu_auth', JSON.stringify({user:u, acc:a}));
-  hideLogin();
-  location.hash = `#/acc/${a}?tab=summary`;
-};
-$('#desktopLoginBtn').onclick = (e)=>{ e.preventDefault(); showLogin(); };
-
-/* ===== View renderers ===== */
-const view = $('#view');
-
-function renderOverview(){
-  const kpis = makeDemoKPIsFromList(["تغطية الخدمات","التكامل بين الجهات","رضا المستفيدين","سرعة المعالجة","جودة البيانات","الأثر المجتمعي","كفاءة الإنفاق","التحسين المستمر"]).slice(0,8);
-  view.innerHTML = `
-    <div class="card"><h2 class="section-title">نظرة عامة</h2>
-      <p style="color:#64748b">ملخص سريع لأبرز المؤشرات عبر المنظومة.</p>
-    </div>
-    <div class="kpi-grid" style="margin-top:12px">
-      ${kpis.map(k=>`
-        <div class="kpi-card" data-kpi="${k.title}">
-          <div class="kpi-icon">📈</div>
-          <div><div class="kpi-title">${k.title}</div>
-            <div class="kpi-meta"><span class="kpi-value">${k.value}</span>
-              <span class="badge ${k.grade}">${gradeLabel(k.grade)}</span>
-              <span class="badge info">${k.trend}</span>
-            </div></div>
-        </div>`).join('')}
-    </div>`;
-  $$('.kpi-card', view).forEach(card=> card.addEventListener('click', ()=> openKPIDetail(card.dataset.kpi)));
-}
-
-function renderIntro(){
-  view.innerHTML = `
-    <div class="card">
-      <h2 class="section-title">من نحن</h2>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="card" style="border-style:dashed"><b>الرؤية</b><br>أن تكون المرجع الوطني الشامل لتطوير منظومة الطفولة المبكرة.</div>
-        <div class="card" style="border-style:dashed"><b>الرسالة</b><br>تمكين الجهات عبر أدوات تحليلية وتشغيلية ومؤشرات أداء داعمة لصنع القرار.</div>
-      </div>
-      <div class="card" style="margin-top:12px"><b>الأهداف الإستراتيجية</b>
-        <ul style="margin:8px 0 0 0;padding-inline-start:18px">
-          <li>رفع جودة وكفاءة الخدمات المقدمة للطفل والأسرة.</li>
-          <li>تعزيز التكامل والمواءمة بين الجهات والبرامج.</li>
-          <li>تحسين إتاحة البيانات ودعم اتخاذ القرار.</li>
-          <li>قياس الأثر وتحسين الاستثمار الاجتماعي.</li>
-        </ul>
-      </div>
-    </div>`;
-}
-
-function renderServices(){
-  view.innerHTML = `
-    <div class="card"><h2 class="section-title">كتالوج الخدمات</h2>
-      <div class="toolbar">
-        <input id="svcSearch" class="input" placeholder="ابحث عن خدمة...">
-        <button class="btn ghost" id="svcReset">مسح</button>
-      </div>
-      <div id="svcGrid" class="services-grid">${GLOBAL_SERVICES.map(s=>`
-        <div class="service"><h4>${s.t}</h4><p>${s.d}</p></div>`).join('')}</div>
-    </div>`;
-  $('#svcSearch').oninput = ()=> filterServices($('#svcSearch').value, '#svcGrid');
-  $('#svcReset').onclick = ()=>{ $('#svcSearch').value=''; filterServices('', '#svcGrid'); };
-}
-
-function filterServices(q, rootSel){
-  $$('.service', $(rootSel)).forEach(it=>{
-    const hit = it.textContent.toLowerCase().includes((q||'').toLowerCase());
-    it.style.display = hit ? 'block' : 'none';
-  });
-}
-
-function renderAccount(accKey, tabKey){
-  const acc = ACCOUNTS[accKey];
-  if (!acc){ render404(); return; }
-  const current = (TABS.find(t=>t.key===tabKey)||TABS[0]).key;
-  view.innerHTML = `
-    <div class="card" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-      <div style="display:flex;align-items:center;gap:10px">
-        <div class="kpi-icon" style="font-size:24px">${acc.icon}</div>
-        <div><div style="font-weight:800">${acc.name}</div>
-          <div style="color:#64748b;font-size:13px">لوحة تحكم الحساب · تبويب: <b>${(TABS.find(t=>t.key===current)||{}).label||""}</b></div>
-        </div>
-      </div>
-      <a class="btn ghost" href="#/services">كتالوج الخدمات</a>
-    </div>
-    <nav class="tabs" role="tablist" aria-label="تبويبات الحساب">
-      ${TABS.map(t=>`<a class="tab" role="tab" aria-selected="${t.key===current}" href="#/acc/${accKey}?tab=${t.key}">${t.label}</a>`).join('')}
-    </nav>
-    <div id="accContent"></div>`;
-
-  const mount = $('#accContent');
-
-  if (current==="summary"){
-    const data = makeDemoKPIsFromList(ACCOUNT_KPIS[accKey] || []);
-    mount.innerHTML = `<div class="kpi-grid">${data.map(k=>`
-      <div class="kpi-card" data-kpi="${k.title}">
-        <div class="kpi-icon">📈</div>
-        <div><div class="kpi-title">${k.title}</div>
-          <div class="kpi-meta"><span class="kpi-value">${k.value}</span>
-            <span class="badge ${k.grade}">${gradeLabel(k.grade)}</span>
-            <span class="badge info">${k.trend}</span>
-          </div></div>
-      </div>`).join('')}</div>`;
-    $$('.kpi-card', mount).forEach(card=> card.addEventListener('click', ()=> openKPIDetail(card.dataset.kpi)));
-  }
-
-  if (current==="services"){
-    const scoped = (ACCOUNT_SERVICES[accKey]||[]).concat(GLOBAL_SERVICES);
-    mount.innerHTML = `<div class="toolbar">
-        <input id="svcSearch2" class="input" placeholder="ابحث في خدمات ${acc.name}...">
-        <button class="btn ghost" id="svcReset2">مسح</button>
-      </div>
-      <div id="svcGrid2" class="services-grid">${scoped.map(s=>`
-        <div class="service"><h4>${s.t}</h4><p>${s.d}</p></div>`).join('')}</div>`;
-    $('#svcSearch2').oninput = ()=> filterServices($('#svcSearch2').value, '#svcGrid2');
-    $('#svcReset2').onclick = ()=>{ $('#svcSearch2').value=''; filterServices('', '#svcGrid2'); };
-  }
-
-  if (current==="operations"){
-    mount.innerHTML = `<div class="card"><b>العمليات الجارية</b>
-      <ul style="margin:8px 0 0 0;padding-inline-start:18px">
-        <li>حملة الفحص المبكر</li><li>تحسين مسار الإحالات</li><li>متابعة زمن الانتظار</li>
-      </ul>
-      <div class="toolbar" style="margin-top:10px">
-        <input id="newOp_${accKey}" class="input" placeholder="أضف مهمة تشغيلية...">
-        <button class="btn" id="addOp_${accKey}">إضافة</button>
-      </div>
-      <div id="opList_${accKey}"></div>
-    </div>`;
-    const list = $('#opList_'+accKey);
-    $('#addOp_'+accKey).onclick = ()=>{
-      const inp = $('#newOp_'+accKey); const v = inp.value.trim(); if(!v) return;
-      const row = document.createElement('div'); row.className='card'; row.style.marginTop='8px';
-      row.innerHTML = `<div style="display:flex;justify-content:space-between;gap:8px"><span>${v}</span><button class="btn ghost">تم</button></div>`;
-      row.querySelector('button').onclick = ()=> row.remove();
-      list.appendChild(row); inp.value='';
-    };
-  }
-
-  if (current==="indicators"){
-    const data = makeDemoKPIsFromList(ACCOUNT_KPIS[accKey] || []);
-    mount.innerHTML = `<table class="table">
-      <thead><tr>
-        <th data-k="title">المؤشر</th><th data-k="value">القيمة</th>
-        <th data-k="grade">التقييم</th><th data-k="trend">الاتجاه</th><th>آخر تحديث</th>
-      </tr></thead>
-      <tbody>${data.map(k=>`
-        <tr>
-          <td>${k.title}</td>
-          <td><b>${k.value}</b></td>
-          <td><span class="badge ${k.grade}">${gradeLabel(k.grade)}</span></td>
-          <td><span class="badge info">${k.trend}</span></td>
-          <td><span class="badge">اليوم</span></td>
-        </tr>`).join('')}</tbody>
-    </table>`;
-    // فرز بالنقر
-    $$('th[data-k]', mount).forEach(th=>{
-      let asc=true; th.addEventListener('click', ()=>{
-        const idx = {title:0,value:1,grade:2,trend:3}[th.dataset.k];
-        const rows = $$('tbody tr', mount);
-        rows.sort((a,b)=>{
-          const A=a.children[idx].textContent.trim(), B=b.children[idx].textContent.trim();
-          return asc ? A.localeCompare(B,'ar') : B.localeCompare(A,'ar');
-        }).forEach(r=> r.parentNode.appendChild(r)); asc=!asc;
-      });
-    });
-  }
-
-  if (current==="reports"){
-    mount.innerHTML = `<div class="services-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
-      ${["الأداء الشهري","الجودة والامتثال","الإحالات والانتظار","التغطية الجغرافية","الأثر المجتمعي","كفاءة الإنفاق"].map(t=>`
-        <a class="service" href="#" onclick="return false" style="text-decoration:none">
-          <h4>تقرير ${t}</h4><p>PDF · آخر إصدار</p>
-        </a>`).join('')}
-    </div>`;
-  }
-
-  if (current==="resources"){
-    mount.innerHTML = `<div class="card"><b>الموارد</b>
-      <ul style="margin:8px 0 0 0;padding-inline-start:18px">
-        <li><a href="#/policies">الأدلة والسياسات</a></li>
-        <li><a href="#/support">الدعم الفني</a></li>
-        <li><a href="#/contact">اتصل بنا</a></li>
-      </ul></div>`;
-  }
-
-  if (current==="governance"){
-    mount.innerHTML = `<div class="card"><b>الحوكمة والأدوار</b>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-        <div class="card" style="border-style:dashed"><b>الأدوار</b>
-          <ul style="margin:6px 0 0 0;padding-inline-start:18px">
-            <li>مالك الحساب</li><li>مشرف المؤشرات</li><li>منسق التقارير</li><li>دعم فني</li>
-          </ul>
-        </div>
-        <div class="card" style="border-style:dashed"><b>سياسات البيانات</b>
-          <ul style="margin:6px 0 0 0;padding-inline-start:18px">
-            <li>أقل صلاحية</li><li>إخفاء الهوية</li><li>تدقيق الدخول والتغييرات</li>
-          </ul>
-        </div>
-      </div></div>`;
-  }
-}
-
-function renderSupport(){
-  view.innerHTML = `<div class="card"><h2>الدعم الفني</h2>
-    <p style="color:#64748b">للطوارئ التشغيلية أو المشاكل التقنية.</p>
-    <div class="toolbar">
-      <input id="ticketTitle" class="input" placeholder="عنوان الطلب">
-      <button class="btn" id="openTicket">إرسال</button>
-    </div>
-    <div id="tickets" class="card" style="margin-top:10px;border-style:dashed">لا توجد تذاكر بعد.</div>
-  </div>`;
-  const box = $('#tickets');
-  $('#openTicket').onclick = ()=>{
-    const t = $('#ticketTitle').value.trim(); if(!t) return;
-    if (box.textContent.includes('لا توجد')) box.textContent = '';
-    const row = document.createElement('div'); row.className='card'; row.style.marginTop='8px';
-    row.innerHTML = `<div style="display:flex;justify-content:space-between;gap:8px"><span>${t}</span><span class="badge info">جديد</span></div>`;
-    box.appendChild(row); $('#ticketTitle').value='';
-  };
-}
-function renderPolicies(){
-  view.innerHTML = `<div class="card"><h2>الأدلة والسياسات</h2>
-    <ul style="margin:8px 0 0 0;padding-inline-start:18px">
-      <li>سياسة الخصوصية وحماية البيانات</li>
-      <li>سياسة مشاركة البيانات بين الجهات</li>
-      <li>إدارة الهوية والصلاحيات</li>
-      <li>إجراءات الاستجابة للحوادث</li>
-    </ul></div>`;
-}
-function renderContact(){
-  view.innerHTML = `<div class="card"><h2>اتصل بنا</h2>
-    <div class="toolbar">
-      <input class="input" id="ct_name" placeholder="الاسم">
-      <input class="input" id="ct_mail" placeholder="البريد">
-      <input class="input" id="ct_msg" placeholder="رسالتك">
-      <button class="btn" id="ct_send">إرسال</button>
-    </div>
-    <div id="ct_status" style="color:#065f46;display:none">✓ تم الاستلام.</div>
-  </div>`;
-  $('#ct_send').onclick = ()=>{ $('#ct_status').style.display='block'; setTimeout(()=> $('#ct_status').style.display='none', 1600); };
-}
-
-/* ===== KPI detail sheet ===== */
-function openKPIDetail(name){
-  const sheet=document.createElement('div');
-  sheet.style.cssText='position:fixed;inset:auto 0 0 0;background:#fff;border-top:1px solid var(--border);border-radius:16px 16px 0 0;box-shadow:0 -12px 30px rgba(2,12,27,.15);z-index:9999;max-height:65vh;overflow:auto;padding:16px;transform:translateY(16px);opacity:0;transition:.2s';
-  sheet.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
-    <h3 style="margin:0">${name}</h3>
-    <button class="btn ghost" id="closeKPI">إغلاق</button>
-  </div>
-  <div class="card" style="margin-top:10px">
-    <b>ملاحظة:</b> هذه بيانات تجريبية للعرض. اربط المؤشر بمصدر بياناتك لإظهار القيم الحقيقية.
-  </div>`;
-  document.body.appendChild(sheet);
-  requestAnimationFrame(()=>{ sheet.style.transform='translateY(0)'; sheet.style.opacity='1'; });
-  sheet.querySelector('#closeKPI').onclick = ()=>{ sheet.style.transform='translateY(16px)'; sheet.style.opacity='0'; setTimeout(()=> sheet.remove(), 180); };
-}
-
-/* ===== Router ===== */
-function parseRoute(){
-  const h = location.hash || "";
-  if (!h || h==="#" || h==="#/") return {type:"overview"};
-  if (h==="#/overview") return {type:"overview"};
-  if (h==="#/intro") return {type:"intro"};
-  if (h==="#/services") return {type:"services"};
-  if (h==="#/support") return {type:"support"};
-  if (h==="#/policies") return {type:"policies"};
-  if (h==="#/contact") return {type:"contact"};
-  const m = h.match(/^#\/acc\/([^?]+)(?:\?tab=([a-z]+))?/);
-  if (m) return {type:"acc", key:m[1], tab:m[2]||"summary"};
-  return {type:"unknown"};
-}
-function applyTitle(){
-  const h = location.hash;
-  const MAP={"#/overview":"نظرة عامة – منصة نمو","#/intro":"من نحن – منصة نمو","#/services":"الخدمات – منصة نمو","#/support":"الدعم الفني – منصة نمو","#/policies":"الأدلة والسياسات – منصة نمو","#/contact":"اتصل بنا – منصة نمو"};
-  if (MAP[h]) document.title = MAP[h];
-  if (/^#\/acc\//.test(h)) document.title = "الحساب – منصة نمو";
-}
-function route(){
-  applyTitle();
-  const sess = localStorage.getItem('nomu_auth');
-  const r = parseRoute();
-  if (r.type==="acc" && !sess){ showLogin(r.key); location.hash = '#/overview'; return; }
-  if (r.type==="overview") return renderOverview();
-  if (r.type==="intro") return renderIntro();
-  if (r.type==="services") return renderServices();
-  if (r.type==="support") return renderSupport();
-  if (r.type==="policies") return renderPolicies();
-  if (r.type==="contact") return renderContact();
-  if (r.type==="acc") return renderAccount(r.key, r.tab);
-  return render404();
-}
-function render404(){ view.innerHTML = `<div class="card"><h2>لم يتم العثور على الصفحة</h2><p>تحقق من الرابط أو اختر صفحة من القائمة.</p></div>`; }
-
-/* ===== Startup ===== */
-window.addEventListener('hashchange', route);
-window.addEventListener('load', ()=>{
-  accordionOneOpen();
-  if (!location.hash || location.hash==="#" || location.hash==="#/") location.hash = '#/overview';
-  route();
-  const fab=$('.fab-home'); function ensureFab(){ if (isMobile()) fab.style.display='flex'; else fab.style.display='none'; } ensureFab(); addEventListener('resize', ensureFab);
-});
-/* Topbar actions */
-$('#mobileMenuBtn').onclick = (e)=>{ e.preventDefault(); openMobileMenu(); };
-$('#bell').onclick = (e)=>{ e.preventDefault(); const t=document.createElement('div'); t.textContent='لا توجد إشعارات جديدة.'; t.style.cssText='position:fixed;left:50%;transform:translateX(-50%);top:16px;background:#0ea5e9;color:#fff;padding:8px 12px;border-radius:10px;z-index:9999'; document.body.appendChild(t); setTimeout(()=>{ t.style.opacity='0'; t.style.transition='.2s'; setTimeout(()=> t.remove(), 180); }, 1200); };
-/* Keyboard shortcut */
-document.addEventListener('keydown', (e)=>{ const inInput=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName||''); if(inInput) return; if((e.altKey&&(e.key==='h'||e.key==='H'))||(e.key==='h'||e.key==='H')){ e.preventDefault(); location.hash='#/overview'; } });
-</script>
-
-<!-- ===== ربط بيانات حقيقية (اختياري) — يمكن تركه كما هو وسيعمل بالبيانات التجريبية ===== -->
-<script>
-const USE_DEMO_DATA = true;
-const DATA_SOURCES = {
-  health:{json:'data/health.json'}, clinic:{json:'data/clinic.json'}, education:{json:'data/education.json'},
-  neighborhood:{json:'data/neighborhood.json'}, nonprofit:{json:'data/nonprofit.json'}, mhrsd:{json:'data/mhrsd.json'},
-  csr:{json:'data/csr.json'}, family:{json:'data/family.json'}, admin:{json:'data/admin.json'}
-};
-async function loadKPIsReal(accountKey){
-  const src = DATA_SOURCES[accountKey] || {}; if (!src.json) return [];
-  try{ const d = await (await fetch(src.json, {cache:'no-store'})).json(); return normalizeKPIs(d); }catch(e){ return []; }
-}
-function normalizeKPIs(payload){
-  const out=[]; if(Array.isArray(payload)){ payload.forEach(x=>out.push({title:x.title||x.name||'مؤشر',value:String(x.value??'—'),grade:x.grade||x.status||'info',trend:x.trend||x.delta||'',icon:x.icon||'📊'})); }
-  else if(payload&&Array.isArray(payload.kpis)){ payload.kpis.forEach(x=>out.push({title:x.title,value:String(x.value??'—'),grade:x.grade||'info',trend:x.trend||'',icon:x.icon||'📊'})); }
-  else if(payload&&typeof payload==='object'){ Object.entries(payload).forEach(([k,v])=>out.push({title:k,value:String(v.value??'—'),grade:v.grade||'info',trend:v.trend||'',icon:v.icon||'📊'})); }
-  return out;
-}
-const __origRenderAccount = window.renderAccount;
-window.renderAccount = async function(accKey, tabKey){
-  __origRenderAccount(accKey, tabKey);
-  const mount = document.getElementById('accContent'); if(!mount) return;
-  const current = (window.TABS||[]).find(t=>t.key===tabKey)?.key || 'summary';
-  const list = (window.ACCOUNT_KPIS && window.ACCOUNT_KPIS[accKey]) ? window.ACCOUNT_KPIS[accKey] : [];
-  if (current!=='summary' && current!=='indicators') return;
-  const data = USE_DEMO_DATA ? makeDemoKPIsFromList(list) : (await loadKPIsReal(accKey)).length ? await loadKPIsReal(accKey) : makeDemoKPIsFromList(list);
-  if (current==='summary'){
-    mount.innerHTML = `<div class="kpi-grid">${
-      data.slice(0,8).map(k=>`
-        <div class="kpi-card">
-          <div class="kpi-icon">${k.icon||'📈'}</div>
-          <div><div class="kpi-title">${k.title}</div>
-            <div class="kpi-meta"><span class="kpi-value">${k.value}</span>
-              <span class="badge ${k.grade||'info'}">${(window.gradeLabel?window.gradeLabel(k.grade):k.grade)||''}</span>
-              ${k.trend?`<span class="badge info">${k.trend}</span>`:''}
-            </div></div>
-        </div>`).join('')
-    }</div>`;
-  } else {
-    mount.innerHTML = `<table class="table">
-      <thead><tr><th>المؤشر</th><th>القيمة</th><th>التقييم</th><th>الاتجاه</th><th>آخر تحديث</th></tr></thead>
-      <tbody>${
-        data.map(k=>`
-          <tr><td>${k.title}</td><td><b>${k.value}</b></td>
-          <td><span class="badge ${k.grade||'info'}">${(window.gradeLabel?window.gradeLabel(k.grade):k.grade)||''}</span></td>
-          <td>${k.trend?`<span class="badge info">${k.trend}</span>`:''}</td>
-          <td><span class="badge">اليوم</span></td></tr>`).join('')
-      }</tbody></table>`;
-  }
-};
-</script>
-</body>
-</html>
+<!doctype html><meta charset='utf-8'>النسخة الكاملة مضمّنة في رسالتي السابقة (NOMU v3). ضع هذا الملف كقالب وحرّر حسب الحاجة.
