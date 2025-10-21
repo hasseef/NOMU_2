@@ -82,6 +82,32 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
   .bottom-nav a{ padding:8px 10px; border-radius:10px; font-size:12px; color:#334155 }
   .bottom-nav a.active{ background:#f1f5f9 }
 }
+
+@media (max-width: 979px){
+  .bottom-nav{
+    position: sticky;
+    bottom: 0;
+    inset-inline: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border-top: 1px solid var(--border);
+    padding: 8px;
+    z-index: 40;
+  }
+  .bottom-nav a{
+    flex: 1 1 auto;
+    text-align: center;
+    padding: 8px 6px;
+    border-radius: 10px;
+    font-size: 12px;
+    color: #334155;
+    text-decoration: none;
+  }
+  .bottom-nav a.active{ background:#f1f5f9; color:#0f766e; font-weight:700 }
+}
 </style>
 </head>
 <body>
@@ -800,6 +826,54 @@ function renderMobileCardsFromRows(rows){
       }
     };
   }
+})();
+</script>
+
+
+<!-- Bottom Navigation for Mobile -->
+<nav id="nomu-bottom-nav" class="bottom-nav" aria-label="التنقل السفلي (الجوال)">
+  <a href="#/overview" data-tab="overview">نظرة عامة</a>
+  <a href="#/choose-account" data-tab="accounts">الحسابات</a>
+  <a href="#/reports" data-tab="reports">التقارير</a>
+  <a href="#/help" data-tab="help">المساعدة</a>
+  <a href="#/policies" data-tab="more">المزيد</a>
+</nav>
+
+
+<script>
+function nomuSyncBottomNav(){
+  var nav = document.getElementById('nomu-bottom-nav');
+  if (!nav) return;
+  var hash = location.hash || "#/overview";
+  var tabMap = {
+    "overview": "#/overview",
+    "accounts": "#/choose-account",
+    "reports": "#/reports",
+    "help": "#/help",
+    "more": "#/policies"
+  };
+  // remove active
+  nav.querySelectorAll('a').forEach(function(a){ a.classList.remove('active'); });
+  // set active by hash
+  var found = null;
+  nav.querySelectorAll('a').forEach(function(a){
+    var href = a.getAttribute('href');
+    if (hash === href) found = a;
+  });
+  (found || nav.querySelector('a[data-tab="overview"]')).classList.add('active');
+}
+// click handling (ensure same SPA behavior)
+(function(){
+  var nav = document.getElementById('nomu-bottom-nav');
+  if (!nav) return;
+  nav.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(e){
+      // Let hash change proceed; active state updates on hashchange
+      setTimeout(nomuSyncBottomNav, 0);
+    });
+  });
+  window.addEventListener('hashchange', nomuSyncBottomNav);
+  window.addEventListener('load', nomuSyncBottomNav);
 })();
 </script>
 
