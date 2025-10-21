@@ -4,10 +4,10 @@
 <style>
 :root{--ink:#0f172a;--muted:#64748b;--border:#e6e9ef;--bg:#fff;--brand:#0ea5e9}
 *{box-sizing:border-box}html,body{height:100%}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,"Noto Naskh Arabic UI",sans-serif;color:var(--ink);background:#fff}
-header .topbar{display:flex;align-items:center;gap:12px;padding:10px 14px;min-height:72px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:60}
-.brand{display:flex;align-items:center;gap:10px;cursor:pointer;min-width:0}.brand .mark svg{display:block}.brand .word{font-weight:900}.brand .sub{font-size:11px;color:var(--muted);margin-top:-2px}
+header .topbar{display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:78px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:60}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;min-width:0}.brand .mark svg{display:block}.brand .word{font-weight:900;margin-top:2px}.brand .sub{font-size:11px;color:var(--muted);margin-top:0}
 .home-btn,.desktop-login-btn,.btn{display:inline-flex;align-items:center;gap:6px;background:var(--brand);color:#fff;border:0;border-radius:10px;padding:10px 14px;font-size:13px;text-decoration:none;cursor:pointer}.btn.ghost{background:#fff;border:1px solid var(--border);color:var(--ink)}
-.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}.left-logos img{height:28px;width:auto;object-fit:contain}
+.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:6px}.left-logos img{height:24px;width:auto;object-fit:contain;opacity:.95}
 .icon{width:18px;height:18px;vertical-align:-3px}.bell{position:relative;width:40px;height:40px;border:1px solid var(--border);border-radius:12px;background:#fff;display:flex;align-items:center;justify-content:center}
 .badge-dot{position:absolute;inset:auto auto 2px 2px;width:8px;height:8px;border-radius:99px;background:#ef4444}
 @media (min-width:980px){.layout{display:grid;grid-template-columns:300px 1fr;gap:16px;padding:16px}.mega-left{position:sticky;top:90px;align-self:start}.mega-left details{border:1px solid var(--border);border-radius:12px;margin:8px 0;background:#fff;overflow:hidden}
@@ -25,6 +25,7 @@ header .topbar{display:flex;align-items:center;gap:12px;padding:10px 14px;min-he
 .form-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.form-grid .field{display:flex;flex-direction:column;gap:6px}
 .form-grid .field input,.form-grid .field select{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff}
 @media (max-width:979px){header .topbar{min-height:78px}.brand .word{font-size:18px}.mobile-menu-btn{display:inline-flex;align-items:center;gap:6px;margin-inline-start:8px;background:#0ea5e9;color:#fff;border:none;border-radius:10px;padding:8px 12px;font-size:13px}
+  .brand .mark svg{width:52px;height:52px}
 .layout{display:block;padding:12px}.mega-left{display:none}.tabs,.toolbar{display:block}.tabs>*{display:block;margin:6px 0}.kpi-grid{grid-template-columns:1fr 1fr}.services-grid{grid-template-columns:1fr}
 .form-grid{grid-template-columns:1fr}.fab-home{position:fixed;right:14px;bottom:14px;z-index:9998;width:52px;height:52px;border-radius:999px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;background:#0ea5e9;color:#fff;font-size:22px;text-decoration:none;box-shadow:0 10px 30px rgba(2,12,27,.18)}}
 #loginBackdrop{position:fixed;inset:0;background:rgba(2,12,27,.45);display:none;z-index:10000}#loginWrap{position:fixed;inset:0;display:none;z-index:10001;place-items:center}#loginCard{width:min(92vw,560px);background:#fff;border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:0 20px 60px rgba(2,12,27,.25)}
@@ -134,6 +135,9 @@ svg.i{width:18px;height:18px;stroke:#0f172a;fill:none;stroke-width:2;stroke-line
 </div>
 
 <script>
+const DATA = {"health": {"services": {"الخدمات الصحية الذكية": ["الملف الصحي الموحّد للطفل", "سجل التطعيمات الذكي", "الفحص السمعي والبصري المبكر", "نظام الإشعارات الوقائية", "تكامل الوصفات الإلكترونية", "لوحة الأمراض المعدية للأطفال", "مسار الإحالات المعزّز"], "الأداء والجودة": ["زمن الانتظار حسب العيادة", "نسبة إغلاق الإحالات", "تتبّع الأحداث السلبية", "رضا أولياء الأمور", "التغطية الجغرافية للفحوص"], "نماذج وحقول (تجريبية)": [{"form": "تسجيل زيارة طفل", "fields": ["رقم الملف", "العمر (أشهر)", "الوزن", "الطول", "محیط الرأس", "ملاحظات"]}, {"form": "إحالة حالة خاصة", "fields": ["التشخيص الأولي", "درجة الخطورة", "جهة الإحالة", "سبب الإحالة", "مرفقات"]}]}, "kpis": ["إتمام التطعيمات الأساسية", "الفحص المبكر المكتمل", "زمن انتظار الطوارئ (د)", "إغلاق الإحالات خلال 7 أيام", "رضا أولياء الأمور", "تغطية العيادات الوقائية"], "ops": ["حملة تطعيم موسمية", "توسعة عيادة الأطفال", "ربط نظام الإحالات"]}, "clinic": {"services": {"التشغيل اليومي": ["جدولة المواعيد الذكية", "توزيع الطاقة الاستيعابية", "إدارة قوائم الانتظار", "آلية النداء بالأولوية", "استبيانات فورية بعد الزيارة"], "التواصل الأسري": ["تقارير منزلية مبسطة", "خطة متابعة الحالات المزمنة", "تذكير بالزيارات", "موافقة ولي الأمر الرقمية"], "نماذج وحقول (تجريبية)": [{"form": "فتح موعد", "fields": ["التاريخ", "الوقت", "العيادة", "الطبيب", "نوع الزيارة"]}, {"form": "إغلاق إحالة", "fields": ["رقم الإحالة", "تاريخ الإغلاق", "نتيجة الإحالة", "ملاحظات"]}]}, "kpis": ["حجوزات إلكترونية", "نسبة الحضور للموعد", "إغلاق الإحالات", "رضا المستفيدين اليومي", "زمن تقديم أول خدمة (د)", "التزام الزيارات الوقائية"], "ops": ["تحسين النداء بالأولوية", "تقليل زمن الانتظار", "خطة صيانة الأجهزة"]}, "education": {"services": {"مؤشرات التعليم المبكر": ["قياس التحصيل المعرفي KG", "الحضور والانضباط", "تأهيل الكادر التربوي", "نسبة التسرب المبكر", "جاهزية الصف الأول"], "الربط الصحي التعليمي": ["مواءمة الفحوص مع التحصيل", "متابعة التغذية المدرسية", "الأنشطة الرياضية", "برامج توعوية مشتركة"], "نماذج وحقول (تجريبية)": [{"form": "تقييم طفل روضة", "fields": ["الصف", "المعلم", "المجال اللغوي", "المجال العددي", "المهارات الاجتماعية", "ملاحظات"]}]}, "kpis": ["التحاق برياض الأطفال", "جاهزية مدرسية", "تدريب المعلمين", "نسبة التسرب المبكر", "انتقال ناجح للصف الأول", "شراكات صحية تعليمية"], "ops": ["برنامج القراءة المبكرة", "ورشة تدريب الكادر", "تحسين الحضور"]}, "neighborhood": {"services": {"الأنشطة المجتمعية": ["تقويم الفعاليات", "التسجيل والمقاعد", "نقاط مشاركة الأسر", "التغطية الجغرافية للأنشطة"], "الخدمات الاجتماعية": ["إحالة الأسر المحتاجة", "متابعة المبادرات التطوعية", "شراكات محلية", "قياس رضا المجتمع"], "نماذج وحقول (تجريبية)": [{"form": "تسجيل فعالية", "fields": ["العنوان", "التاريخ", "الموقع", "الطاقة الاستيعابية", "الفئة المستهدفة"]}]}, "kpis": ["فعاليات منفذة", "مشاركة أسرية", "مشاركة أطفال", "رضا المجتمع", "شراكات محلية فعّالة"], "ops": ["مهرجان الأسرة والطفل", "حملة توعية غذائية", "برنامج مهارات الحياة"]}, "nonprofit": {"services": {"المشاريع التنموية": ["إدارة مقترحات البرامج", "إدارة المتطوعين", "تتبع الإنفاق والأثر", "تقارير للممولين"], "الشفافية والمسؤولية": ["مؤشرات الحوكمة", "نشر الإنجازات", "تكامل مع الجهات الحكومية"], "نماذج وحقول (تجريبية)": [{"form": "طلب دعم برنامج", "fields": ["اسم البرنامج", "الميزانية", "المؤشرات المتوقعة", "الفترة", "الموقع الجغرافي"]}]}, "kpis": ["عدد البرامج", "دعم مالي/عيني", "تحقق أثر مجتمعي", "متطوعون نشطون", "شفافية التقارير"], "ops": ["إطلاق برنامج حضانة", "حملة تجهيز فصول", "دورة تدريب متطوعين"]}, "mhrsd": {"services": {"الرعاية الاجتماعية": ["تتبّع البلاغات الأسرية", "دعم الأسر الحاضنة", "برامج الحماية", "التنسيق عبر الجهات"], "الجودة والتكامل": ["مؤشرات جودة الخدمات الاجتماعية", "إحالة آمنة", "لوحة المخاطر الاجتماعية"], "نماذج وحقول (تجريبية)": [{"form": "فتح بلاغ اجتماعي", "fields": ["نوع البلاغ", "الفئة العمرية", "الموقع", "الأولوية", "الجهة المتابعة"]}]}, "kpis": ["أسر مستفيدة", "معالجة البلاغات بالمدة", "رضا المستفيدين", "تنسيق بين الجهات", "وقاية من العنف الأسري"], "ops": ["تفعيل خط الدعم", "تكامل بلاغات مع الصحة", "برنامج إسناد الأسر"]}, "csr": {"services": {"المسؤولية الاجتماعية CSR": ["تقديم مبادرات التمويل", "لوحة أثر واستدامة", "متابعة الصرف", "إدارة الشراكات"], "التواصل مع الجهات": ["قائمة مشاريع قابلة للدعم", "عقود رقمية", "تقارير العائد الاجتماعي"], "نماذج وحقول (تجريبية)": [{"form": "مبادرة تمويل", "fields": ["اسم المبادرة", "المبلغ", "الجهة المنفذة", "مؤشرات الأثر", "فترة التنفيذ"]}]}, "kpis": ["برامج ممولة", "إجمالي المساهمات", "التزام تقارير الأثر", "شراكات فعّالة", "الأثر الاجتماعي"], "ops": ["تمويل عيادات متنقلة", "رعاية برنامج روضات", "مبادرة غذاء صحي"]}, "family": {"services": {"التوعية والمتابعة": ["تطبيق نمو طفلي", "تذكير التطعيمات", "استشارات نفسية وتربوية", "برنامج القراءة المبكرة"], "المشاركة المجتمعية": ["التطوع الأسري", "حضور الأنشطة", "تقييم الخدمات", "اقتراحات"], "نماذج وحقول (تجريبية)": [{"form": "خطة متابعة منزلية", "fields": ["عمر الطفل", "الأولوية", "نوع النشاط", "التكرار الأسبوعي", "ملاحظات"]}]}, "kpis": ["تفاعل الأسر", "زيارات/أسرة/شهر", "ملفات نمو مكتملة", "رضا المستخدمين", "تحسن مؤشرات النمو"], "ops": ["برنامج روتين منزلي", "مجموعة دعم للأمهات", "تحدي قراءة شهري"]}, "admin": {"services": {"إدارة المنظومة": ["حوكمة البيانات", "صلاحيات وهوية", "كتالوج البيانات الوطني", "تكامل مع المستودعات"], "التقارير الوطنية": ["تقارير موحّدة متعددة الجهات", "لوحة الأثر على رؤية 2030", "مؤشرات استراتيجية"], "نماذج وحقول (تجريبية)": [{"form": "طلب تكامل جهة", "fields": ["اسم الجهة", "نوع البيانات", "دورية التحديث", "نقطة الاتصال"]}]}, "kpis": ["جهات متكاملة وطنياً", "مؤشرات محدّثة آلياً", "الامتثال للسياسات", "سرعة التقارير الوطنية", "أثر على أهداف 2030"], "ops": ["توقيع مذكرات تكامل", "نشر تقرير وطني", "تدقيق صلاحيات"]}};
+const idle=(cb)=>('requestIdleCallback'in window)?requestIdleCallback(cb,{timeout:300}):setTimeout(cb,0);
+
 const $$=(s,root=document)=>Array.from(root.querySelectorAll(s));
 const $=(s,root=document)=>root.querySelector(s);
 const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
@@ -162,6 +166,7 @@ const TABS = [
 ];
 
 /* Expanded services/fields per account */
+/* replaced by DATA.services */
 const ACCOUNT_SERVICES = {
   health: {
     "الخدمات الصحية الذكية":[
@@ -267,6 +272,7 @@ const ACCOUNT_SERVICES = {
 };
 
 /* KPIs expanded */
+/* replaced by DATA.kpis */
 const ACCOUNT_KPIS = {
   health:["إتمام التطعيمات الأساسية","الفحص المبكر المكتمل","زمن انتظار الطوارئ (د)","إغلاق الإحالات خلال 7 أيام","رضا أولياء الأمور","تغطية العيادات الوقائية"],
   clinic:["حجوزات إلكترونية","نسبة الحضور للموعد","إغلاق الإحالات","رضا المستفيدين اليومي","زمن تقديم أول خدمة (د)","التزام الزيارات الوقائية"],
@@ -401,7 +407,7 @@ function renderAccount(accKey, tabKey){
   const mount = document.getElementById('accContent');
 
   if (current==="summary"){
-    const data = makeDemoKPIsFromList(ACCOUNT_KPIS[accKey] || []);
+    const data = makeDemoKPIsFromList((DATA[accKey] && DATA[accKey].kpis) || ACCOUNT_KPIS[accKey] || []);
     mount.innerHTML = `<div class="kpi-grid">${data.map(k=>`
       <div class="kpi-card">
         <div class="kpi-icon">${KPIIcon()}</div>
@@ -414,7 +420,7 @@ function renderAccount(accKey, tabKey){
   }
 
   if (current==="services"){
-    const grouped = ACCOUNT_SERVICES[accKey] || {};
+    const grouped = (DATA[accKey] && DATA[accKey].services) || ACCOUNT_SERVICES[accKey] || {};
     let blocks = '';
     Object.entries(grouped).forEach(([group,items])=>{
       if (typeof items[0] === 'string'){
@@ -431,7 +437,7 @@ function renderAccount(accKey, tabKey){
   }
 
   if (current==="operations"){
-    const ops = (ACCOUNT_OPS[accKey]||[]).slice();
+    const ops = ((DATA[accKey] && DATA[accKey].ops) || ACCOUNT_OPS[accKey] || []).slice();
     mount.innerHTML = `<div class="card"><b>العمليات الجارية</b>
       <div id="opList_${accKey}">${ops.map(v=>`<div class="card" style="margin-top:8px"><div style="display:flex;justify-content:space-between;gap:8px"><span>${v}</span><button class="btn ghost">تم</button></div></div>`).join('')}</div>
       <div class="toolbar" style="margin-top:10px"><input id="newOp_${accKey}" class="input" placeholder="أضف مهمة تشغيلية..."><button class="btn" id="addOp_${accKey}">إضافة</button></div>
@@ -447,7 +453,7 @@ function renderAccount(accKey, tabKey){
   }
 
   if (current==="indicators"){
-    const data = makeDemoKPIsFromList(ACCOUNT_KPIS[accKey] || []);
+    const data = makeDemoKPIsFromList((DATA[accKey] && DATA[accKey].kpis) || ACCOUNT_KPIS[accKey] || []);
     mount.innerHTML = `<table class="table">
       <thead><tr>
         <th data-k="title">المؤشر</th><th data-k="value">القيمة</th>
@@ -545,10 +551,13 @@ window.addEventListener('load', ()=>{
   document.querySelectorAll('details').forEach(d=> d.addEventListener('toggle', ()=>{ if(d.open) document.querySelectorAll('details').forEach(x=> x!==d && (x.open=false)); }));
   if (!location.hash || location.hash==="#" || location.hash==="#/") location.hash = '#/overview';
   route();
-  const fab=document.querySelector('.fab-home'); if(fab) fab.style.display = isMobile() ? 'flex' : 'none';
+  const fab=document.querySelector('.fab-home'); if(fab) fab.style.display = isMobile() ? 'flex' : 'none'; if(isMobile()) fab.href='#/overview'; if(isMobile()) fab.href = '#/overview';
 });
 document.addEventListener('keydown', (e)=>{
   const inInput=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement?.tagName||''); if(inInput) return;
   if((e.altKey&&(e.key==='h'||e.key==='H'))||(e.key==='h'||e.key==='H')){ e.preventDefault(); location.hash='#/overview'; }
 });
+
+if('serviceWorker'in navigator){try{const c=`self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>clients.claim());self.addEventListener('fetch',e=>{e.respondWith((async()=>{try{const r=await fetch(e.request);const k=r.clone();caches.open('nomu-v1').then(cc=>cc.put(e.request,k)).catch(()=>{});return r;}catch(_){const m=await caches.match(e.request);return m||Response.error();}})())});`;const b=new Blob([c],{type:'text/javascript'});navigator.serviceWorker.register(URL.createObjectURL(b));}catch(e){}}
+
 </script></body></html>
