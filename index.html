@@ -53,26 +53,17 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
 
 .plain-logo{height:32px;display:block;margin-inline-start:8px}
 
-/* NOMU mobile/topbar tweaks */
-header .topbar{display:flex;align-items:center;gap:10px}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:48vw}
-.brand .logo, .logo-nomu{width:40px;height:40px;border-radius:12px;object-fit:contain;overflow:hidden}
-.left-logos{margin-inline-start:auto;display:flex;align-items:center;gap:8px}
-.left-logos .plain-logo{height:28px;display:block}
-.left-logos .pill-logo{background:transparent !important;border:none !important;padding:0 !important;margin:0 !important}
-.bell{position:relative;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid var(--border);background:#fff;border-radius:12px;padding:0}
-.badge{position:absolute;top:-6px;left:-6px;background:#ef4444;color:#fff;border-radius:999px;font-size:11px;line-height:1;padding:3px 6px}
-@media (max-width:979px){
-  header .topbar{padding:8px 12px;height:56px}
-  .brand-title{max-width:52vw}
-  .left-logos .plain-logo{height:22px}
-  .rolebox{display:none}
-  .npanel{inset:auto 0 0 0;top:auto;width:100%;max-height:55vh;border-radius:16px 16px 0 0}
-  nav .side{display:none}
-  .main{grid-template-columns:1fr;padding:0 12px;gap:12px}
-  table.table{display:none}
-  .mobile-cards{display:grid;gap:10px}
+@media (max-width: 979px){
+  .topbar .mobile-login-btn{ display:inline-flex; align-items:center; gap:6px; margin-inline-start:8px;
+    background:#16a34a; color:#fff; border:none; border-radius:10px; padding:6px 10px; font-size:13px }
+  .tabs, .tabbar, .kpi-row{ display:block !important }
+  .tabs > *, .tabbar > *{ display:block; margin:6px 0 !important }
+  .mobile-cards{ display:grid; gap:10px }
+  .brand-title{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:52vw }
+  .left-logos .plain-logo{ height:22px }
+  .bell{ width:40px; height:40px }
+  .quick-links{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px }
+  .quick-links a{ display:block; text-align:center; border:1px solid var(--border); background:#fff; padding:10px; border-radius:10px }
 }
 </style>
 </head>
@@ -436,7 +427,14 @@ const ACCOUNTS={
 function intro(){
   const v=$('#view');
   v.innerHTML = `<div class="card">
-    <div class="toolbar"><h2>عن منصة نمو (NOMU)</h2><span class="tag">منصة وطنية للطفولة المبكرة</span></div>
+    <div class="toolbar"><h2>عن منصة نمو (NOMU)</h2>
+<div class="quick-links" id="quickLinksMobile">
+  <a href="#/overview">نظرة عامة</a>
+  <a href="#/reports">التقارير</a>
+  <a href="#/help">المساعدة</a>
+  <a href="#/support">الدعم الفني</a>
+</div>
+<span class="tag">منصة وطنية للطفولة المبكرة</span></div>
     <p><b>الرؤية:</b> تمكين كل طفل في المملكة من بداية قوية متكاملة صحيًا وتعليميًا واجتماعيًا.<br/>
        <b>الرسالة:</b> منصة موحدة لرحلة الطفل والأسرة عبر التكامل، الإحالات، المؤشرات، والاستدامة.</p>
     <div class="grid four">
@@ -741,121 +739,73 @@ route();
 </script>
 
 <script>
-const DEFAULT_USERNAME="NOMU", DEFAULT_PASSWORD="1234", AUTH_KEY="nomu_auth_v1";
-const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
-const saveAuth=(u,p)=>localStorage.setItem(AUTH_KEY,JSON.stringify({u,p,t:Date.now()}));
-const loadAuth=()=>{try{return JSON.parse(localStorage.getItem(AUTH_KEY))}catch(e){return null}};
-const isAuthed=()=>{const a=loadAuth();return a && a.u===DEFAULT_USERNAME && a.p===DEFAULT_PASSWORD};
-function showLoginModal(){if(document.getElementById("nomu-auth-modal"))return;document.body.insertAdjacentHTML("beforeend",`
-<div id="nomu-auth-modal" style="position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.5);z-index:9999;padding:20px">
-  <div style="width:100%;max-width:420px;background:#fff;border-radius:12px;padding:18px">
-    <h3 style="margin:0 0 8px 0">تسجيل الدخول</h3>
-    <label>اسم المستخدم</label>
-    <input id="nomu-user" value="${DEFAULT_USERNAME}" style="width:100%;padding:10px;margin:6px 0 10px 0;border:1px solid #e6e9ef;border-radius:8px">
-    <label>كلمة المرور</label>
-    <input id="nomu-pass" value="${DEFAULT_PASSWORD}" type="password" style="width:100%;padding:10px;margin:6px 0 12px 0;border:1px solid #e6e9ef;border-radius:8px">
-    <div style="display:flex;gap:8px;justify-content:flex-end">
-      <button id="nomu-cancel" class="btn ghost">إلغاء</button>
-      <button id="nomu-ok" class="btn">دخول</button>
-    </div>
-    <small style="color:#94a3b8">هذه بيانات عرضية فقط: NOMU / 1234</small>
-  </div>
-</div>`);
-document.getElementById("nomu-cancel").onclick=()=>document.getElementById("nomu-auth-modal").remove();
-document.getElementById("nomu-ok").onclick=()=>{
-  const u=document.getElementById("nomu-user").value.trim();
-  const p=document.getElementById("nomu-pass").value.trim();
-  if(u===DEFAULT_USERNAME && p===DEFAULT_PASSWORD){
-    saveAuth(u,p);
-    const go=sessionStorage.getItem("nomu_go"); if(go){location.hash=go;sessionStorage.removeItem("nomu_go");} else location.reload();
-  }else alert("استخدم NOMU / 1234");
-};}
-function mountChooseAccount(){
-  const view=document.getElementById("view")||document.body;
-  const cards=[
-    {k:"#/acc/health",t:"وزارة الصحة"},
-    {k:"#/acc/clinic",t:"المراكز الصحية"},
-    {k:"#/acc/education",t:"وزارة التعليم"},
-    {k:"#/acc/neighborhood",t:"مراكز الأحياء"},
-    {k:"#/acc/nonprofit",t:"الجمعيات"},
-    {k:"#/acc/hr",t:"الموارد البشرية"},
-    {k:"#/acc/csr",t:"القطاع الخاص"},
-    {k:"#/acc/family",t:"الأسرة"},
-    {k:"#/acc/admin",t:"اللجنة الوطنية"},
-  ];
-  let html='<div class="card" style="padding:16px"><h2>اختر نوع الحساب</h2><div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:10px">';
-  cards.forEach(c=> html+=`<button class="nomu-card" data-target="${c.k}" style="padding:14px;border:1px solid var(--border);border-radius:12px;background:#fff">${c.t}</button>`);
-  html+='</div><p style="margin-top:8px;color:#64748b">بيانات العرض: NOMU / 1234</p></div>';
-  view.innerHTML=html;
-  view.querySelectorAll(".nomu-card").forEach(b=>b.onclick=()=>{
-    const target=b.getAttribute("data-target");
-    if(isAuthed()) location.hash=target;
-    else{ sessionStorage.setItem("nomu_go", target); if(isMobile()) mountInlineLogin(view); else showLoginModal(); }
-  });
-}
-function mountInlineLogin(view){
-  if(document.getElementById("nomu-inline")) return;
-  view.insertAdjacentHTML("beforeend",`
-    <div id="nomu-inline" class="card" style="margin-top:10px;padding:12px;background:#f8fafc">
-      <div style="font-size:13px;color:#334155">تسجيل سريع</div>
-      <input id="nomu-inline-u" value="${DEFAULT_USERNAME}" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px">
-      <input id="nomu-inline-p" value="${DEFAULT_PASSWORD}" type="password" style="width:100%;padding:9px;margin-top:8px;border:1px solid #e6e9ef;border-radius:8px">
-      <div style="display:flex;gap:8px;margin-top:8px;justify-content:flex-end">
-        <button id="nomu-inline-login-btn" class="btn">دخول</button>
-      </div>
-    </div>`);
-  document.getElementById("nomu-inline-login-btn").onclick=()=>{
-    const u=document.getElementById("nomu-inline-u").value.trim();
-    const p=document.getElementById("nomu-inline-p").value.trim();
-    if(u===DEFAULT_USERNAME && p===DEFAULT_PASSWORD){
-      saveAuth(u,p);
-      const go=sessionStorage.getItem("nomu_go"); if(go) location.hash=go; else location.reload();
-    }else alert("استخدم NOMU / 1234");
-  };
-}
-function guardAccountLinks(){
-  document.querySelectorAll('[data-route^="#/acc/"],a[href^="#/acc/"]').forEach(a=>{
-    a.addEventListener("click",(e)=>{
-      const href=a.getAttribute("data-route")||a.getAttribute("href");
-      if(!isAuthed()){
-        e.preventDefault();
-        sessionStorage.setItem("nomu_go", href);
-        if(isMobile()) location.hash="#/choose-account";
-        else showLoginModal();
-      }
+(function(){
+  const DEFAULT_USERNAME="NOMU", DEFAULT_PASSWORD="1234", AUTH_KEY="nomu_auth_v1";
+  const isMobile = ()=> window.matchMedia && matchMedia("(max-width:979px)").matches;
+  const save=(u,p)=>localStorage.setItem(AUTH_KEY, JSON.stringify({u,p,t:Date.now()}));
+
+  function mountMobileLoginDropdown(){
+    if (!isMobile()) return;
+    if (document.getElementById("mobileLoginMenu")) return;
+    const host = document.getElementById("mobileLoginBtn");
+    if (!host) return;
+    const menu = document.createElement("div");
+    menu.id = "mobileLoginMenu";
+    menu.style.position="absolute"; menu.style.top="56px"; menu.style.insetInlineEnd="12px";
+    menu.style.background="#fff"; menu.style.border="1px solid var(--border)";
+    menu.style.borderRadius="12px"; menu.style.padding="10px"; menu.style.zIndex=9999;
+    menu.style.boxShadow="0 12px 30px rgba(2,12,27,.15)"; menu.style.width="min(92vw, 420px)";
+    const accounts=[
+      {k:"#/acc/health",t:"وزارة الصحة"},
+      {k:"#/acc/clinic",t:"المراكز الصحية"},
+      {k:"#/acc/education",t:"وزارة التعليم"},
+      {k:"#/acc/neighborhood",t:"مراكز الأحياء"},
+      {k:"#/acc/nonprofit",t:"الجمعيات"},
+      {k:"#/acc/hr",t:"الموارد البشرية"},
+      {k:"#/acc/csr",t:"القطاع الخاص"},
+      {k:"#/acc/family",t:"الأسرة"},
+      {k:"#/acc/admin",t:"اللجنة الوطنية"},
+    ];
+    let html = `<div style="font-size:13px;color:#334155;margin-bottom:8px">اختر نوع الحساب، وسيتم تعبئة بيانات العرض تلقائيًا (NOMU / 1234)</div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">`;
+    accounts.forEach(a=>{ html += `<button class="btn" data-go="${a.k}" style="padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff">${a.t}</button>`; });
+    html += `</div>`;
+    menu.innerHTML = html;
+    document.body.appendChild(menu);
+    menu.querySelectorAll("button[data-go]").forEach(b=> b.onclick = ()=>{
+      save(DEFAULT_USERNAME, DEFAULT_PASSWORD);
+      location.hash = b.getAttribute("data-go");
+      menu.remove();
     });
+    setTimeout(()=>{
+      function off(e){
+        if (!menu.contains(e.target) && e.target.id !== "mobileLoginBtn"){ menu.remove(); document.removeEventListener("click", off); }
+      }
+      document.addEventListener("click", off);
+    },0);
+  }
+
+  window.addEventListener("load", ()=>{
+    const btn = document.getElementById("mobileLoginBtn");
+    if (btn){
+      btn.addEventListener("click", (e)=>{ e.preventDefault(); mountMobileLoginDropdown(); });
+    }
   });
-}
-function renderMobileCards(){
-  if(!isMobile() || typeof MOCK_ITEMS==='undefined') return;
-  const view=document.getElementById('view'); if(!view) return;
-  if(view.querySelector('.mobile-cards')) return;
-  const wrap=document.createElement('div'); wrap.className='mobile-cards';
-  MOCK_ITEMS.forEach(r=>{
-    const el=document.createElement('div'); el.className='card';
-    el.innerHTML=`
-      <div style="display:flex;justify-content:space-between;gap:8px">
-        <b>${r.title}</b><span class="tag">${r.status}</span>
-      </div>
-      <div style="margin-top:6px;color:#475569;font-size:13px">الجهة: ${r.owner}</div>
-      <div style="margin-top:4px;color:#0f766e;font-size:13px">النتيجة: <b>${r.score}</b></div>
-      <div style="margin-top:8px;display:flex;gap:8px">
-        <button class="btn" style="padding:8px 10px">تفاصيل</button>
-        <button class="btn ghost" style="padding:8px 10px">مشاركة</button>
-      </div>`;
-    wrap.appendChild(el);
-  });
-  view.appendChild(wrap);
-}
-(function(){ const bell=document.getElementById('bell'), panel=document.getElementById('npanel'); if(!bell||!panel) return;
-  bell.onclick=(e)=>{ e.preventDefault(); if(isMobile()){ panel.style.display='block'; } else { panel.style.display= panel.style.display==='block'?'none':'block'; } };
+
+  // عند الضغط على روابط الحسابات في الجوال، إن لم يكن مسجلاً نفتح قائمة الاختيار بدلاً من المنع
+  try{
+    document.querySelectorAll('[data-route^="#/acc/"],a[href^="#/acc/"]').forEach(a=>{
+      a.addEventListener("click",(e)=>{
+        if (isMobile()){
+          e.preventDefault();
+          const btn = document.getElementById("mobileLoginBtn");
+          if (btn){ btn.scrollIntoView({behavior:"smooth", block:"start"}); }
+          mountMobileLoginDropdown();
+        }
+      });
+    });
+  }catch(_){}
 })();
-(function(){ const brand = document.querySelector('.brand > div'); if(!brand) return; const t = brand.querySelector('b'); if(t){ t.classList.add('brand-title'); } })();
-window.addEventListener("hashchange", ()=>{ if(location.hash==="#/choose-account") mountChooseAccount(); });
-window.addEventListener("load", ()=>{
-  guardAccountLinks(); renderMobileCards();
-  if(isMobile() && (!location.hash || location.hash==="#/intro" || location.hash==="#/overview")){ location.hash="#/choose-account"; }
-});
 </script>
 
 </body>
