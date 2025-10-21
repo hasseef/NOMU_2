@@ -65,6 +65,27 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
   .quick-links{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px }
   .quick-links a{ display:block; text-align:center; border:1px solid var(--border); background:#fff; padding:10px; border-radius:10px }
 }
+
+/* ===== Desktop enhancements: login button + grouped sticky menu ===== */
+@media (min-width: 980px){
+  .desktop-login-btn{
+    margin-inline-start:8px; background:#16a34a; color:#fff; border:none;
+    border-radius:10px; padding:8px 12px; font-size:13px; cursor:pointer
+  }
+  /* Sticky grouped menu on the left */
+  .layout{ display:grid; grid-template-columns: 280px 1fr; gap:16px; align-items:start }
+  .mega-left{ position:sticky; top:72px; align-self:start }
+  .mega-left details{ border:1px solid var(--border); background:#fff; border-radius:12px; margin:8px 0; overflow:hidden }
+  .mega-left summary{ list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; color:#0f172a }
+  .mega-left summary::-webkit-details-marker{ display:none }
+  .mega-left .group-body{ padding:8px 10px; display:grid; gap:6px }
+  .mega-left a{ display:block; padding:8px 10px; border-radius:10px; color:#334155; text-decoration:none }
+  .mega-left a:hover{ background:#f1f5f9 }
+  /* Hide old long side nav when grouped menu is present */
+  nav.side{ display:none !important }
+  /* Content area spacing */
+  .content-area{ min-height:60vh }
+}
 </style>
 </head>
 <body>
@@ -96,6 +117,7 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
           <option>family.guardian</option>
         </select>
       </div>
+<button class="desktop-login-btn" id="desktopLoginBtn" aria-label="تسجيل الدخول (كمبيوتر)">تسجيل الدخول</button>
       <div style="position:relative">
         <button id="bell" class="bell">🔔<span id="bellBadge" class="badge" style="display:none">0</span></button>
         <div id="npanel" class="npanel"></div>
@@ -104,6 +126,49 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
   </div>
 </header>
 
+
+<div class="layout">
+  <aside class="mega-left">
+    <details open>
+      <summary>البدء السريع</summary>
+      <div class="group-body">
+        <a href="#/overview">نظرة عامة</a>
+        <a href="#/intro">التعريف بالمنصة</a>
+        <a href="#/help">المساعدة</a>
+      </div>
+    </details>
+    <details>
+      <summary>الحسابات</summary>
+      <div class="group-body">
+        <a href="#/acc/health">وزارة الصحة</a>
+        <a href="#/acc/clinic">المراكز الصحية</a>
+        <a href="#/acc/education">وزارة التعليم</a>
+        <a href="#/acc/neighborhood">مراكز الأحياء</a>
+        <a href="#/acc/nonprofit">الجمعيات</a>
+        <a href="#/acc/hr">الموارد البشرية</a>
+        <a href="#/acc/csr">القطاع الخاص</a>
+        <a href="#/acc/family">الأسرة</a>
+        <a href="#/acc/admin">اللجنة الوطنية</a>
+      </div>
+    </details>
+    <details>
+      <summary>التشغيل والتقارير</summary>
+      <div class="group-body">
+        <a href="#/operations">التشغيل</a>
+        <a href="#/reports">التقارير</a>
+        <a href="#/kpi">مؤشرات KPI</a>
+      </div>
+    </details>
+    <details>
+      <summary>الدعم والجودة</summary>
+      <div class="group-body">
+        <a href="#/support">الدعم الفني</a>
+        <a href="#/policies">الأدلة والسياسات</a>
+        <a href="#/contact">تواصل معنا</a>
+      </div>
+    </details>
+  </aside>
+  <section id="contentArea" class="content-area">
 <main class="main">
   <nav>
     <div class="side">
@@ -155,6 +220,7 @@ footer{max-width:1240px;margin:22px auto 36px;color:#64748b;text-align:center;pa
     </div>
   </nav>
   <section class="content" id="view"></section>
+</section></div>
 </main>
 
 <footer>نمو NOMU — v4.1 (إشعارات + SLA + RBAC للحقول + رسوم بيانية + CRUD كامل وحفظ محلي)</footer>
@@ -805,6 +871,61 @@ route();
       });
     });
   }catch(_){}
+})();
+</script>
+
+
+<script>
+(function(){
+  const DEFAULT_USERNAME="NOMU", DEFAULT_PASSWORD="1234", AUTH_KEY="nomu_auth_v1";
+  const save=(u,p)=>localStorage.setItem(AUTH_KEY, JSON.stringify({u,p,t:Date.now()}));
+
+  function mountDesktopLoginDropdown(){
+    if (document.getElementById("desktopLoginMenu")) return;
+    const host = document.getElementById("desktopLoginBtn");
+    if (!host) return;
+    const menu = document.createElement("div");
+    menu.id = "desktopLoginMenu";
+    const rect = host.getBoundingClientRect();
+    menu.style.position="fixed"; menu.style.top= (rect.bottom + 8) + "px"; menu.style.left = Math.max(12, rect.left - 260) + "px";
+    menu.style.background="#fff"; menu.style.border="1px solid var(--border)"; menu.style.borderRadius="12px"; menu.style.padding="10px";
+    menu.style.zIndex=9999; menu.style.boxShadow="0 12px 30px rgba(2,12,27,.15)"; menu.style.width="min(520px, 50vw)";
+    const accounts=[
+      {k:"#/acc/health",t:"وزارة الصحة"},
+      {k:"#/acc/clinic",t:"المراكز الصحية"},
+      {k:"#/acc/education",t:"وزارة التعليم"},
+      {k:"#/acc/neighborhood",t:"مراكز الأحياء"},
+      {k:"#/acc/nonprofit",t:"الجمعيات"},
+      {k:"#/acc/hr",t:"الموارد البشرية"},
+      {k:"#/acc/csr",t:"القطاع الخاص"},
+      {k:"#/acc/family",t:"الأسرة"},
+      {k:"#/acc/admin",t:"اللجنة الوطنية"},
+    ];
+    let html = `<div style="font-size:13px;color:#334155;margin-bottom:8px">اختر نوع الحساب — سيتم تعبئة بيانات العرض تلقائيًا (NOMU / 1234)</div>`;
+    html += `<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">`;
+    accounts.forEach(a=>{ html += `<button class="btn" data-go="${a.k}" style="padding:10px;border:1px solid var(--border);border-radius:10px;background:#fff">${a.t}</button>`; });
+    html += `</div>`;
+    menu.innerHTML = html;
+    document.body.appendChild(menu);
+    menu.querySelectorAll("button[data-go]").forEach(b=> b.onclick = ()=>{
+      save("NOMU","1234");
+      location.hash = b.getAttribute("data-go");
+      menu.remove();
+    });
+    setTimeout(()=>{
+      function off(e){
+        if (!menu.contains(e.target) && e.target.id !== "desktopLoginBtn"){ menu.remove(); document.removeEventListener("click", off); }
+      }
+      document.addEventListener("click", off);
+    },0);
+  }
+
+  window.addEventListener("load", ()=>{
+    const btn = document.getElementById("desktopLoginBtn");
+    if (btn){
+      btn.addEventListener("click", (e)=>{ e.preventDefault(); mountDesktopLoginDropdown(); });
+    }
+  });
 })();
 </script>
 
