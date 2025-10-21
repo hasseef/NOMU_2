@@ -32,6 +32,11 @@ header .topbar{display:flex;align-items:center;gap:12px;padding:12px 14px;min-he
 .login-grid{display:grid;gap:10px}.login-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.login-input,.login-select{border:1px solid var(--border);border-radius:10px;padding:10px;background:#fff}.login-actions{display:flex;gap:8px;justify-content:flex-end}@media (max-width:979px){.login-row{grid-template-columns:1fr}}
 a:focus,button:focus,input:focus,select:focus{outline:2px solid #0ea5e9;outline-offset:2px}
 svg.i{width:18px;height:18px;stroke:#0f172a;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}svg.i.muted{stroke:#64748b}svg.i.brand{stroke:#0ea5e9}
+
+.hint{font-size:12px;color:#64748b;margin-top:2px}
+.req:after{content:" *"; color:#ef4444; font-weight:700}
+.input.bad{border-color:#ef4444}
+.toast-ok{background:#22c55e !important}
 </style></head>
 <body>
 <header><div class="topbar">
@@ -304,7 +309,7 @@ function gradeLabel(g){ return g==="ok"?"جيد":g==="warn"?"تحذير":"حرِ
 function makeDemoKPIsFromList(list){
   return list.map(t=>{ let v=0, unit="%", g="info";
     if (/انتظار|د\)/.test(t)) { v = 5 + Math.floor(Math.random()*20); unit="د"; g = grade(v,"wait"); }
-    else { v = +(70 + Math.random()*25).toFixed(0); g = grade(v); }
+    else { v = +(75 + Math.random()*20).toFixed(0); g = grade(v); }
     const trend = (Math.random()>.5?"+":"-") + (Math.random()*5|0) + "%";
     return {title:t, value: v + unit, grade:g, trend};
   });
@@ -376,13 +381,19 @@ function renderOverview(){
     </div>`).join('');
 }
 
-function formCard(title, fields){
-  return `<div class="card" style="margin-top:8px">
+function formCard(title, fields, accKey){
+  return `<div class="card" style="margin-top:8px" data-form-title="${title}">
     <div style="display:flex;align-items:center;gap:8px"><svg class="i" viewBox="0 0 24 24"><use href="#ico-form"/></svg><b>${title}</b></div>
     <div class="form-grid" style="margin-top:8px">
       ${fields.map(f=>`<div class="field"><label>${f}</label><input placeholder="${f}"></div>`).join('')}
     </div>
-    <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end"><button class="btn ghost">مسودة</button><button class="btn">حفظ</button></div>
+    <div style="margin-top:10px;display:flex;gap:8px;justify-content:flex-end">
+    <button class="btn ghost" onclick="return saveFormDraft(this,'${accKey||''}','${title||''}')">مسودة</button>
+    <button class="btn" onclick="return saveFormFinal(this,'${accKey||''}','${title||''}')">حفظ</button>
+    <button class="btn ghost" onclick="return loadForm(this,'${accKey||''}','${title||''}')">استرجاع</button>
+    <button class="btn ghost" onclick="return clearForm(this,'${accKey||''}','${title||''}')">تفريغ</button>
+  </div>
+  <div class="hint">يتم حفظ البيانات محليًا على جهازك (تجريبي).</div>
   </div>`;
 }
 
@@ -430,7 +441,7 @@ function renderAccount(accKey, tabKey){
       } else {
         // forms
         blocks += `<div class="card" style="margin:8px 0"><b>${group}</b>` +
-          items.map(f=> formCard(f.form, f.fields)).join('') + `</div>`;
+          items.map(f=> formCard(f.form, f.fields, accKey)).join('') + `</div>`;
       }
     });
     mount.innerHTML = blocks || `<div class="card">لا توجد خدمات.</div>`;
